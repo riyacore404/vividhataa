@@ -76,7 +76,7 @@
             your talent to join our community.</p>
         </div>
 
-        <form class="reg-form" id="regForm" onsubmit="return false;">
+        <form class="reg-form" id="regForm" onsubmit="handleRegFormSubmit(event); return false;">
           <!-- Honeypot anti-bot field — hidden from real users -->
           <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true">
             <label for="hp_anti_bot_trap_vividhata">Leave this blank</label>
@@ -234,7 +234,7 @@
                   class="req">*</span></span>
             </label>
 
-            <button type="submit" class="reg-submit-btn" id="regSubmitBtn">
+            <button type="button" class="reg-submit-btn" id="regSubmitBtn" onclick="handleRegFormSubmit(event)">
               <span>APPLY NOW</span>
               <span class="btn-flare"></span>
             </button>

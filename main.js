@@ -1235,112 +1235,127 @@ function initFormHandlers() {
     if (prefTeamSel) prefTeamSel.addEventListener('change', syncTeamDropdowns);
     if (secondTeamSel) secondTeamSel.addEventListener('change', syncTeamDropdowns);
 
-    regForm.addEventListener('submit', async (e) => {
+    regForm.addEventListener('submit', (e) => {
       e.preventDefault();
-
-      // Final duplicate guard
-      const p = document.getElementById('prefTeam')?.value || '';
-      const s = document.getElementById('secondTeam')?.value || '';
-      if (p && s && s !== 'None' && p === s) {
-        alert('Preferred Team and Second Preference cannot be the same.');
-        return;
-      }
-
-      // ── Anti-spam checks ──
-      // 1. Honeypot: check specific anti-bot field (guarded against browser autofill)
-      const honeypot = document.getElementById('hp_anti_bot_trap_vividhata');
-      if (honeypot && honeypot.value && honeypot.value.trim().length > 0) {
-        console.warn('Spam submission blocked by honeypot.');
-        return;
-      }
-
-      // 2. Cooldown: prevent rapid-fire submissions (2 sec cooldown)
-      const now = Date.now();
-      if (now - _lastSubmitTime < 2000) {
-        alert('Please wait a moment before submitting again.');
-        return;
-      }
-
-      const submitBtn = document.getElementById('regSubmitBtn');
-      const origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        const spanEl = submitBtn.querySelector('span');
-        if (spanEl) spanEl.textContent = 'SUBMITTING APPLICATION...';
-      }
-
-      try {
-        const skillsChecked = Array.from(document.querySelectorAll('.skill-pill input[type="checkbox"]:checked'))
-          .map(cb => cb.value)
-          .join(', ');
-
-        const yearChecked = document.querySelector('input[name="entry.1000006"]:checked');
-        const prevClubChecked = document.querySelector('input[name="entry.1000010"]:checked');
-
-        const payload = {
-          timestamp: new Date().toISOString(),
-          fullName: (document.getElementById('fullName')?.value || '').trim(),
-          email: (document.getElementById('email')?.value || '').trim(),
-          prefTeam: document.getElementById('prefTeam')?.value || '',
-          secondTeam: document.getElementById('secondTeam')?.value || '',
-          mobile: (document.getElementById('mobile')?.value || '').replace(/^[+=\-@]+/, '').trim(),
-          rollNo: (document.getElementById('rollNo')?.value || '').trim(),
-          branch: (document.getElementById('branch')?.value || '').trim(),
-          year: yearChecked ? yearChecked.value : '',
-          section: (document.getElementById('section')?.value || '').trim(),
-          hasPrevClub: prevClubChecked ? prevClubChecked.value : '',
-          prevClubRole: (document.getElementById('prevClubRole')?.value || '').trim(),
-          skills: skillsChecked
-        };
-
-        // 1. Save local copy
-        try {
-          const existing = JSON.parse(localStorage.getItem('vividhata_submissions') || '[]');
-          existing.push(payload);
-          localStorage.setItem('vividhata_submissions', JSON.stringify(existing));
-        } catch (err) { }
-
-        // 2. Post to Google Apps Script Web App (Dual-transmission for 100% arrival guarantee)
-        if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith('http')) {
-          const jsonBody = JSON.stringify(payload);
-          try {
-            fetch(GOOGLE_SCRIPT_URL, {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: jsonBody
-            }).catch(e => console.warn('Fetch submission note:', e));
-
-            if (navigator.sendBeacon) {
-              const blob = new Blob([jsonBody], { type: 'text/plain;charset=utf-8' });
-              navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
-            }
-          } catch (netErr) {
-            console.warn('Network submission attempt completed:', netErr);
-          }
-        }
-
-        window.formSubmitted = true;
-        _lastSubmitTime = Date.now();
-        if (payload.email) _submittedEmails.add(payload.email.toLowerCase());
-
-        const candidateFullName = payload.fullName || 'Applicant';
-        const candidatePrefTeam = payload.prefTeam || 'Vividhata Club 2026';
-
-        // Show both the modal overlay popup and the success card
-        showFormSuccess(candidateFullName, candidatePrefTeam);
-      } catch (error) {
-        console.error('Submission error:', error);
-        alert('Form submission error: ' + error.message);
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = origBtnHtml;
-        }
-      }
+      handleRegFormSubmit(e);
     });
   }
 }
+
+window.handleRegFormSubmit = async function(e) {
+  if (e) {
+    e.preventDefault();
+  }
+
+  const regForm = document.getElementById('regForm');
+  if (!regForm) return;
+
+  // Trigger HTML5 validation check
+  if (!regForm.checkValidity()) {
+    regForm.reportValidity();
+    return;
+  }
+
+  // Final duplicate team guard
+  const p = document.getElementById('prefTeam')?.value || '';
+  const s = document.getElementById('secondTeam')?.value || '';
+  if (p && s && s !== 'None' && p === s) {
+    alert('Preferred Team and Second Preference cannot be the same.');
+    return;
+  }
+
+  // ── Anti-spam checks ──
+  const honeypot = document.getElementById('hp_anti_bot_trap_vividhata');
+  if (honeypot && honeypot.value && honeypot.value.trim().length > 0) {
+    console.warn('Spam submission blocked by honeypot.');
+    return;
+  }
+
+  // Cooldown check (2 sec cooldown)
+  const now = Date.now();
+  if (now - _lastSubmitTime < 2000) {
+    alert('Please wait a moment before submitting again.');
+    return;
+  }
+
+  const submitBtn = document.getElementById('regSubmitBtn');
+  const origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    const spanEl = submitBtn.querySelector('span');
+    if (spanEl) spanEl.textContent = 'SUBMITTING APPLICATION...';
+  }
+
+  try {
+    const skillsChecked = Array.from(document.querySelectorAll('.skill-pill input[type="checkbox"]:checked'))
+      .map(cb => cb.value)
+      .join(', ');
+
+    const yearChecked = document.querySelector('input[name="entry.1000006"]:checked');
+    const prevClubChecked = document.querySelector('input[name="entry.1000010"]:checked');
+
+    const payload = {
+      timestamp: new Date().toISOString(),
+      fullName: (document.getElementById('fullName')?.value || '').trim(),
+      email: (document.getElementById('email')?.value || '').trim(),
+      prefTeam: document.getElementById('prefTeam')?.value || '',
+      secondTeam: document.getElementById('secondTeam')?.value || '',
+      mobile: (document.getElementById('mobile')?.value || '').replace(/^[+=\-@]+/, '').trim(),
+      rollNo: (document.getElementById('rollNo')?.value || '').trim(),
+      branch: (document.getElementById('branch')?.value || '').trim(),
+      year: yearChecked ? yearChecked.value : '',
+      section: (document.getElementById('section')?.value || '').trim(),
+      hasPrevClub: prevClubChecked ? prevClubChecked.value : '',
+      prevClubRole: (document.getElementById('prevClubRole')?.value || '').trim(),
+      skills: skillsChecked
+    };
+
+    // 1. Save local copy
+    try {
+      const existing = JSON.parse(localStorage.getItem('vividhata_submissions') || '[]');
+      existing.push(payload);
+      localStorage.setItem('vividhata_submissions', JSON.stringify(existing));
+    } catch (err) { }
+
+    // 2. Post to Google Apps Script Web App (Dual-transmission for 100% arrival guarantee)
+    if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith('http')) {
+      const jsonBody = JSON.stringify(payload);
+      try {
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: jsonBody
+        }).catch(err => console.warn('Fetch submission note:', err));
+
+        if (navigator.sendBeacon) {
+          const blob = new Blob([jsonBody], { type: 'text/plain;charset=utf-8' });
+          navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
+        }
+      } catch (netErr) {
+        console.warn('Network submission attempt completed:', netErr);
+      }
+    }
+
+    window.formSubmitted = true;
+    _lastSubmitTime = Date.now();
+    if (payload.email) _submittedEmails.add(payload.email.toLowerCase());
+
+    const candidateFullName = payload.fullName || 'Applicant';
+    const candidatePrefTeam = payload.prefTeam || 'Vividhata Club 2026';
+
+    // Show both the modal overlay popup and the success card
+    showFormSuccess(candidateFullName, candidatePrefTeam);
+  } catch (error) {
+    console.error('Submission error:', error);
+    alert('Form submission error: ' + error.message);
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origBtnHtml;
+    }
+  }
+};
 
 function initMobileNav() {
   const hamburgerBtn = document.getElementById('hamburgerBtn');
