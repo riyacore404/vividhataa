@@ -114,6 +114,7 @@ function drawCover(ctx, img, cw, ch, maxUp = 2.0) {
    Bloom/film-grain passes are dropped; the page already grains globally.
    ═══════════════════════════════════════════════════════════ */
 function createGhostCursor(canvas, opts = {}) {
+  if (!canvas) return { resize() { }, move() { }, render() { }, ok: false };
   const TRAIL = opts.trailLength ?? 28;
   const INERTIA = opts.inertia ?? 0.5;
   const MAX_DPR = opts.maxDevicePixelRatio ?? 0.45;
@@ -554,6 +555,8 @@ function paintAmaterasu(t) {
 
 let mx = 0.5, my = 0.5;            // raw pointer, 0..1
 let ex = 0.5, ey = 0.5;            // eased pointer
+let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
+let cx = cursorX, cy = cursorY;
 
 window.addEventListener('pointermove', e => {
   mx = e.clientX / window.innerWidth;
@@ -689,12 +692,12 @@ function paintJutsu() {
 
 /* ═════════════════════ custom cursor ═════════════════════ */
 const cursorEl = document.getElementById('cursor');
-let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
-let cx = cursorX, cy = cursorY;
-document.querySelectorAll('a, .card').forEach(el => {
-  el.addEventListener('pointerenter', () => cursorEl.classList.add('hot'));
-  el.addEventListener('pointerleave', () => cursorEl.classList.remove('hot'));
-});
+if (cursorEl) {
+  document.querySelectorAll('a, .card').forEach(el => {
+    el.addEventListener('pointerenter', () => cursorEl.classList.add('hot'));
+    el.addEventListener('pointerleave', () => cursorEl.classList.remove('hot'));
+  });
+}
 
 /* ═════════════════════ scroll chrome ═════════════════════ */
 const hint = document.getElementById('hint');
