@@ -41,23 +41,27 @@ const jobs = [];
 for (let i = 1; i <= MAIN_COUNT; i++) jobs.push(load(`frames/main/frame_${pad(i)}.webp`, mainFrames, i - 1));
 
 function animateLoader() {
+  if (!loaderFill || !loaderPct) {
+    document.body.classList.add('ready');
+    return;
+  }
   const elapsed = performance.now() - loaderStartTime;
   const timePct = (elapsed / LOADER_MIN_TIME) * 100;
   const displayPct = Math.min(100, Math.min(timePct, Math.max(timePct * 0.9, realAssetPct)));
 
-  loaderFill.style.width = displayPct.toFixed(1) + '%';
-  loaderPct.textContent = String(Math.round(displayPct)).padStart(2, '0');
+  if (loaderFill) loaderFill.style.width = displayPct.toFixed(1) + '%';
+  if (loaderPct) loaderPct.textContent = String(Math.round(displayPct)).padStart(2, '0');
 
   if (elapsed < LOADER_MIN_TIME || loaded < total) {
     requestAnimationFrame(animateLoader);
   } else {
-    loaderFill.style.width = '100%';
-    loaderPct.textContent = '100';
+    if (loaderFill) loaderFill.style.width = '100%';
+    if (loaderPct) loaderPct.textContent = '100';
     setTimeout(() => {
-      loaderEl.classList.add('done');
+      if (loaderEl) loaderEl.classList.add('done');
       document.body.classList.add('ready');
       resizeAll();
-      setTimeout(() => { loaderEl.style.display = 'none'; }, 1100);
+      setTimeout(() => { if (loaderEl) loaderEl.style.display = 'none'; }, 1100);
     }, 300);
   }
 }
@@ -68,21 +72,23 @@ requestAnimationFrame(animateLoader);
    offsetWidth/Height, not getBoundingClientRect, because these canvases carry
    CSS transforms and a transformed rect would poison the size. */
 function fitCanvas(canvas) {
+  if (!canvas) return null;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const w = Math.round(canvas.offsetWidth * dpr);
-  const h = Math.round(canvas.offsetHeight * dpr);
+  const w = Math.round((canvas.offsetWidth || 0) * dpr);
+  const h = Math.round((canvas.offsetHeight || 0) * dpr);
   if (canvas.width !== w || canvas.height !== h) {
     canvas.width = w; canvas.height = h;
   }
-  return canvas.getContext('2d');
+  return canvas.getContext ? canvas.getContext('2d') : null;
 }
 
 /* cheap per-frame guard: layout can change without a resize event
    (mobile URL bar collapse, zoom, devtools) */
 function syncSize(canvas) {
+  if (!canvas) return false;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const w = Math.round(canvas.offsetWidth * dpr);
-  const h = Math.round(canvas.offsetHeight * dpr);
+  const w = Math.round((canvas.offsetWidth || 0) * dpr);
+  const h = Math.round((canvas.offsetHeight || 0) * dpr);
   return canvas.width !== w || canvas.height !== h;
 }
 
@@ -343,13 +349,14 @@ const mainCanvas = document.getElementById('mainCanvas');
 const scrubGlow = document.getElementById('scrubGlow');
 const titleblock = document.getElementById('titleblock');
 const phases = [...document.querySelectorAll('.phase')];
-let mainCtx = fitCanvas(mainCanvas);
+let mainCtx = mainCanvas ? fitCanvas(mainCanvas) : null;
 
 /* frame index is lerped toward the scroll target → butter-smooth both ways */
 let frameTarget = 0, frameShown = 0, lastDrawn = -1;
 let scrubProgress = 0;
 
 function readScrub() {
+  if (!scrubSection) return;
   const rect = scrubSection.getBoundingClientRect();
   const dist = scrubSection.offsetHeight - window.innerHeight;
   scrubProgress = clamp(-rect.top / (dist || 1));
@@ -945,7 +952,7 @@ function tick() {
   const fadeInCanvas = clamp((scrubProgress - 0.03) / 0.05);
   const fadeOutCanvas = 1 - clamp((scrubProgress - 0.87) / 0.08);
   const canvasAlpha = fadeInCanvas * fadeOutCanvas;
-  mainCanvas.style.opacity = canvasAlpha.toFixed(3);
+  if (mainCanvas) mainCanvas.style.opacity = canvasAlpha.toFixed(3);
 
   // Show sticky blur lens ONLY while scrubbing through mainFrames in Act I
   const stickyBadge = document.getElementById('stickyBadge');
