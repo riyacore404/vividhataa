@@ -1,0 +1,7 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/application"
+  to = "/application.html"
+  status = 200

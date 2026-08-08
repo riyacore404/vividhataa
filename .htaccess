@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Automatically serve .html files without .html in the URL
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L,QSA]

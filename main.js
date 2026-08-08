@@ -1,12 +1,11 @@
 /* ═══════════════════════════════════════════════════════════
-   UCHIHA ITACHI — scroll-scrubbed frames + mouse-tracked eyes
+   UCHIHA ITACHIth — scroll-scrubbed frames + mouse-tracked eyes
    ═══════════════════════════════════════════════════════════ */
 
 const MAIN_COUNT = 71;
-const EYE_COUNT  = 51;
 const pad = n => String(n).padStart(3, '0');
 
-const lerp  = (a, b, t) => a + (b - a) * t;
+const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 /* fade in over [a,b], hold, fade out over [c,d] */
 const window4 = (p, a, b, c, d) =>
@@ -14,14 +13,16 @@ const window4 = (p, a, b, c, d) =>
 
 /* ───────────────────────── preload ───────────────────────── */
 const mainFrames = [];
-const eyeFrames  = [];
 let loaded = 0;
-const total = MAIN_COUNT + EYE_COUNT;
+const total = MAIN_COUNT;
+const LOADER_MIN_TIME = 3000; // 3 seconds
+const loaderStartTime = performance.now();
 
-const loaderEl  = document.getElementById('loader');
+const loaderEl = document.getElementById('loader');
 const loaderFill = document.getElementById('loaderFill');
-const loaderPct  = document.getElementById('loaderPct');
+const loaderPct = document.getElementById('loaderPct');
 
+let realAssetPct = 0;
 function load(src, bucket, index) {
   return new Promise(res => {
     const img = new Image();
@@ -29,9 +30,7 @@ function load(src, bucket, index) {
     img.onload = img.onerror = () => {
       bucket[index] = img;
       loaded++;
-      const pct = loaded / total;
-      loaderFill.style.width = (pct * 100).toFixed(1) + '%';
-      loaderPct.textContent = String(Math.round(pct * 100)).padStart(2, '0');
+      realAssetPct = (loaded / total) * 100;
       res();
     };
     img.src = src;
@@ -39,18 +38,30 @@ function load(src, bucket, index) {
 }
 
 const jobs = [];
-for (let i = 1; i <= MAIN_COUNT; i++) jobs.push(load(`frames/main/${pad(i)}.jpg`, mainFrames, i - 1));
-for (let i = 1; i <= EYE_COUNT;  i++) jobs.push(load(`frames/eyes/${pad(i)}.jpg`, eyeFrames,  i - 1));
+for (let i = 1; i <= MAIN_COUNT; i++) jobs.push(load(`frames/main/frame_${pad(i)}.webp`, mainFrames, i - 1));
 
-Promise.all(jobs).then(() => {
-  setTimeout(() => {
-    loaderEl.classList.add('done');
-    document.body.classList.add('ready');
-    // ensure first paint is correct once fonts/layout settle
-    resizeAll();
-    setTimeout(() => { loaderEl.style.display = 'none'; }, 1100);
-  }, 420);
-});
+function animateLoader() {
+  const elapsed = performance.now() - loaderStartTime;
+  const timePct = (elapsed / LOADER_MIN_TIME) * 100;
+  const displayPct = Math.min(100, Math.min(timePct, Math.max(timePct * 0.9, realAssetPct)));
+
+  loaderFill.style.width = displayPct.toFixed(1) + '%';
+  loaderPct.textContent = String(Math.round(displayPct)).padStart(2, '0');
+
+  if (elapsed < LOADER_MIN_TIME || loaded < total) {
+    requestAnimationFrame(animateLoader);
+  } else {
+    loaderFill.style.width = '100%';
+    loaderPct.textContent = '100';
+    setTimeout(() => {
+      loaderEl.classList.add('done');
+      document.body.classList.add('ready');
+      resizeAll();
+      setTimeout(() => { loaderEl.style.display = 'none'; }, 1100);
+    }, 300);
+  }
+}
+requestAnimationFrame(animateLoader);
 
 /* ─────────────────── canvas cover-draw helper ─────────────────── */
 /* Keeps the backing store in step with the element's real box. Uses
@@ -58,7 +69,7 @@ Promise.all(jobs).then(() => {
    CSS transforms and a transformed rect would poison the size. */
 function fitCanvas(canvas) {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const w = Math.round(canvas.offsetWidth  * dpr);
+  const w = Math.round(canvas.offsetWidth * dpr);
   const h = Math.round(canvas.offsetHeight * dpr);
   if (canvas.width !== w || canvas.height !== h) {
     canvas.width = w; canvas.height = h;
@@ -97,21 +108,21 @@ function drawCover(ctx, img, cw, ch, maxUp = 2.0) {
    Bloom/film-grain passes are dropped; the page already grains globally.
    ═══════════════════════════════════════════════════════════ */
 function createGhostCursor(canvas, opts = {}) {
-  const TRAIL    = opts.trailLength ?? 28;
-  const INERTIA  = opts.inertia ?? 0.5;
-  const MAX_DPR  = opts.maxDevicePixelRatio ?? 0.45;
-  const BUDGET   = opts.targetPixels ?? 4.2e5;
-  const BRIGHT   = opts.brightness ?? 1.45;
-  const EDGE     = opts.edgeIntensity ?? 0.35;
+  const TRAIL = opts.trailLength ?? 28;
+  const INERTIA = opts.inertia ?? 0.5;
+  const MAX_DPR = opts.maxDevicePixelRatio ?? 0.45;
+  const BUDGET = opts.targetPixels ?? 4.2e5;
+  const BRIGHT = opts.brightness ?? 1.45;
+  const EDGE = opts.edgeIntensity ?? 0.35;
   const FADE_DELAY = opts.fadeDelayMs ?? 900;
-  const FADE_DUR   = opts.fadeDurationMs ?? 1400;
+  const FADE_DUR = opts.fadeDurationMs ?? 1400;
   const rgb = hexToRgb(opts.color ?? '#ff2b2b');
 
   const gl = canvas.getContext('webgl', {
     alpha: true, antialias: false, depth: false, stencil: false,
     premultipliedAlpha: false, powerPreference: 'high-performance'
   });
-  if (!gl) return { resize() {}, move() {}, render() {}, ok: false };
+  if (!gl) return { resize() { }, move() { }, render() { }, ok: false };
 
   const VERT = `
     attribute vec2 aPos;
@@ -217,24 +228,24 @@ function createGhostCursor(canvas, opts = {}) {
   }
   const vs = compile(gl.VERTEX_SHADER, VERT);
   const fs = compile(gl.FRAGMENT_SHADER, FRAG);
-  if (!vs || !fs) return { resize() {}, move() {}, render() {}, ok: false };
+  if (!vs || !fs) return { resize() { }, move() { }, render() { }, ok: false };
 
   const prog = gl.createProgram();
   gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return { resize() {}, move() {}, render() {}, ok: false };
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return { resize() { }, move() { }, render() { }, ok: false };
   gl.useProgram(prog);
 
   const buf = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
   const aPos = gl.getAttribLocation(prog, 'aPos');
   gl.enableVertexAttribArray(aPos);
   gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
   const U = n => gl.getUniformLocation(prog, n);
   const uTime = U('iTime'), uRes = U('iResolution'), uMouse = U('iMouse'),
-        uPrev = U('iPrevMouse[0]'), uOpacity = U('iOpacity'), uScale = U('iScale'),
-        uColor = U('iBaseColor'), uBright = U('iBrightness'), uEdge = U('iEdgeIntensity');
+    uPrev = U('iPrevMouse[0]'), uOpacity = U('iOpacity'), uScale = U('iScale'),
+    uColor = U('iBaseColor'), uBright = U('iBrightness'), uEdge = U('iEdgeIntensity');
 
   gl.uniform3f(uColor, rgb[0], rgb[1], rgb[2]);
   gl.uniform1f(uBright, BRIGHT);
@@ -246,12 +257,12 @@ function createGhostCursor(canvas, opts = {}) {
 
   /* trail ring buffer, exactly as the original */
   const trail = new Float32Array(TRAIL * 2).fill(0.5);
-  const flat  = new Float32Array(TRAIL * 2).fill(0.5);
+  const flat = new Float32Array(TRAIL * 2).fill(0.5);
   let head = 0;
 
   const target = { x: 0.5, y: 0.5 };
-  const cur    = { x: 0.5, y: 0.5 };
-  const vel    = { x: 0, y: 0 };
+  const cur = { x: 0.5, y: 0.5 };
+  const vel = { x: 0, y: 0 };
   let pointerActive = false;
   let lastMove = performance.now();
   let fade = 0;
@@ -328,10 +339,10 @@ function hexToRgb(hex) {
 
 /* ═══════════════════ ACT I — scroll scrub ═══════════════════ */
 const scrubSection = document.getElementById('scrub');
-const mainCanvas   = document.getElementById('mainCanvas');
-const scrubGlow    = document.getElementById('scrubGlow');
-const titleblock   = document.getElementById('titleblock');
-const phases       = [...document.querySelectorAll('.phase')];
+const mainCanvas = document.getElementById('mainCanvas');
+const scrubGlow = document.getElementById('scrubGlow');
+const titleblock = document.getElementById('titleblock');
+const phases = [...document.querySelectorAll('.phase')];
 let mainCtx = fitCanvas(mainCanvas);
 
 /* frame index is lerped toward the scroll target → butter-smooth both ways */
@@ -351,7 +362,7 @@ const PHASE_WINDOWS = [
   [0.13, 0.17, 0.21, 0.25],   // 静寂
   [0.27, 0.31, 0.37, 0.42],   // 覚醒
   [0.45, 0.49, 0.63, 0.69],   // 写輪眼
-  [0.74, 0.79, 0.97, 1.01],   // 烏
+  [0.72, 0.76, 0.82, 0.86],   // 烏
 ];
 
 function paintOverlays(p) {
@@ -362,9 +373,12 @@ function paintOverlays(p) {
     el.style.filter = `blur(${((1 - o) * 7).toFixed(2)}px)`;
   });
 
-  const t = window4(p, -0.10, -0.05, 0.07, 0.13);
+  const t1 = window4(p, -0.10, -0.05, 0.07, 0.13);
+  const t2 = window4(p, 0.87, 0.93, 1.05, 1.10);
+  const t = Math.max(t1, t2);
+
   titleblock.style.opacity = t.toFixed(3);
-  titleblock.style.transform = `translateX(-50%) translateY(${((1 - t) * 40).toFixed(1)}px) scale(${(0.97 + t * 0.03).toFixed(3)})`;
+  titleblock.style.transform = `translate(-50%, calc(-50% + ${((1 - t) * 40).toFixed(1)}px)) scale(${(0.97 + t * 0.03).toFixed(3)})`;
   titleblock.style.letterSpacing = `${((1 - t) * 0.12).toFixed(3)}em`;
 
   // red bloom ramps up as the sharingan ignites
@@ -406,7 +420,7 @@ function drawFeather(ctx, f, w, h, dir, intensity) {
   ctx.beginPath();
   ctx.moveTo(-len, 0);
   ctx.quadraticCurveTo(-len * 0.15, -len * 0.42, len, 0);
-  ctx.quadraticCurveTo(-len * 0.15,  len * 0.42, -len, 0);
+  ctx.quadraticCurveTo(-len * 0.15, len * 0.42, -len, 0);
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
@@ -477,9 +491,9 @@ function drawFlame(ctx, f, w, h, t) {
     const r = b.r * 1.28;
     const heat = Math.pow(1 - b.u, 1.6) * 0.9 + 0.06;
     const g = ctx.createRadialGradient(b.x, b.y, r * 0.45, b.x, b.y, r);
-    g.addColorStop(0,    `rgba(214,32,44,${0.42 * heat * near})`);
+    g.addColorStop(0, `rgba(214,32,44,${0.42 * heat * near})`);
     g.addColorStop(0.55, `rgba(126,12,30,${0.2 * heat * near})`);
-    g.addColorStop(1,    'rgba(46,0,14,0)');
+    g.addColorStop(1, 'rgba(46,0,14,0)');
     ctx.fillStyle = g;
     ctx.beginPath();
     ctx.arc(b.x, b.y, r, 0, Math.PI * 2);
@@ -492,9 +506,9 @@ function drawFlame(ctx, f, w, h, t) {
     const b = flameBlob(f, i, BLOBS, w, h, p, tall, wide);
     const a = (0.97 - b.u * 0.42) * near;           // tips thin out into smoke
     const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
-    g.addColorStop(0,   `rgba(3,2,4,${a})`);
+    g.addColorStop(0, `rgba(3,2,4,${a})`);
     g.addColorStop(0.62, `rgba(6,3,8,${a * 0.8})`);
-    g.addColorStop(1,   'rgba(9,5,11,0)');
+    g.addColorStop(1, 'rgba(9,5,11,0)');
     ctx.fillStyle = g;
     ctx.beginPath();
     ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
@@ -531,35 +545,8 @@ function paintAmaterasu(t) {
   drawEmbers(amaCtx, w, h, t);
 }
 
-/* ═══════════════ ACT II — mouse-tracked eyes ═══════════════ */
-const eyesSection = document.getElementById('eyes');
-const eyeCanvas   = document.getElementById('eyeCanvas');
-const eyeFlare    = document.getElementById('eyeFlare');
-const eyeReadout  = document.getElementById('eyeReadout');
-let eyeCtx = fitCanvas(eyeCanvas);
-
-/* Gaze lookup table.
-   The clip's pupils travel: centre(f1) -> far left(f5..9) -> centre(f13..27)
-   -> far right(f30..41) -> back toward centre(f43..51). Feeding the raw
-   sequence to the pointer made the eyes swing back left at the right-hand end.
-   These are the only frames that form a monotonic left->right sweep, ordered by
-   the measured red-pupil centroid (px, image space, 1280 wide). */
-const GAZE_LUT = [
-  { f: 5,  cx: 613.4 },   // far left
-  { f: 4,  cx: 622.5 },
-  { f: 3,  cx: 631.3 },
-  { f: 2,  cx: 645.2 },
-  { f: 1,  cx: 652.4 },   // centre
-  { f: 28, cx: 652.5 },
-  { f: 29, cx: 663.4 },
-  { f: 30, cx: 671.4 },
-  { f: 31, cx: 672.7 },   // far right
-].map(o => ({ idx: o.f - 1, cx: o.cx }));
-
 let mx = 0.5, my = 0.5;            // raw pointer, 0..1
 let ex = 0.5, ey = 0.5;            // eased pointer
-let gazePos = (GAZE_LUT.length - 1) / 2;   // float position along the LUT
-let eyeLastKey = '';
 
 window.addEventListener('pointermove', e => {
   mx = e.clientX / window.innerWidth;
@@ -577,8 +564,8 @@ window.addEventListener('touchmove', e => {
 
 /* ═══════════════ ACT III — ghost cursor + reveal + parallax ═══════════════ */
 const jutsuSection = document.getElementById('jutsu');
-const jutsuReveal  = document.getElementById('jutsuReveal');
-const ghostCanvas  = document.getElementById('ghostCanvas');
+const jutsuReveal = document.getElementById('jutsuReveal');
+const ghostCanvas = document.getElementById('ghostCanvas');
 const ghost = createGhostCursor(ghostCanvas, {
   color: '#ff2b2b',      // sharingan red
   trailLength: 28,
@@ -589,7 +576,7 @@ const ghost = createGhostCursor(ghostCanvas, {
 let jutsuLit = false;
 let revealX = 0.5, revealY = 0.5;      // eased, section-relative 0..1
 let revealTX = 0.5, revealTY = 0.5;
-let revealR = 0, revealRT = 420;   // starts closed: no shader work until hovered
+let revealR = 0, revealRT = 500;       // starts dark; opens to 500px spotlight on hover
 
 function setLit(on) {
   if (jutsuLit === on) return;
@@ -599,19 +586,62 @@ function setLit(on) {
 }
 
 jutsuSection.addEventListener('pointermove', e => {
-  const r = jutsuSection.getBoundingClientRect();
-  revealTX = clamp((e.clientX - r.left) / Math.max(1, r.width));
-  revealTY = clamp((e.clientY - r.top) / Math.max(1, r.height));
-  ghost.move(revealTX, revealTY, true);
+  const revRect = jutsuReveal.getBoundingClientRect();
+  const jutRect = jutsuSection.getBoundingClientRect();
+
+  if (revRect.width > 0 && revRect.height > 0) {
+    revealTX = clamp((e.clientX - revRect.left) / revRect.width);
+    revealTY = clamp((e.clientY - revRect.top) / revRect.height);
+  }
+  if (jutRect.width > 0 && jutRect.height > 0) {
+    ghost.move(clamp((e.clientX - jutRect.left) / jutRect.width), clamp((e.clientY - jutRect.top) / jutRect.height), true);
+  }
   setLit(true);
 }, { passive: true });
 
-jutsuSection.addEventListener('pointerleave', () => setLit(false), { passive: true });
+jutsuSection.addEventListener('pointerleave', () => {
+  setLit(false);
+}, { passive: true });
+
+/* ── Preview auto-show: visible on scroll-in, dims after 0.5s, re-triggers each visit ── */
+const jutsuPreview = document.getElementById('jutsuPreview');
+let dimTimer = null;
+
+const jutsuObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // Entering viewport → show preview instantly (no transition on reset)
+      if (jutsuPreview) {
+        jutsuPreview.style.transition = 'none';
+        jutsuSection.classList.remove('dimmed');
+        jutsuPreview.offsetHeight; // force reflow
+        jutsuPreview.style.transition = '';
+      }
+      clearTimeout(dimTimer);
+      dimTimer = setTimeout(() => {
+        jutsuSection.classList.add('dimmed'); // slowly fade preview over 1.2s after 0.5s hold
+      }, 500);
+    } else {
+      // Leaving viewport → reset so next scroll-in shows image again
+      clearTimeout(dimTimer);
+      if (jutsuPreview) {
+        jutsuPreview.style.transition = 'none';
+        jutsuSection.classList.remove('dimmed');
+        jutsuPreview.offsetHeight;
+        jutsuPreview.style.transition = '';
+      }
+      if (!jutsuSection.matches(':hover')) {
+        setLit(false);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+jutsuObserver.observe(jutsuSection);
 
 // hovering a card opens the reveal wider — the image "comes through" the card
 document.querySelectorAll('.jutsu .card').forEach(card => {
-  card.addEventListener('pointerenter', () => { revealRT = 580; }, { passive: true });
-  card.addEventListener('pointerleave', () => { revealRT = 420; }, { passive: true });
+  card.addEventListener('pointerenter', () => { revealRT = 640; }, { passive: true });
+  card.addEventListener('pointerleave', () => { revealRT = 500; }, { passive: true });
 });
 
 /* parallax targets: heading bits carry an explicit data-px, cards get one by index */
@@ -654,7 +684,7 @@ function paintJutsu() {
 const cursorEl = document.getElementById('cursor');
 let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
 let cx = cursorX, cy = cursorY;
-document.querySelectorAll('a, .card, .eyes__sticky').forEach(el => {
+document.querySelectorAll('a, .card').forEach(el => {
   el.addEventListener('pointerenter', () => cursorEl.classList.add('hot'));
   el.addEventListener('pointerleave', () => cursorEl.classList.remove('hot'));
 });
@@ -684,31 +714,30 @@ function readScroll() {
    flickers inside one strike. Strikes themselves recur on a random
    interval so it reads as weather rather than a strobe.
    ═══════════════════════════════════════════════════════════ */
-const STRIKE_GAP   = 500;          // ms between flickers within a strike
-const STRIKE_EVERY = [3200, 7000]; // ms between strikes (random in range)
+const STRIKE_GAP = 250;          // ms between flickers within a strike
+const STRIKE_EVERY = [900, 2200];  // ms between strikes (fast, dynamic lightning storm)
 
 const stormFlash = document.getElementById('stormFlash');
-const stormBolt  = document.getElementById('stormBolt');
-const boltPath   = document.getElementById('boltPath');
-const boltGlow   = document.getElementById('boltGlow');
+const stormBolt = document.getElementById('stormBolt');
+const boltPath = document.getElementById('boltPath');
+const boltGlow = document.getElementById('boltGlow');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ── thunder: filtered noise + sub rumble, no audio files ── */
-let audioCtx = null, thunderOn = false;
+let audioCtx = null, thunderOn = true;
 
 function initAudio() {
-  if (audioCtx) return audioCtx;
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (!AC) return null;
-  audioCtx = new AC();
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) audioCtx = new AC();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
+  }
   return audioCtx;
 }
 
-function playThunder(power = 1) {
-  if (!thunderOn) return;
-  const ctx = initAudio();
-  if (!ctx || ctx.state === 'suspended') return;
-
+function triggerThunderAudio(ctx, power = 1) {
   const now = ctx.currentTime;
   const dur = 2.2 + Math.random() * 2.4 * power;
 
@@ -756,6 +785,20 @@ function playThunder(power = 1) {
   sub.start(now); sub.stop(now + dur);
 }
 
+function playThunder(power = 1) {
+  if (!thunderOn) return;
+  const ctx = initAudio();
+  if (!ctx) return;
+
+  if (ctx.state === 'suspended') {
+    ctx.resume().then(() => {
+      triggerThunderAudio(ctx, power);
+    }).catch(() => {});
+  } else {
+    triggerThunderAudio(ctx, power);
+  }
+}
+
 /* ── bolt geometry: recursive jagged polyline with forks ── */
 function makeBolt() {
   const x0 = 80 + Math.random() * 840;
@@ -795,7 +838,17 @@ function flicker(el, peak, ms) {
   });
 }
 
+/* ── Quiet Mode: Only active on dedicated Application portal page (application.html) ── */
+function isInQuietZone() {
+  return document.body.classList.contains('app-page');
+}
+
 function strike() {
+  if (isInQuietZone()) {
+    const [lo, hi] = STRIKE_EVERY;
+    stormTimer = setTimeout(strike, lo + Math.random() * (hi - lo));
+    return;
+  }
   const heavy = Math.random() < 0.55;           // heavy = visible bolt
   const power = heavy ? 1 : 0.55 + Math.random() * 0.25;
 
@@ -827,29 +880,42 @@ function strike() {
   stormTimer = setTimeout(strike, lo + Math.random() * (hi - lo));
 }
 
-if (!reducedMotion) stormTimer = setTimeout(strike, 1800);
+if (!reducedMotion) stormTimer = setTimeout(strike, 500);
 
-/* ── sound toggle (browsers require a gesture before audio) ── */
-const soundToggle = document.getElementById('soundToggle');
-const soundState  = document.getElementById('soundState');
-soundToggle.addEventListener('click', async () => {
-  thunderOn = !thunderOn;
-  soundToggle.setAttribute('aria-pressed', String(thunderOn));
-  soundState.textContent = thunderOn ? 'ON' : 'OFF';
-  if (thunderOn) {
-    const ctx = initAudio();
-    if (ctx && ctx.state === 'suspended') await ctx.resume();
-    playThunder(0.7);
+/* ── Thunder Audio Management (Web Audio Synthesizer) ── */
+function unlockAudioContext() {
+  const ctx = initAudio();
+  if (ctx && ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
   }
+}
+
+// Automatically unlock Web Audio Context on any user interaction, scroll, or mouse movement
+['pointerdown', 'mousedown', 'touchstart', 'scroll', 'wheel', 'keydown', 'mousemove'].forEach(evt => {
+  window.addEventListener(evt, unlockAudioContext, { passive: true });
 });
+
+// Web Audio Context will unlock on first user gesture or sound toggle click
+
+const soundToggle = document.getElementById('soundToggle');
+if (soundToggle) {
+  soundToggle.setAttribute('aria-pressed', String(thunderOn));
+  soundToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    thunderOn = !thunderOn;
+    soundToggle.setAttribute('aria-pressed', String(thunderOn));
+    if (thunderOn) {
+      unlockAudioContext();
+    }
+  });
+}
 
 /* ═════════════════════ resize ═════════════════════ */
 function resizeAll() {
   mainCtx = fitCanvas(mainCanvas);
-  fCtx    = fitCanvas(featherCanvas);
-  eyeCtx  = fitCanvas(eyeCanvas);
-  amaCtx  = fitCanvas(amaCanvas);
-  lastDrawn = -1; eyeLastKey = '';
+  fCtx = fitCanvas(featherCanvas);
+  amaCtx = fitCanvas(amaCanvas);
+  lastDrawn = -1;
   seedFeathers();
   seedFlames(); amaPainted = false;
   ghost.resize();
@@ -862,15 +928,32 @@ function tick() {
   readScroll();
   readScrub();
 
-  if (syncSize(mainCanvas) || syncSize(eyeCanvas) ||
-      syncSize(featherCanvas) || syncSize(amaCanvas)) resizeAll();
+  if (syncSize(mainCanvas) ||
+    syncSize(featherCanvas) || syncSize(amaCanvas)) resizeAll();
 
-  /* — Amaterasu: the hem never stops burning (one static pass if the user
-       asked for reduced motion) — */
+  /* — Amaterasu: black flame hem — */
+  const inQuiet = isInQuietZone();
+  const stormEl = document.querySelector('.storm');
+  const amaBed = document.querySelector('.amaterasu-bed');
+  if (stormEl) stormEl.style.opacity = inQuiet ? '0' : '1';
+  if (amaCanvas) amaCanvas.style.opacity = inQuiet ? '0' : '1';
+  if (amaBed) amaBed.style.opacity = inQuiet ? '0' : '1';
+
   if (!reduceMotion) paintAmaterasu(performance.now() / 1000);
   else if (!amaPainted) { paintAmaterasu(0); amaPainted = true; }
 
-  /* — Act I: scrubbed frames — */
+  const fadeInCanvas = clamp((scrubProgress - 0.03) / 0.05);
+  const fadeOutCanvas = 1 - clamp((scrubProgress - 0.87) / 0.08);
+  const canvasAlpha = fadeInCanvas * fadeOutCanvas;
+  mainCanvas.style.opacity = canvasAlpha.toFixed(3);
+
+  // Show sticky blur lens ONLY while scrubbing through mainFrames in Act I
+  const stickyBadge = document.getElementById('stickyBadge');
+  if (stickyBadge) {
+    const isAct1Scrubbing = scrubProgress > 0.02 && scrubProgress < 0.96;
+    stickyBadge.style.opacity = isAct1Scrubbing ? '1' : '0';
+  }
+
   frameShown = lerp(frameShown, frameTarget, 0.14);
   const idx = Math.round(clamp(frameShown, 0, MAIN_COUNT - 1));
   if (idx !== lastDrawn) {
@@ -880,77 +963,33 @@ function tick() {
   }
   paintOverlays(scrubProgress);
 
-  /* — feathers: fly forward on scroll down, backward on scroll up — */
+  /* — feathers: disabled per user request — */
   const fw = featherCanvas.width, fh = featherCanvas.height;
-  const intensity = clamp((scrubProgress - 0.70) / 0.14) * (0.45 + scrollVel * 0.55);
   fCtx.clearRect(0, 0, fw, fh);
-  if (intensity > 0.01) {
-    const speed = (0.0009 + scrollVel * 0.006) * scrollDir;
-    for (const f of feathers) {
-      f.x += f.vx * speed;
-      f.y += Math.sin(f.sway) * 0.0006 + f.vx * speed * 0.18;
-      f.sway += 0.02 + f.vx * 0.01;
-      f.rot  += f.spin * (0.3 + scrollVel);
-      if (f.x > 1.15) f.x = -0.15;
-      if (f.x < -0.15) f.x = 1.15;
-      if (f.y > 1.15) f.y = -0.15;
-      if (f.y < -0.15) f.y = 1.15;
-      drawFeather(fCtx, f, fw, fh, scrollDir, intensity);
-    }
-  }
-
-  /* — Act II: gaze follows the pointer — */
-  ex = lerp(ex, mx, 0.075);
-  ey = lerp(ey, my, 0.075);
-
-  const eyeRect = eyesSection.getBoundingClientRect();
-  const eyeVisible = eyeRect.top < window.innerHeight && eyeRect.bottom > 0;
-
-  if (eyeVisible) {
-    /* pointer X walks the monotonic gaze table — left stays left, right stays
-       right. The image itself never moves; only which frame is shown changes. */
-    gazePos = lerp(gazePos, ex * (GAZE_LUT.length - 1), 0.13);
-    const g = clamp(gazePos, 0, GAZE_LUT.length - 1);
-    const i0 = Math.floor(g), i1 = Math.min(i0 + 1, GAZE_LUT.length - 1);
-    const t = g - i0;
-    const key = `${i0}|${t.toFixed(2)}`;
-
-    if (key !== eyeLastKey) {
-      const w = eyeCanvas.width, h = eyeCanvas.height;
-      eyeCtx.clearRect(0, 0, w, h);
-      // crossfade the two nearest gaze frames so the sweep reads continuous
-      eyeCtx.globalAlpha = 1;
-      const okA = drawCover(eyeCtx, eyeFrames[GAZE_LUT[i0].idx], w, h, 1.18);
-      if (t > 0.01 && i1 !== i0) {
-        eyeCtx.globalAlpha = t;
-        drawCover(eyeCtx, eyeFrames[GAZE_LUT[i1].idx], w, h, 1.18);
-        eyeCtx.globalAlpha = 1;
-      }
-      if (okA) eyeLastKey = key;
-    }
-
-    eyeFlare.style.setProperty('--mx', (ex * 100).toFixed(1) + '%');
-    eyeFlare.style.setProperty('--my', (ey * 100).toFixed(1) + '%');
-
-    const axis = (ex - 0.5) * 200;
-    const dir = axis < -8 ? '左' : axis > 8 ? '右' : '中';
-    eyeReadout.textContent =
-      `視線 ${dir} ${Math.abs(axis).toFixed(1).padStart(4, '0')} / FRAME ` +
-      String(GAZE_LUT[Math.round(g)].idx + 1).padStart(2, '0');
-  }
 
   /* — Act III: parallax, reveal mask, ghost cursor — */
   paintJutsu();
 
   const jr = jutsuSection.getBoundingClientRect();
   if (jr.top < window.innerHeight && jr.bottom > 0) {
-    revealX = lerp(revealX, revealTX, 0.13);
-    revealY = lerp(revealY, revealTY, 0.13);
-    revealR = lerp(revealR, jutsuLit ? revealRT : 0, 0.09);
+    revealX = lerp(revealX, revealTX, 0.18);
+    revealY = lerp(revealY, revealTY, 0.18);
+    revealR = lerp(revealR, jutsuLit ? revealRT : 0, 0.12);
+
+    const rxStr = (revealX * 100).toFixed(2) + '%';
+    const ryStr = (revealY * 100).toFixed(2) + '%';
+    const rStr = revealR.toFixed(0) + 'px';
+
+    if (jutsuReveal) {
+      jutsuReveal.style.setProperty('--rx', rxStr);
+      jutsuReveal.style.setProperty('--ry', ryStr);
+      jutsuReveal.style.setProperty('--r', rStr);
+    }
     const rs = jutsuSection.style;
-    rs.setProperty('--rx', (revealX * 100).toFixed(2) + '%');
-    rs.setProperty('--ry', (revealY * 100).toFixed(2) + '%');
-    rs.setProperty('--r',  revealR.toFixed(0) + 'px');
+    rs.setProperty('--rx', rxStr);
+    rs.setProperty('--ry', ryStr);
+    rs.setProperty('--r', rStr);
+
     if (ghost.ok && (jutsuLit || revealR > 1)) ghost.render();
   }
 
@@ -976,3 +1015,360 @@ const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
 }, { threshold: 0.18 });
 document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+/* ═════════════════════ GALLERY AUTO-SLIDER (5s interval) ═════════════════════ */
+(function initGallerySlider() {
+  const slides = document.querySelectorAll('.gallery__slide');
+  const dots = document.querySelectorAll('.gallery__dots .dot');
+  const prevBtn = document.getElementById('galleryPrev');
+  const nextBtn = document.getElementById('galleryNext');
+  const sliderEl = document.getElementById('gallerySlider');
+  if (!slides.length) return;
+
+  let currentIndex = 0;
+  let timer = null;
+
+  function showSlide(index) {
+    currentIndex = (index + slides.length) % slides.length;
+    slides.forEach((s, i) => s.classList.toggle('active', i === currentIndex));
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+  }
+
+  function nextSlide() {
+    showSlide(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    showSlide(currentIndex - 1);
+  }
+
+  function startTimer() {
+    stopTimer();
+    timer = setInterval(nextSlide, 5000); // 5 seconds interval
+  }
+
+  function stopTimer() {
+    if (timer) clearInterval(timer);
+  }
+
+  if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); startTimer(); });
+  if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); startTimer(); });
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.getAttribute('data-index'), 10);
+      if (!isNaN(idx)) { showSlide(idx); startTimer(); }
+    });
+  });
+
+  if (sliderEl) {
+    sliderEl.addEventListener('mouseenter', stopTimer);
+    sliderEl.addEventListener('mouseleave', startTimer);
+  }
+
+  startTimer();
+})();
+
+/* ═════════════════════ FORM HANDLERS ═════════════════════ */
+// PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL BELOW:
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWCQJd_5CQs3l-6VSIkAixqCSXW4PHyKHb-dRkA7rvyZTBexO9kQR7nRq8gbi0i-u3eQ/exec';
+
+/* ── Anti-spam protection ── */
+let _lastSubmitTime = 0;
+const _submittedEmails = new Set();
+const SUBMIT_COOLDOWN_MS = 60000; // 60 seconds between submissions
+
+window.formSubmitted = false;
+
+function showFormSuccess(candidateName, teamName) {
+  const form = document.getElementById('regForm');
+  const modal = document.getElementById('regSuccessModal');
+  const nameEl = document.getElementById('successCandidateName');
+  const teamEl = document.getElementById('successTeamName');
+
+  if (nameEl && candidateName) nameEl.textContent = candidateName;
+  if (teamEl && teamName) teamEl.textContent = teamName;
+
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  const successCard = document.getElementById('regSuccess');
+  if (form) form.style.display = 'none';
+  if (successCard) {
+    successCard.style.display = 'block';
+    successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function closeSuccessModal() {
+  const modal = document.getElementById('regSuccessModal');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+  }
+}
+
+function resetRegFormModal() {
+  closeSuccessModal();
+  resetRegForm();
+}
+
+function resetRegForm() {
+  closeSuccessModal();
+  const form = document.getElementById('regForm');
+  const successCard = document.getElementById('regSuccess');
+  if (form) {
+    form.reset();
+    form.style.display = 'flex';
+  }
+  if (successCard) successCard.style.display = 'none';
+  window.formSubmitted = false;
+  const photoLabel = document.getElementById('photoLabel');
+  const resumeLabel = document.getElementById('resumeLabel');
+  if (photoLabel) photoLabel.textContent = '📁 Choose Photo...';
+  if (resumeLabel) resumeLabel.textContent = '📁 Choose Resume PDF...';
+  const photoPreviewCard = document.getElementById('photoPreviewCard');
+  const resumePreviewCard = document.getElementById('resumePreviewCard');
+  if (photoPreviewCard) photoPreviewCard.style.display = 'none';
+  if (resumePreviewCard) resumePreviewCard.style.display = 'none';
+}
+
+function readFileAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    if (!file) resolve(null);
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+    reader.readAsDataURL(file);
+  });
+}
+
+function initFormHandlers() {
+  const photoFile = document.getElementById('photoFile');
+  const photoLabel = document.getElementById('photoLabel');
+  const photoPreviewCard = document.getElementById('photoPreviewCard');
+  const photoPreviewImg = document.getElementById('photoPreviewImg');
+  const photoFileName = document.getElementById('photoFileName');
+
+  if (photoFile && photoLabel) {
+    photoFile.addEventListener('change', () => {
+      if (photoFile.files.length > 0) {
+        const file = photoFile.files[0];
+        photoLabel.textContent = '✓ ' + file.name;
+        if (photoPreviewImg && photoFileName && photoPreviewCard) {
+          photoPreviewImg.src = URL.createObjectURL(file);
+          photoFileName.textContent = file.name;
+          photoPreviewCard.style.display = 'flex';
+        }
+      } else {
+        photoLabel.textContent = '📁 Choose Photo...';
+        if (photoPreviewCard) photoPreviewCard.style.display = 'none';
+      }
+    });
+  }
+
+  const resumeFile = document.getElementById('resumeFile');
+  const resumeLabel = document.getElementById('resumeLabel');
+  const resumePreviewCard = document.getElementById('resumePreviewCard');
+  const resumeFileName = document.getElementById('resumeFileName');
+
+  if (resumeFile && resumeLabel) {
+    resumeFile.addEventListener('change', () => {
+      if (resumeFile.files.length > 0) {
+        const file = resumeFile.files[0];
+        resumeLabel.textContent = '✓ ' + file.name;
+        if (resumeFileName && resumePreviewCard) {
+          resumeFileName.textContent = file.name;
+          resumePreviewCard.style.display = 'flex';
+        }
+      } else {
+        resumeLabel.textContent = '📁 Choose Resume PDF...';
+        if (resumePreviewCard) resumePreviewCard.style.display = 'none';
+      }
+    });
+  }
+
+  const regForm = document.getElementById('regForm');
+  if (regForm) {
+    /* ── Prevent duplicate team preferences ── */
+    const prefTeamSel = document.getElementById('prefTeam');
+    const secondTeamSel = document.getElementById('secondTeam');
+
+    function syncTeamDropdowns() {
+      if (!prefTeamSel || !secondTeamSel) return;
+      const prefVal = prefTeamSel.value;
+      const secVal = secondTeamSel.value;
+
+      // Re-enable all options in both selects first
+      Array.from(secondTeamSel.options).forEach(opt => { opt.disabled = false; });
+      Array.from(prefTeamSel.options).forEach(opt => { opt.disabled = false; });
+
+      // Disable the selected pref team in second dropdown (skip "None"/empty)
+      if (prefVal && prefVal !== 'None') {
+        Array.from(secondTeamSel.options).forEach(opt => {
+          if (opt.value === prefVal) opt.disabled = true;
+        });
+        // If second was same as pref, reset it
+        if (secVal === prefVal) secondTeamSel.value = 'None';
+      }
+
+      // Disable the selected second team in pref dropdown (skip "None"/empty)
+      if (secVal && secVal !== 'None') {
+        Array.from(prefTeamSel.options).forEach(opt => {
+          if (opt.value === secVal) opt.disabled = true;
+        });
+      }
+    }
+
+    if (prefTeamSel) prefTeamSel.addEventListener('change', syncTeamDropdowns);
+    if (secondTeamSel) secondTeamSel.addEventListener('change', syncTeamDropdowns);
+
+    regForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Final duplicate guard
+      const p = document.getElementById('prefTeam')?.value || '';
+      const s = document.getElementById('secondTeam')?.value || '';
+      if (p && s && s !== 'None' && p === s) {
+        alert('Preferred Team and Second Preference cannot be the same.');
+        return;
+      }
+
+      // ── Anti-spam checks ──
+      // 1. Honeypot: bots fill hidden fields
+      const honeypot = document.getElementById('website_url');
+      if (honeypot && honeypot.value) {
+        // Silently reject — don't reveal to bot that it was caught
+        console.warn('Spam submission blocked.');
+        return;
+      }
+
+      // 2. Cooldown: prevent rapid-fire submissions
+      const now = Date.now();
+      if (now - _lastSubmitTime < SUBMIT_COOLDOWN_MS) {
+        const secsLeft = Math.ceil((SUBMIT_COOLDOWN_MS - (now - _lastSubmitTime)) / 1000);
+        alert('Please wait ' + secsLeft + ' seconds before submitting again.');
+        return;
+      }
+
+      // 3. Duplicate email check (per session)
+      const emailVal = (document.getElementById('email')?.value || '').trim().toLowerCase();
+      if (_submittedEmails.has(emailVal)) {
+        alert('This email has already been submitted. Each student may only apply once.');
+        return;
+      }
+
+      const submitBtn = document.getElementById('regSubmitBtn');
+      const origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        const spanEl = submitBtn.querySelector('span');
+        if (spanEl) spanEl.textContent = 'SUBMITTING APPLICATION...';
+      }
+
+      try {
+        const skillsChecked = Array.from(document.querySelectorAll('.skill-pill input[type="checkbox"]:checked'))
+          .map(cb => cb.value)
+          .join(', ');
+
+        const yearChecked = document.querySelector('input[name="entry.1000006"]:checked');
+        const prevClubChecked = document.querySelector('input[name="entry.1000010"]:checked');
+
+        const payload = {
+          timestamp: new Date().toISOString(),
+          fullName: document.getElementById('fullName')?.value || '',
+          email: document.getElementById('email')?.value || '',
+          prefTeam: document.getElementById('prefTeam')?.value || '',
+          secondTeam: document.getElementById('secondTeam')?.value || '',
+          mobile: (document.getElementById('mobile')?.value || '').replace(/^[+=\-@]+/, ''),
+          rollNo: document.getElementById('rollNo')?.value || '',
+          branch: document.getElementById('branch')?.value || '',
+          year: yearChecked ? yearChecked.value : '',
+          section: document.getElementById('section')?.value || '',
+          hasPrevClub: prevClubChecked ? prevClubChecked.value : '',
+          prevClubRole: document.getElementById('prevClubRole')?.value || '',
+          skills: skillsChecked
+        };
+
+        // 1. Always save local copy
+        try {
+          const existing = JSON.parse(localStorage.getItem('vividhata_submissions') || '[]');
+          existing.push(payload);
+          localStorage.setItem('vividhata_submissions', JSON.stringify(existing));
+        } catch (err) { }
+
+        // 2. Post to Google Apps Script Web App
+        if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith('http')) {
+          try {
+            await fetch(GOOGLE_SCRIPT_URL, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify(payload)
+            });
+          } catch (netErr) {
+            console.warn('Network submit attempt completed:', netErr);
+          }
+        }
+
+        window.formSubmitted = true;
+        _lastSubmitTime = Date.now();
+        _submittedEmails.add((payload.email || '').trim().toLowerCase());
+        const candidateFullName = payload.fullName || 'Applicant';
+        const candidatePrefTeam = payload.prefTeam || 'Vividhata Club 2026';
+        showFormSuccess(candidateFullName, candidatePrefTeam);
+      } catch (error) {
+        console.error('Submission error:', error);
+        alert('Form submission encountered an issue: ' + error.message);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnHtml;
+        }
+      }
+    });
+  }
+}
+
+function initMobileNav() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const chromeNav = document.getElementById('chromeNav');
+
+  if (hamburgerBtn && chromeNav) {
+    hamburgerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = chromeNav.classList.toggle('open');
+      hamburgerBtn.classList.toggle('open');
+      hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    const navLinks = chromeNav.querySelectorAll('a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        chromeNav.classList.remove('open');
+        hamburgerBtn.classList.remove('open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (chromeNav.classList.contains('open') && !chromeNav.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+        chromeNav.classList.remove('open');
+        hamburgerBtn.classList.remove('open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initFormHandlers();
+    initMobileNav();
+  });
+} else {
+  initFormHandlers();
+  initMobileNav();
+}

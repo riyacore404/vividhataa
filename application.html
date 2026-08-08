@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recruitment 2026 — VIVIDHATA CLUB</title>
+  <meta name="description" content="Official recruitment portal for Vividhata Club 2026." />
+  <link rel="icon" type="image/png" href="viviLogo.png" />
+  <link rel="shortcut icon" type="image/png" href="viviLogo.png" />
+  <link rel="apple-touch-icon" href="viviLogo.png" />
+  <meta property="og:title" content="Recruitment 2026 — VIVIDHATA CLUB" />
+  <meta property="og:description" content="Official recruitment portal for Vividhata Club 2026." />
+  <meta property="og:image" content="viviLogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="in-registration app-page">
+
+  <!-- ══════════ AMBIENT LAYERS ══════════ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ══════════ FIXED CHROME NAV ══════════ -->
+  <header class="chrome">
+    <div class="chrome__mark">
+      <a href="index.html" style="display:flex; align-items:center; gap:0.85rem; text-decoration:none; color:inherit;">
+        <img src="viviLogo.png" alt="Vividhata Logo" class="nav__logo" />
+        <span>VIVIDHATA</span>
+      </a>
+    </div>
+
+    <div class="chrome__actions">
+      <!-- Mobile Hamburger Button -->
+      <button class="chrome__hamburger" id="hamburgerBtn" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <nav class="chrome__nav" id="chromeNav">
+      <a href="index.html" data-sub="01">HOME</a>
+      <a href="application.html" data-sub="02">RECRUITMENT</a>
+      <a href="index.html#about" data-sub="03">ABOUT</a>
+      <a href="index.html#events" data-sub="04">EVENTS</a>
+      <a href="index.html#gallery" data-sub="05">GALLERY</a>
+      <a href="index.html#contact" data-sub="06">CONTACT</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ══════════ RECRUITMENT REGISTRATION FORM SECTION ══════════ -->
+    <section class="registration-section" id="registration" style="border-top:none; padding-top: clamp(6rem, 12vh, 9rem);">
+      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"
+        onload="if(window.formSubmitted){showFormSuccess();}"></iframe>
+
+      <div class="registration__container">
+
+        <!-- Hero Portal Header -->
+        <div class="app-hero-head">
+          <div class="app-hero-logo" aria-hidden="true">
+            <img src="viviLogo.png" alt="Vividhata Emblem" />
+          </div>
+          <span class="eyebrow">GL BAJAJ INSTITUTE OF TECHNOLOGY & MANAGEMENT</span>
+          <h2>VIVIDHATA CLUB <span>RECRUITMENT 2026</span></h2>
+          <p>Official registration form for 2nd & 3rd year students. Select your preferred functional team and present
+            your talent to join our community.</p>
+        </div>
+
+        <form class="reg-form" id="regForm">
+          <!-- Honeypot anti-bot field — hidden from real users -->
+          <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true">
+            <label for="website_url">Leave this blank</label>
+            <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <!-- Personal Details -->
+          <div class="reg-form__card">
+            <h3 class="reg-form__card-title"><span>01</span> Personal Information</h3>
+            <div class="reg-form__grid">
+              <div class="reg-form__field full-width">
+                <label for="fullName">Full Name <span class="req">*</span></label>
+                <input type="text" id="fullName" name="entry.1000001" placeholder="Enter your full name" required />
+              </div>
+              <div class="reg-form__field">
+                <label for="email">Email Address <span class="req">*</span></label>
+                <input type="email" id="email" name="entry.1000002" placeholder="name@domain.com" required />
+              </div>
+              <div class="reg-form__field">
+                <label for="mobile">Mobile Number <span class="req">*</span></label>
+                <input type="tel" id="mobile" name="entry.1000003" placeholder="91 XXXXX XXXXX" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Academic Details -->
+          <div class="reg-form__card">
+            <h3 class="reg-form__card-title"><span>02</span> Academic Details</h3>
+            <div class="reg-form__grid">
+              <div class="reg-form__field">
+                <label for="rollNo">Roll Number <span class="req">*</span></label>
+                <input type="text" id="rollNo" name="entry.1000004" placeholder="University Roll No." required />
+              </div>
+              <div class="reg-form__field">
+                <label for="branch">Department or Branch <span class="req">*</span></label>
+                <input type="text" id="branch" name="entry.1000005" placeholder="e.g. CSE, CSE-AI, IT, ECE" required />
+              </div>
+              <div class="reg-form__field">
+                <label>Year <span class="req">*</span></label>
+                <div class="reg-form__radio-group">
+                  <label class="reg-radio"><input type="radio" name="entry.1000006" value="2nd Year" required />
+                    <span>2nd Year</span></label>
+                  <label class="reg-radio"><input type="radio" name="entry.1000006" value="3rd Year" /> <span>3rd
+                      Year</span></label>
+                </div>
+              </div>
+              <div class="reg-form__field">
+                <label for="section">Section <span class="req">*</span></label>
+                <input type="text" id="section" name="entry.1000007" placeholder="e.g. Section A" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Preference -->
+          <div class="reg-form__card">
+            <h3 class="reg-form__card-title"><span>03</span> Team Preferences</h3>
+            <div class="reg-form__grid">
+              <div class="reg-form__field">
+                <label for="prefTeam">Preferred Team <span class="req">*</span></label>
+                <select id="prefTeam" name="entry.1000008" required>
+                  <option value="" disabled selected>Select Preferred Team</option>
+                  <option value="Technical Team">Technical Team</option>
+                  <option value="Cultural Team">Cultural Team</option>
+                  <option value="Management Team">Management Team</option>
+                  <option value="Gaming and Sports Team">Gaming and Sports Team</option>
+                  <option value="Editorial Team">Editorial Team</option>
+                  <option value="Design and Media Team">Design and Media Team</option>
+                  <option value="Public Relations Team">Public Relations Team</option>
+                  <option value="Production Team">Production Team</option>
+                  <option value="Literature Team">Literature Team</option>
+                </select>
+              </div>
+              <div class="reg-form__field">
+                <label for="secondTeam">Second Preference Team (Optional)</label>
+                <select id="secondTeam" name="entry.1000009">
+                  <option value="None" selected>None</option>
+                  <option value="Technical Team">Technical Team</option>
+                  <option value="Cultural Team">Cultural Team</option>
+                  <option value="Management Team">Management Team</option>
+                  <option value="Gaming and Sports Team">Gaming and Sports Team</option>
+                  <option value="Editorial Team">Editorial Team</option>
+                  <option value="Design and Media Team">Design and Media Team</option>
+                  <option value="Public Relations Team">Public Relations Team</option>
+                  <option value="Production Team">Production Team</option>
+                  <option value="Literature Team">Literature Team</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Club Experience & Skills -->
+          <div class="reg-form__card">
+            <h3 class="reg-form__card-title"><span>04</span> Club Experience & Skills</h3>
+            <div class="reg-form__stack">
+              <div class="reg-form__field">
+                <label>Have you worked in any club before?</label>
+                <div class="reg-form__radio-group">
+                  <label class="reg-radio"><input type="radio" name="entry.1000010" value="Yes" />
+                    <span>Yes</span></label>
+                  <label class="reg-radio"><input type="radio" name="entry.1000010" value="No" checked />
+                    <span>No</span></label>
+                </div>
+              </div>
+              <div class="reg-form__field">
+                <label for="prevClubRole">If yes, please mention the club name and your previous role</label>
+                <input type="text" id="prevClubRole" name="entry.1000011"
+                  placeholder="e.g. Coding Club - Event Coordinator" />
+              </div>
+              <div class="reg-form__field">
+                <label>Skills (Check all that apply)</label>
+                <div class="reg-form__skills-grid">
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Canva" />
+                    <span>Canva</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Photoshop" />
+                    <span>Photoshop</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Figma" />
+                    <span>Figma</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Photography" />
+                    <span>Photography</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Videography" />
+                    <span>Videography</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Video Editing" />
+                    <span>Video Editing</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Coding" />
+                    <span>Coding</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Public Speaking" />
+                    <span>Public Speaking</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Content Writing" />
+                    <span>Content Writing</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Social Media" />
+                    <span>Social Media</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Event Management" />
+                    <span>Event Management</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Sports" />
+                    <span>Sports</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Music" />
+                    <span>Music</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Dance" />
+                    <span>Dance</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Anchoring" />
+                    <span>Anchoring</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="entry.1000012" value="Other" />
+                    <span>Other</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Declaration & Submit -->
+          <div class="reg-form__card reg-form__card--submit">
+            <label class="declaration-checkbox">
+              <input type="checkbox" id="declaration" required />
+              <span>I agree to actively participate in club activities and provide correct information. <span
+                  class="req">*</span></span>
+            </label>
+
+            <button type="submit" class="reg-submit-btn" id="regSubmitBtn">
+              <span>APPLY NOW</span>
+              <span class="btn-flare"></span>
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Success Message Card -->
+        <div class="reg-success" id="regSuccess" style="display:none;">
+          <div class="reg-success__icon">✓</div>
+          <h3>APPLICATION SUBMITTED SUCCESSFULLY!</h3>
+          <p>Thank you for registering for Vividhata Club Recruitment 2026. We will contact you via email/mobile
+            regarding the next rounds.</p>
+          <button type="button" class="reg-success__btn" onclick="resetRegForm()">Submit Another Response</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════ SUCCESS POPUP MODAL WINDOW ══════════ -->
+  <div class="success-modal-overlay" id="regSuccessModal" style="display:none;" aria-hidden="true">
+    <div class="success-modal-card">
+      <button type="button" class="modal-close-btn" onclick="closeSuccessModal()" aria-label="Close modal">&times;</button>
+      
+      <div class="success-modal-icon-ring">
+        <div class="success-modal-icon">✓</div>
+      </div>
+
+      <span class="success-modal-badge">APPLICATION CONFIRMED</span>
+      <h3 class="success-modal-title">SUBMITTED SUCCESSFULLY!</h3>
+      <p class="success-modal-desc">
+        Thank you <strong id="successCandidateName">Applicant</strong>! Your recruitment registration for 
+        <strong id="successTeamName">Vividhata Club 2026</strong> has been recorded. We will contact you soon via email/mobile regarding the next rounds.
+      </p>
+
+      <div class="success-modal-actions">
+        <button type="button" class="success-modal-primary-btn" onclick="closeSuccessModal()">DONE</button>
+        <button type="button" class="success-modal-secondary-btn" onclick="resetRegFormModal()">Submit Another Application</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer id="end">
+    <div class="footer__big">WELCOME TO VIVIDHATA</div>
+    <div class="footer__row">
+      <span>MORE THAN A CLUB</span>
+      <span>A COMMUNITY BUILT TO LEARN, CREATE, LEAD, AND LEAVE A LEGACY.</span>
+      <span>GL BAJAJ INSTITUTE OF TECHNOLOGY & MANAGEMENT</span>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
