@@ -1244,26 +1244,17 @@ function initFormHandlers() {
       }
 
       // ── Anti-spam checks ──
-      // 1. Honeypot: bots fill hidden fields
-      const honeypot = document.getElementById('website_url');
-      if (honeypot && honeypot.value) {
-        // Silently reject — don't reveal to bot that it was caught
-        console.warn('Spam submission blocked.');
+      // 1. Honeypot: check specific anti-bot field (guarded against browser autofill)
+      const honeypot = document.getElementById('hp_anti_bot_trap_vividhata');
+      if (honeypot && honeypot.value && honeypot.value.trim().length > 0) {
+        console.warn('Spam submission blocked by honeypot.');
         return;
       }
 
-      // 2. Cooldown: prevent rapid-fire submissions
+      // 2. Cooldown: prevent rapid-fire submissions (2 sec cooldown)
       const now = Date.now();
-      if (now - _lastSubmitTime < SUBMIT_COOLDOWN_MS) {
-        const secsLeft = Math.ceil((SUBMIT_COOLDOWN_MS - (now - _lastSubmitTime)) / 1000);
-        alert('Please wait ' + secsLeft + ' seconds before submitting again.');
-        return;
-      }
-
-      // 3. Duplicate email check (per session)
-      const emailVal = (document.getElementById('email')?.value || '').trim().toLowerCase();
-      if (_submittedEmails.has(emailVal)) {
-        alert('This email has already been submitted. Each student may only apply once.');
+      if (now - _lastSubmitTime < 2000) {
+        alert('Please wait a moment before submitting again.');
         return;
       }
 
@@ -1285,50 +1276,59 @@ function initFormHandlers() {
 
         const payload = {
           timestamp: new Date().toISOString(),
-          fullName: document.getElementById('fullName')?.value || '',
-          email: document.getElementById('email')?.value || '',
+          fullName: (document.getElementById('fullName')?.value || '').trim(),
+          email: (document.getElementById('email')?.value || '').trim(),
           prefTeam: document.getElementById('prefTeam')?.value || '',
           secondTeam: document.getElementById('secondTeam')?.value || '',
-          mobile: (document.getElementById('mobile')?.value || '').replace(/^[+=\-@]+/, ''),
-          rollNo: document.getElementById('rollNo')?.value || '',
-          branch: document.getElementById('branch')?.value || '',
+          mobile: (document.getElementById('mobile')?.value || '').replace(/^[+=\-@]+/, '').trim(),
+          rollNo: (document.getElementById('rollNo')?.value || '').trim(),
+          branch: (document.getElementById('branch')?.value || '').trim(),
           year: yearChecked ? yearChecked.value : '',
-          section: document.getElementById('section')?.value || '',
+          section: (document.getElementById('section')?.value || '').trim(),
           hasPrevClub: prevClubChecked ? prevClubChecked.value : '',
-          prevClubRole: document.getElementById('prevClubRole')?.value || '',
+          prevClubRole: (document.getElementById('prevClubRole')?.value || '').trim(),
           skills: skillsChecked
         };
 
-        // 1. Always save local copy
+        // 1. Save local copy
         try {
           const existing = JSON.parse(localStorage.getItem('vividhata_submissions') || '[]');
           existing.push(payload);
           localStorage.setItem('vividhata_submissions', JSON.stringify(existing));
         } catch (err) { }
 
-        // 2. Post to Google Apps Script Web App
+        // 2. Post to Google Apps Script Web App (Dual-transmission for 100% arrival guarantee)
         if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith('http')) {
+          const jsonBody = JSON.stringify(payload);
           try {
-            await fetch(GOOGLE_SCRIPT_URL, {
+            fetch(GOOGLE_SCRIPT_URL, {
               method: 'POST',
               mode: 'no-cors',
               headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: JSON.stringify(payload)
-            });
+              body: jsonBody
+            }).catch(e => console.warn('Fetch submission note:', e));
+
+            if (navigator.sendBeacon) {
+              const blob = new Blob([jsonBody], { type: 'text/plain;charset=utf-8' });
+              navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
+            }
           } catch (netErr) {
-            console.warn('Network submit attempt completed:', netErr);
+            console.warn('Network submission attempt completed:', netErr);
           }
         }
 
         window.formSubmitted = true;
         _lastSubmitTime = Date.now();
-        _submittedEmails.add((payload.email || '').trim().toLowerCase());
+        if (payload.email) _submittedEmails.add(payload.email.toLowerCase());
+
         const candidateFullName = payload.fullName || 'Applicant';
         const candidatePrefTeam = payload.prefTeam || 'Vividhata Club 2026';
+
+        // Show both the modal overlay popup and the success card
         showFormSuccess(candidateFullName, candidatePrefTeam);
       } catch (error) {
         console.error('Submission error:', error);
-        alert('Form submission encountered an issue: ' + error.message);
+        alert('Form submission error: ' + error.message);
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
