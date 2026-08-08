@@ -591,62 +591,66 @@ let revealR = 0, revealRT = 500;       // starts dark; opens to 500px spotlight 
 function setLit(on) {
   if (jutsuLit === on) return;
   jutsuLit = on;
-  jutsuSection.classList.toggle('lit', on);
-  if (!on) ghost.leave();
+  if (jutsuSection) jutsuSection.classList.toggle('lit', on);
+  if (!on && ghost && ghost.leave) ghost.leave();
 }
 
-jutsuSection.addEventListener('pointermove', e => {
-  const revRect = jutsuReveal.getBoundingClientRect();
-  const jutRect = jutsuSection.getBoundingClientRect();
+if (jutsuSection) {
+  jutsuSection.addEventListener('pointermove', e => {
+    if (!jutsuReveal || !jutsuSection) return;
+    const revRect = jutsuReveal.getBoundingClientRect();
+    const jutRect = jutsuSection.getBoundingClientRect();
 
-  if (revRect.width > 0 && revRect.height > 0) {
-    revealTX = clamp((e.clientX - revRect.left) / revRect.width);
-    revealTY = clamp((e.clientY - revRect.top) / revRect.height);
-  }
-  if (jutRect.width > 0 && jutRect.height > 0) {
-    ghost.move(clamp((e.clientX - jutRect.left) / jutRect.width), clamp((e.clientY - jutRect.top) / jutRect.height), true);
-  }
-  setLit(true);
-}, { passive: true });
+    if (revRect.width > 0 && revRect.height > 0) {
+      revealTX = clamp((e.clientX - revRect.left) / revRect.width);
+      revealTY = clamp((e.clientY - revRect.top) / revRect.height);
+    }
+    if (jutRect.width > 0 && jutRect.height > 0 && ghost && ghost.move) {
+      ghost.move(clamp((e.clientX - jutRect.left) / jutRect.width), clamp((e.clientY - jutRect.top) / jutRect.height), true);
+    }
+    setLit(true);
+  }, { passive: true });
 
-jutsuSection.addEventListener('pointerleave', () => {
-  setLit(false);
-}, { passive: true });
+  jutsuSection.addEventListener('pointerleave', () => {
+    setLit(false);
+  }, { passive: true });
+}
 
 /* ── Preview auto-show: visible on scroll-in, dims after 0.5s, re-triggers each visit ── */
 const jutsuPreview = document.getElementById('jutsuPreview');
 let dimTimer = null;
 
-const jutsuObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      // Entering viewport → show preview instantly (no transition on reset)
-      if (jutsuPreview) {
-        jutsuPreview.style.transition = 'none';
-        jutsuSection.classList.remove('dimmed');
-        jutsuPreview.offsetHeight; // force reflow
-        jutsuPreview.style.transition = '';
+if (jutsuSection && jutsuPreview) {
+  const jutsuObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (jutsuPreview) {
+          jutsuPreview.style.transition = 'none';
+          if (jutsuSection) jutsuSection.classList.remove('dimmed');
+          jutsuPreview.offsetHeight;
+          jutsuPreview.style.transition = '';
+        }
+        clearTimeout(dimTimer);
+        dimTimer = setTimeout(() => {
+          if (jutsuSection) jutsuSection.classList.add('dimmed');
+        }, 500);
+      } else {
+        clearTimeout(dimTimer);
+        if (jutsuPreview) {
+          jutsuPreview.style.transition = 'none';
+          if (jutsuSection) jutsuSection.classList.remove('dimmed');
+          jutsuPreview.offsetHeight;
+          jutsuPreview.style.transition = '';
+        }
+        if (jutsuSection && !jutsuSection.matches(':hover')) {
+          setLit(false);
+        }
       }
-      clearTimeout(dimTimer);
-      dimTimer = setTimeout(() => {
-        jutsuSection.classList.add('dimmed'); // slowly fade preview over 1.2s after 0.5s hold
-      }, 500);
-    } else {
-      // Leaving viewport → reset so next scroll-in shows image again
-      clearTimeout(dimTimer);
-      if (jutsuPreview) {
-        jutsuPreview.style.transition = 'none';
-        jutsuSection.classList.remove('dimmed');
-        jutsuPreview.offsetHeight;
-        jutsuPreview.style.transition = '';
-      }
-      if (!jutsuSection.matches(':hover')) {
-        setLit(false);
-      }
-    }
-  });
-}, { threshold: 0.15 });
-jutsuObserver.observe(jutsuSection);
+    });
+  }, { threshold: 0.15 });
+
+  jutsuObserver.observe(jutsuSection);
+}
 
 // hovering a card opens the reveal wider — the image "comes through" the card
 document.querySelectorAll('.jutsu .card').forEach(card => {
@@ -667,9 +671,10 @@ document.querySelectorAll('.jutsu__amaterasu').forEach(el => {
 
 // start hidden so nothing pops in before the first parallax paint
 pxItems.forEach(it => { it.el.style.opacity = '0'; });
-ghost.resize();
+if (ghost && ghost.resize) ghost.resize();
 
 function paintJutsu() {
+  if (!jutsuSection) return;
   const r = jutsuSection.getBoundingClientRect();
   const vh = window.innerHeight;
   if (r.top > vh || r.bottom < 0) return;
