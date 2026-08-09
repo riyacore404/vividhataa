@@ -5406,6 +5406,177 @@ body.app-page .scanlines {
   color: #e5a855;
 }
 
+/* ══════════ GALLERY PAGE STYLES ══════════ */
+.gallery-page {
+  background-color: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.gallery-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 6.5rem 1.25rem 8rem;
+}
+
+@media (max-width: 900px) {
+  .gallery-container {
+    padding: 5.5rem 1rem 7.5rem;
+  }
+}
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.gallery-header__sub {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: #e5a855;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.gallery-header__title {
+  font-family: var(--serif, 'Cinzel', serif);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #ffffff 20%, #ff3e3e 65%, #e5a855 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 1rem;
+}
+
+.gallery-header__line {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff3e3e, #e5a855);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.gallery-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+  margin-bottom: 4rem;
+}
+
+.gallery-card {
+  position: relative;
+  background: #040306;
+  border: 1px solid rgba(255, 43, 43, 0.22);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.92), 0 0 30px rgba(255, 43, 43, 0.08);
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.gallery-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(229, 168, 85, 0.5);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.95), 0 0 36px rgba(229, 168, 85, 0.2);
+}
+
+.gallery-card__img-wrap {
+  position: relative;
+  width: 100%;
+  background: #000000;
+  overflow: hidden;
+}
+
+.gallery-card__img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-card:hover .gallery-card__img {
+  transform: scale(1.02);
+}
+
+/* Bottom Join Us CTA Banner */
+.gallery-cta {
+  background: linear-gradient(135deg, rgba(20, 5, 5, 0.95) 0%, rgba(35, 10, 10, 0.95) 100%);
+  border: 1.5px solid rgba(229, 168, 85, 0.4);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.95), 0 0 30px rgba(229, 168, 85, 0.15);
+}
+
+.gallery-cta::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 62, 62, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.gallery-cta__sub {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #ff3e3e;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.gallery-cta__title {
+  font-family: var(--serif, 'Cinzel', serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 1rem;
+}
+
+.gallery-cta__desc {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.gallery-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #e5a855 0%, #c48332 100%);
+  color: #040306;
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  padding: 0.9rem 2.2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  box-shadow: 0 0 24px rgba(229, 168, 85, 0.4);
+  transition: all 0.3s ease;
+}
+
+.gallery-cta__btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 36px rgba(229, 168, 85, 0.7);
+  background: linear-gradient(135deg, #ffffff 0%, #e5a855 100%);
+}
+
 
 @media (prefers-reduced-motion:reduce) {
 
