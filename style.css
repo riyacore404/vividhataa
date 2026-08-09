@@ -3320,14 +3320,16 @@ body.app-page .scanlines {
    PHONE SCREEN: JUTSU IMAGE — storm2.png (1:1), no cursor/glow
    Only for viewports <= 768px. Desktop/PC rules untouched.
    ═══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   PREVIOUS PHONE OVERRIDE CODE — COMMENTED OUT AS REQUESTED
+   ═══════════════════════════════════════════════════════════ */
+/*
 @media (max-width: 768px) {
-  /* 1:1 aspect ratio for storm2.png on phone */
   .jutsu.jutsu--image {
     aspect-ratio: 1 / 1 !important;
     cursor: auto !important;
   }
 
-  /* Swap to storm2.png and show it fully — no mask, no dim */
   .jutsu__reveal {
     background-image: url("frames/storm2.webp") !important;
     background-size: cover !important;
@@ -3337,63 +3339,52 @@ body.app-page .scanlines {
     opacity: 1 !important;
   }
 
-  /* Keep reveal fully visible even when "lit" class is toggled by JS */
   .jutsu.lit .jutsu__reveal {
     -webkit-mask-image: none !important;
     mask-image: none !important;
     filter: none !important;
   }
 
-  /* Hide the cursor spotlight glow effect */
   .jutsu .jutsu__rain {
     display: none !important;
   }
 
-  /* Hide WebGL ghost smoke canvas */
   .jutsu .ghost,
   .jutsu #ghostCanvas {
     display: none !important;
   }
 
-  /* Preview wrapper: show storm2.png cleanly, never dim */
   .jutsu__preview-wrap {
     opacity: 1 !important;
     transition: none !important;
   }
 
-  /* Override the dimmed state so image stays visible */
   .jutsu.dimmed .jutsu__preview-wrap {
     opacity: 1 !important;
   }
 
-  /* Swap preview image to storm2.png, remove darkening filters */
   .jutsu__preview-img {
     background-image: url("frames/storm2.webp") !important;
     background-size: cover !important;
     filter: none !important;
   }
 
-  /* Remove the dark vignette overlay on the image */
   .jutsu__preview-vignette {
     display: none !important;
   }
 
-  /* Remove the red smoke at bottom */
   .jutsu__preview-smoke {
     display: none !important;
   }
 
-  /* Hide the custom cursor dot on phones */
   .cursor {
     display: none !important;
   }
 
-  /* Scrub glow effect — hide on phone */
   .scrub__glow {
     display: none !important;
   }
 
-  /* ── Reorder: Recruitment teaser ABOVE storm2 image ── */
   main {
     display: flex !important;
     flex-direction: column !important;
@@ -3413,7 +3404,6 @@ body.app-page .scanlines {
     order: 3 !important;
   }
 
-  /* Push everything else after the image */
   .gallery-section {
     order: 4 !important;
   }
@@ -3424,7 +3414,6 @@ body.app-page .scanlines {
     padding: 2.5rem 1.2rem !important;
   }
 
-  /* Hide extras — only keep h2 + APPLY NOW */
   .recruitment-teaser .teaser__bg-curves {
     display: none !important;
   }
@@ -3441,16 +3430,1076 @@ body.app-page .scanlines {
     display: none !important;
   }
 
-  /* Compact title styling */
   .recruitment-teaser .teaser__container h2 {
     margin: 0 0 1rem !important;
   }
 
-  /* Compact APPLY NOW button */
   .recruitment-teaser .teaser__cta-box {
     margin-top: 0 !important;
   }
 }
+*/
+
+/* ═══════════════════════════════════════════════════════════
+   NATIVE 9:16 MOBILE LANDING PAGE MODULE
+   Strictly active for viewports <= 768px.
+   PC/Desktop view (>768px) remains 100% untouched and intact.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Desktop view default: Hide phone-landing completely on screens > 768px */
+@media (min-width: 769px) {
+  .phone-landing {
+    display: none !important;
+  }
+}
+
+/* Mobile view (<= 768px): Hide desktop layout elements on phone screens on index page and show phone-landing */
+@media (max-width: 768px) {
+  /* Hide desktop elements on index page on mobile */
+  body:not(.app-page) header.chrome,
+  body:not(.app-page) main,
+  .rail,
+  .hint,
+  .sticky-badge,
+  .cursor,
+  .amaterasu,
+  .amaterasu-bed,
+  .storm {
+    display: none !important;
+  }
+
+  /* Application Registration Page Mobile Responsiveness */
+  body.app-page {
+    background-color: #060508 !important;
+    color: #f1edeb !important;
+  }
+
+  body.app-page main {
+    display: block !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    padding-bottom: 3rem !important;
+    box-sizing: border-box !important;
+  }
+
+  body.app-page header.chrome {
+    display: flex !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background: rgba(6, 5, 8, 0.95) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid rgba(255, 43, 43, 0.2) !important;
+  }
+
+  body.app-page .registration-section {
+    padding-top: 1.5rem !important;
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  body.app-page .registration__container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  body.app-page .app-hero-head {
+    text-align: center !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  body.app-page .app-hero-head h2 {
+    font-size: 1.35rem !important;
+  }
+
+  body.app-page .reg-form__card {
+    background: #000000 !important;
+    border: 1px solid rgba(255, 43, 43, 0.25) !important;
+    border-radius: 14px !important;
+    padding: 1rem 0.85rem !important;
+    margin-bottom: 1.25rem !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  body.app-page .reg-form__grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  body.app-page .reg-form__field label {
+    font-size: 0.78rem !important;
+    color: #e5a855 !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  body.app-page .reg-form__field input[type="text"],
+  body.app-page .reg-form__field input[type="email"],
+  body.app-page .reg-form__field input[type="tel"],
+  body.app-page .reg-form__field select {
+    width: 100% !important;
+    background: rgba(20, 16, 25, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px !important;
+    color: #ffffff !important;
+    padding: 0.65rem 0.8rem !important;
+    font-size: 0.85rem !important;
+    box-sizing: border-box !important;
+  }
+
+  body.app-page .reg-form__skills-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+
+  body.app-page .skill-pill span {
+    font-size: 0.75rem !important;
+    padding: 0.45rem 0.6rem !important;
+  }
+
+  body.app-page .reg-submit-btn {
+    width: 100% !important;
+    padding: 0.85rem 1.2rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.1em !important;
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%) !important;
+    color: #ffffff !important;
+    border-radius: 30px !important;
+    border: none !important;
+    box-shadow: 0 0 18px rgba(211, 47, 47, 0.6) !important;
+    cursor: pointer !important;
+  }
+
+  /* 9:16 Mobile Landing Container */
+  .phone-landing {
+    display: flex !important;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #060508;
+    color: #f1edeb;
+    font-family: var(--sans, 'Space Grotesk', system-ui, -apple-system, sans-serif);
+    position: relative;
+    overflow-x: hidden;
+    padding-bottom: 70px;
+    box-sizing: border-box;
+  }
+
+  /* Ambient Glow & Background Wave Lines */
+  .phone-bg-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 400px;
+    background: radial-gradient(circle at 50% 140px, rgba(230, 35, 35, 0.35) 0%, rgba(180, 20, 20, 0.12) 50%, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .phone-bg-waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 380px;
+    background-image: 
+      radial-gradient(ellipse at 50% -10%, transparent 55%, rgba(255, 50, 50, 0.18) 75%, transparent 85%),
+      repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(255, 43, 43, 0.05) 16px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.85;
+  }
+
+  /* Red Moving Smoke Plumes & Flares */
+  .phone-bg-smoke-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .phone-smoke-cloud {
+    position: absolute;
+    border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
+    filter: blur(28px);
+    opacity: 0.75;
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+  }
+
+  /* Rising & Swirling Smoke Plume 1 (Left to Top-Right) */
+  .phone-smoke-cloud-1 {
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle at 40% 40%, rgba(255, 40, 40, 0.75) 0%, rgba(200, 20, 20, 0.45) 45%, rgba(120, 0, 0, 0.15) 75%, transparent 90%);
+    animation: phoneSmokeRiseLeft 6.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  }
+
+  /* Rising & Swirling Smoke Plume 2 (Right to Top-Left) */
+  .phone-smoke-cloud-2 {
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle at 60% 40%, rgba(255, 60, 30, 0.7) 0%, rgba(220, 15, 15, 0.4) 45%, rgba(140, 0, 0, 0.12) 75%, transparent 90%);
+    animation: phoneSmokeRiseRight 7.8s cubic-bezier(0.25, 1, 0.5, 1) infinite 1.8s;
+  }
+
+  /* Center Billowing Smoke Cloud (Behind Logo) */
+  .phone-smoke-cloud-3 {
+    top: 60px;
+    left: 50%;
+    width: 260px;
+    height: 260px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle at 50% 50%, rgba(255, 35, 35, 0.8) 0%, rgba(190, 15, 15, 0.45) 40%, rgba(100, 0, 0, 0.15) 70%, transparent 88%);
+    animation: phoneSmokeBillowCenter 5.2s ease-in-out infinite alternate;
+  }
+
+  /* Low Rising Plume 4 */
+  .phone-smoke-cloud-4 {
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle at 45% 55%, rgba(255, 50, 40, 0.65) 0%, rgba(180, 20, 20, 0.35) 50%, transparent 85%);
+    animation: phoneSmokeRiseCenter 8.5s ease-out infinite 3.2s;
+  }
+
+  /* Swirling Plume 5 (Fast Swirl) */
+  .phone-smoke-cloud-5 {
+    top: 180px;
+    left: -40px;
+    width: 210px;
+    height: 210px;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 25, 25, 0.7) 0%, rgba(160, 10, 10, 0.35) 50%, transparent 85%);
+    animation: phoneSmokeSwirlSide 6.8s ease-in-out infinite alternate;
+  }
+
+  /* Swirling Plume 6 (Right side) */
+  .phone-smoke-cloud-6 {
+    top: 260px;
+    right: -50px;
+    width: 230px;
+    height: 230px;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 70, 30, 0.65) 0%, rgba(200, 20, 20, 0.3) 50%, transparent 85%);
+    animation: phoneSmokeSwirlRight 7.5s ease-in-out infinite alternate 1.2s;
+  }
+
+  /* Floating Red Embers / Sparks */
+  .phone-smoke-embers {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(2px 2px at 20px 100px, rgba(255, 180, 50, 0.9), transparent),
+      radial-gradient(3px 3px at 80px 220px, rgba(255, 80, 50, 0.85), transparent),
+      radial-gradient(2px 2px at 150px 300px, rgba(255, 220, 100, 0.9), transparent),
+      radial-gradient(2px 2px at 240px 140px, rgba(255, 60, 60, 0.8), transparent),
+      radial-gradient(3px 3px at 300px 380px, rgba(255, 120, 40, 0.85), transparent);
+    background-repeat: repeat;
+    background-size: 320px 450px;
+    animation: phoneEmbersRise 4.5s linear infinite;
+    opacity: 0.75;
+  }
+
+  /* Dynamic Smoke Movement Keyframes */
+  @keyframes phoneSmokeRiseLeft {
+    0% {
+      transform: translate3d(-60px, 350px, 0) scale(0.6) rotate(0deg);
+      opacity: 0.1;
+    }
+    30% {
+      opacity: 0.8;
+    }
+    70% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translate3d(80px, -60px, 0) scale(1.4) rotate(140deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes phoneSmokeRiseRight {
+    0% {
+      transform: translate3d(120px, 400px, 0) scale(0.6) rotate(0deg);
+      opacity: 0.1;
+    }
+    35% {
+      opacity: 0.75;
+    }
+    75% {
+      opacity: 0.55;
+    }
+    100% {
+      transform: translate3d(-90px, -80px, 0) scale(1.5) rotate(-160deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes phoneSmokeBillowCenter {
+    0% {
+      transform: translateX(-50%) scale(0.85) rotate(-10deg);
+      opacity: 0.5;
+      filter: blur(24px);
+    }
+    50% {
+      transform: translateX(-48%) scale(1.25) rotate(15deg);
+      opacity: 0.9;
+      filter: blur(32px);
+    }
+    100% {
+      transform: translateX(-52%) scale(0.95) rotate(-15deg);
+      opacity: 0.55;
+      filter: blur(26px);
+    }
+  }
+
+  @keyframes phoneSmokeRiseCenter {
+    0% {
+      transform: translate3d(-50%, 450px, 0) scale(0.5) rotate(0deg);
+      opacity: 0.1;
+    }
+    40% {
+      opacity: 0.75;
+    }
+    100% {
+      transform: translate3d(-50%, -100px, 0) scale(1.6) rotate(180deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes phoneSmokeSwirlSide {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.9) rotate(0deg);
+      opacity: 0.45;
+    }
+    50% {
+      transform: translate3d(60px, -40px, 0) scale(1.3) rotate(45deg);
+      opacity: 0.85;
+    }
+    100% {
+      transform: translate3d(20px, 40px, 0) scale(0.95) rotate(-20deg);
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes phoneSmokeSwirlRight {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.9) rotate(0deg);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translate3d(-65px, -50px, 0) scale(1.35) rotate(-50deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translate3d(-15px, 30px, 0) scale(0.9) rotate(25deg);
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes phoneEmbersRise {
+    0% {
+      transform: translateY(0);
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.85;
+    }
+    100% {
+      transform: translateY(-200px);
+      opacity: 0.2;
+    }
+  }
+
+  /* Mobile Top Header Bar */
+  .phone-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.9rem;
+    background: rgba(6, 5, 8, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .phone-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .phone-header__logo {
+    width: 34px;
+    height: 34px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    object-fit: contain;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 6px rgba(255, 50, 50, 0.5));
+  }
+
+  .phone-header__titles {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+
+  .phone-header__title {
+    font-family: var(--display, 'Cinzel', serif);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #ffffff;
+  }
+
+  .phone-header__subtitle {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #e5a855;
+  }
+
+  .phone-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .phone-icon-btn {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 50, 50, 0.35);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .phone-icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .phone-bell-badge {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ff3b30;
+    box-shadow: 0 0 5px #ff3b30;
+  }
+
+  /* Mobile Hero Section */
+  .phone-hero {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.9rem 0.8rem 0.5rem;
+    text-align: center;
+  }
+
+  /* Central Orbit Emblem */
+  .phone-hero__emblem-wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-hero__emblem-glow {
+    display: none;
+  }
+
+  .phone-hero__emblem-ring {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .phone-hero__emblem-img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    object-fit: contain;
+    border: none;
+    position: relative;
+    z-index: 2;
+    filter: none;
+  }
+
+  /* Hero Meta & Typography */
+  .phone-hero__kicker {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: rgba(240, 235, 230, 0.65);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+  }
+
+  .phone-hero__title {
+    font-family: var(--display, 'Cinzel', 'Shippori Mincho', serif);
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    color: #ffffff;
+    margin: 0 0 0.25rem;
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
+  }
+
+  .phone-hero__pillars {
+    font-size: 0.54rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #e5a855;
+    margin: 0 0 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .phone-dot {
+    color: #e5a855;
+    font-size: 0.45rem;
+  }
+
+  /* Glassmorphism Description Card */
+  .phone-hero__desc-card {
+    width: 100%;
+    max-width: 310px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 12px;
+    background: #000000;
+    border: 1px solid rgba(255, 43, 43, 0.25);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7);
+    margin-bottom: 0.6rem;
+  }
+
+  .phone-hero__desc-card p {
+    margin: 0;
+    font-size: 0.7rem;
+    line-height: 1.35;
+    color: rgba(240, 235, 230, 0.85);
+  }
+
+  .phone-hl {
+    color: #ff3e3e;
+    font-weight: 600;
+  }
+
+  .phone-hero__accent-bar {
+    width: 32px;
+    height: 3px;
+    background: #ff2b2b;
+    border-radius: 3px;
+    box-shadow: 0 0 8px #ff2b2b;
+  }
+
+  /* Common Phone Section Layout */
+  .phone-section {
+    position: relative;
+    z-index: 1;
+    padding: 0.6rem 0.75rem;
+  }
+
+  /* Section Heading */
+  .phone-section__heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .phone-section__heading h2 {
+    font-family: var(--sans, 'Space Grotesk', sans-serif);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  .phone-diamond {
+    color: #ff2b2b;
+    font-size: 0.55rem;
+    letter-spacing: -0.1em;
+  }
+
+  /* 4-COLUMN HORIZONTAL FEATURE CARDS GRID MATCHING REFERENCE IMAGE 2 */
+  .phone-features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.35rem;
+  }
+
+  .phone-feature-card {
+    background: #000000;
+    border: 1px solid rgba(255, 43, 43, 0.25);
+    border-radius: 12px;
+    padding: 0.65rem 0.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+  }
+
+  .phone-feature-card:active {
+    transform: scale(0.96);
+    border-color: rgba(255, 43, 43, 0.5);
+  }
+
+  .phone-feature-card__icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-card-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: lighten;
+    transform: scale(1.2);
+    filter: none;
+  }
+
+  .phone-feature-card h3 {
+    font-size: 0.54rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    margin: 0 0 0.2rem;
+    line-height: 1.1;
+  }
+
+  .phone-feature-card p {
+    font-size: 0.46rem;
+    line-height: 1.25;
+    color: rgba(230, 225, 220, 0.55);
+    margin: 0;
+  }
+
+  /* Upcoming Events Section */
+  .phone-section__header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .phone-section__header-row h2 {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: #e5a855;
+    margin: 0;
+  }
+
+  .phone-view-all {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #ff3e3e;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .phone-event-card {
+    background: #000000;
+    border: 1px solid rgba(255, 43, 43, 0.25);
+    border-radius: 12px;
+    padding: 0.65rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+  }
+
+  .phone-event-card__icon-box {
+    width: 58px;
+    height: 58px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .phone-event-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: lighten;
+    transform: scale(1.15);
+    filter: none;
+  }
+
+  .phone-event-card__icon-box svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .phone-event-card__details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .phone-event-card__details h3 {
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    margin: 0 0 0.1rem;
+  }
+
+  .phone-event-card__sub {
+    font-size: 0.62rem;
+    color: #e5a855;
+    margin: 0 0 0.25rem;
+  }
+
+  .phone-event-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.56rem;
+    color: rgba(230, 225, 220, 0.55);
+  }
+
+  .phone-event-card__meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .phone-event-card__meta svg {
+    width: 11px;
+    height: 11px;
+    color: rgba(230, 225, 220, 0.5);
+  }
+
+  .phone-event-card__chevron {
+    color: #ff3e3e;
+    flex-shrink: 0;
+  }
+
+  .phone-event-card__chevron svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* CTA Section */
+  .phone-cta-section {
+    padding-top: 0.4rem;
+  }
+
+  .phone-cta-card {
+    background: #000000;
+    border: 1px solid rgba(255, 43, 43, 0.25);
+    border-radius: 12px;
+    padding: 0.65rem 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  }
+
+  .phone-cta-card__content h3 {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+    margin: 0 0 0.15rem;
+  }
+
+  .phone-cta-card__content p {
+    font-size: 0.58rem;
+    color: rgba(230, 225, 220, 0.6);
+    margin: 0;
+  }
+
+  .phone-cta-btn {
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+    color: #ffffff;
+    border-radius: 24px;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    box-shadow: 0 0 12px rgba(211, 47, 47, 0.5);
+    flex-shrink: 0;
+  }
+
+  .phone-cta-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* About Vividhata Mobile Section */
+  .phone-about-section {
+    padding-top: 0.8rem;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .phone-about__content {
+    text-align: left;
+    padding: 0 0.2rem;
+  }
+
+  .phone-about__eyebrow {
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: #ff3e3e;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .phone-about__title {
+    font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1.25;
+    color: #ffffff;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .phone-about__title-highlight {
+    color: #e5a855;
+  }
+
+  .phone-about__accent-bar {
+    width: 28px;
+    height: 3px;
+    background: #ff2b2b;
+    border-radius: 3px;
+    box-shadow: 0 0 8px #ff2b2b;
+    margin-bottom: 0.6rem;
+  }
+
+  .phone-about__desc {
+    font-size: 0.68rem;
+    line-height: 1.45;
+    color: rgba(230, 225, 220, 0.75);
+    margin: 0;
+  }
+
+  .phone-about__card {
+    background: #000000;
+    border: 1px solid rgba(255, 43, 43, 0.25);
+    border-radius: 16px;
+    padding: 1rem 0.9rem;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .phone-about__pillar {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .phone-about__pillar-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(12, 10, 16, 0.9);
+  }
+
+  .phone-about__pillar-icon--red {
+    border: 1.5px solid #ff3e3e;
+    color: #ff3e3e;
+    box-shadow: 0 0 12px rgba(255, 62, 62, 0.4), inset 0 0 8px rgba(255, 62, 62, 0.2);
+  }
+
+  .phone-about__pillar-icon--gold {
+    border: 1.5px solid #e5a855;
+    color: #e5a855;
+    box-shadow: 0 0 12px rgba(229, 168, 85, 0.4), inset 0 0 8px rgba(229, 168, 85, 0.2);
+  }
+
+  .phone-about__pillar-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .phone-about__pillar-text h3 {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.15rem;
+    letter-spacing: 0.02em;
+  }
+
+  .phone-about__pillar-text p {
+    font-size: 0.6rem;
+    line-height: 1.35;
+    color: rgba(230, 225, 220, 0.6);
+    margin: 0;
+  }
+
+  .phone-about__divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 20%, rgba(255, 255, 255, 0.08) 80%, transparent 100%);
+  }
+
+  /* Fixed Mobile Bottom Navigation Dock */
+  .phone-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    z-index: 999;
+    background: rgba(10, 8, 14, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 0.4rem;
+  }
+
+  .phone-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    color: rgba(230, 225, 220, 0.45);
+    text-decoration: none;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    width: 48px;
+  }
+
+  .phone-nav-item svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .phone-nav-item.active,
+  .phone-nav-item:hover {
+    color: #ff3e3e;
+  }
+
+  /* Center Floating Orb */
+  .phone-nav-orb {
+    position: relative;
+    top: -12px;
+    width: 52px;
+    height: 52px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-nav-orb__glow {
+    display: none;
+  }
+
+  .phone-nav-orb__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #08060b;
+    border: 2.5px solid #e58d35;
+    box-shadow: 0 0 12px rgba(229, 141, 53, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .phone-nav-orb__inner img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    object-fit: contain;
+    border-radius: 50%;
+    border: none;
+    filter: none;
+    transform: scale(1.45);
+    transition: transform 0.25s ease;
+  }
+
+  .phone-nav-orb:active .phone-nav-orb__inner img,
+  .phone-nav-orb:hover .phone-nav-orb__inner img {
+    transform: scale(1.55);
+  }
+}
+
 
 @media (prefers-reduced-motion:reduce) {
 
