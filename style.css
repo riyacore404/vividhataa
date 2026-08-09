@@ -3511,34 +3511,39 @@ body.app-page .scanlines {
 
 .council-card__avatar-wrap {
   position: relative;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  margin-bottom: 1.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  margin-bottom: 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 43, 43, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  background: #08060b;
 }
 
 .council-card__aura {
-  position: absolute;
-  inset: -16px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(190, 25, 25, 0.75) 0%, rgba(120, 15, 15, 0.4) 45%, transparent 75%);
-  filter: blur(8px);
-  pointer-events: none;
+  display: none;
+}
+
+.council-card__avatar-box {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 14px;
 }
 
 .council-card__img {
-  position: relative;
-  z-index: 2;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
   object-fit: cover;
   object-position: top center;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.council-card:hover .council-card__img {
+  transform: scale(1.05);
 }
 
 .council-card__name {
@@ -4615,37 +4620,26 @@ body.app-page .scanlines {
 
   .phone-council-card__avatar-wrap {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 100%;
     aspect-ratio: 1 / 1;
-    flex-shrink: 0;
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 12px;
+    margin-bottom: 0.65rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 43, 43, 0.2);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+    background: #08060b;
   }
 
   .phone-council-card__aura {
-    position: absolute;
-    inset: -12px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 50% 50%, rgba(220, 30, 30, 0.75) 0%, rgba(130, 15, 15, 0.45) 45%, transparent 75%);
-    filter: blur(6px);
-    pointer-events: none;
-    z-index: 1;
+    display: none;
   }
 
   .phone-council-card__avatar-box {
-    position: relative;
-    z-index: 2;
     width: 100%;
     height: 100%;
     aspect-ratio: 1 / 1;
-    border-radius: 50%;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.9);
-    background: #08060b;
+    border-radius: 12px;
   }
 
   .phone-council-card__img {
