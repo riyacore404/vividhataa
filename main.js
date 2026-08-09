@@ -1362,6 +1362,16 @@ window.handleRegFormSubmit = async function(e) {
   }
 };
 
+function initPhoneNavDock() {
+  const phoneNavItems = document.querySelectorAll('.phone-nav-item');
+  phoneNavItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      phoneNavItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+}
+
 function initMobileNav() {
   const hamburgerBtn = document.getElementById('hamburgerBtn');
   const chromeNav = document.getElementById('chromeNav');
@@ -1397,8 +1407,11 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     initFormHandlers();
     initMobileNav();
+    initPhoneNavDock();
   });
 } else {
   initFormHandlers();
   initMobileNav();
+  initPhoneNavDock();
 }
+
