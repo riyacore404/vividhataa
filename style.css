@@ -3637,18 +3637,23 @@ body.app-page .scanlines {
 }
 
 .council__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 720px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 800px;
   margin: 0 auto;
   gap: 1.8rem;
 }
 
 .council-card {
+  flex: 0 1 340px;
+  width: 100%;
+  max-width: 360px;
   background: #040306;
   border: 1px solid rgba(255, 43, 43, 0.18);
   border-radius: 20px;
-  padding: 2.2rem 1.2rem 1.8rem;
+  padding: 2.2rem 1.4rem 1.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4864,12 +4869,19 @@ body.app-page .scanlines {
   }
 
   .phone-council-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0.85rem;
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   .phone-council-card {
+    flex: 0 1 calc(50% - 0.45rem);
+    min-width: 140px;
+    max-width: 220px;
     background: #040306;
     border: 1px solid rgba(255, 43, 43, 0.2);
     border-radius: 16px;
