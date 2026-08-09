@@ -4437,24 +4437,24 @@ body.app-page .scanlines {
 
   /* Storm2 Banner Section */
   .phone-banner-section {
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
   }
 
   .phone-banner-img-wrap {
     width: 100%;
-    border-radius: 14px;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
     overflow: hidden;
     border: 1px solid rgba(255, 43, 43, 0.25);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.9);
     background: #000000;
   }
 
   .phone-banner-img {
     width: 100%;
-    height: 120px;
-    object-fit: cover;
-    object-position: center;
+    height: 100%;
+    object-fit: contain;
     display: block;
   }
 
