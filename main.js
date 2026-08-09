@@ -1403,15 +1403,86 @@ function initMobileNav() {
   }
 }
 
+/* ══════════ NOTIFICATION SIDEBAR DRAWER TOGGLE ══════════ */
+function initNotificationSidebar() {
+  const phoneBellBtn = document.getElementById('phoneBellBtn');
+  const notifySidebar = document.getElementById('notifySidebar');
+  const notifyOverlay = document.getElementById('notifyOverlay');
+  const notifyCloseBtn = document.getElementById('notifyCloseBtn');
+
+  function openNotifications() {
+    if (notifySidebar) notifySidebar.classList.add('active');
+    if (notifyOverlay) notifyOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNotifications() {
+    if (notifySidebar) notifySidebar.classList.remove('active');
+    if (notifyOverlay) notifyOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (phoneBellBtn) phoneBellBtn.addEventListener('click', openNotifications);
+  if (notifyCloseBtn) notifyCloseBtn.addEventListener('click', closeNotifications);
+  if (notifyOverlay) notifyOverlay.addEventListener('click', closeNotifications);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && notifySidebar && notifySidebar.classList.contains('active')) {
+      closeNotifications();
+    }
+  });
+}
+
+/* ══════════ TOP MOBILE NAV DRAWER TOGGLE ══════════ */
+function initPhoneNavDrawer() {
+  const phoneMenuBtn = document.getElementById('phoneMenuBtn');
+  const phoneNavDrawer = document.getElementById('phoneNavDrawer');
+  const phoneNavOverlay = document.getElementById('phoneNavOverlay');
+  const phoneNavCloseBtn = document.getElementById('phoneNavCloseBtn');
+
+  function openPhoneNav() {
+    if (phoneNavDrawer) phoneNavDrawer.classList.add('active');
+    if (phoneNavOverlay) phoneNavOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePhoneNav() {
+    if (phoneNavDrawer) phoneNavDrawer.classList.remove('active');
+    if (phoneNavOverlay) phoneNavOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (phoneMenuBtn) phoneMenuBtn.addEventListener('click', openPhoneNav);
+  if (phoneNavCloseBtn) phoneNavCloseBtn.addEventListener('click', closePhoneNav);
+  if (phoneNavOverlay) phoneNavOverlay.addEventListener('click', closePhoneNav);
+
+  const drawerLinks = document.querySelectorAll('.phone-drawer-link');
+  drawerLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closePhoneNav();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && phoneNavDrawer && phoneNavDrawer.classList.contains('active')) {
+      closePhoneNav();
+    }
+  });
+}
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     initFormHandlers();
     initMobileNav();
     initPhoneNavDock();
+    initNotificationSidebar();
+    initPhoneNavDrawer();
   });
 } else {
   initFormHandlers();
   initMobileNav();
   initPhoneNavDock();
+  initNotificationSidebar();
+  initPhoneNavDrawer();
 }
 
