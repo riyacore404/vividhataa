@@ -2375,6 +2375,98 @@ body.app-page .scanlines {
   text-align: center;
 }
 
+/* ══════════ WHATSAPP COMMUNITY BANNER ══════════ */
+.whatsapp-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(135deg, rgba(18, 45, 18, 0.95) 0%, rgba(6, 30, 14, 0.98) 100%);
+  border: 1.5px solid rgba(37, 211, 102, 0.45);
+  border-radius: 18px;
+  padding: 1.1rem 1.25rem;
+  text-decoration: none;
+  overflow: hidden;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 28px rgba(37, 211, 102, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.whatsapp-banner:hover {
+  transform: translateY(-3px);
+  border-color: rgba(37, 211, 102, 0.8);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 40px rgba(37, 211, 102, 0.25);
+}
+
+.whatsapp-banner__glow {
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(37, 211, 102, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.whatsapp-banner__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: #25d366;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
+}
+
+.whatsapp-banner__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.whatsapp-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.whatsapp-banner__label {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #25d366;
+  text-transform: uppercase;
+}
+
+.whatsapp-banner__title {
+  font-family: var(--serif, 'Cinzel', serif);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+}
+
+.whatsapp-banner__sub {
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.35;
+}
+
+.whatsapp-banner__arrow {
+  flex-shrink: 0;
+  color: #25d366;
+  width: 22px;
+  height: 22px;
+}
+
+.whatsapp-banner__arrow svg {
+  width: 22px;
+  height: 22px;
+}
+
 .declaration-checkbox {
   display: flex;
   align-items: center;
@@ -2387,6 +2479,7 @@ body.app-page .scanlines {
   line-height: 1.4;
   max-width: 620px;
 }
+
 
 .declaration-checkbox input[type="checkbox"] {
   accent-color: var(--blood-hot);
