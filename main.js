@@ -1089,10 +1089,41 @@ document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
 // PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL BELOW:
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWCQJd_5CQs3l-6VSIkAixqCSXW4PHyKHb-dRkA7rvyZTBexO9kQR7nRq8gbi0i-u3eQ/exec';
 
-/* ── Anti-spam protection ── */
+/* ── Anti-spam protection & Unique Email Enforcement ── */
 let _lastSubmitTime = 0;
 const _submittedEmails = new Set();
 const SUBMIT_COOLDOWN_MS = 60000; // 60 seconds between submissions
+
+function getSubmittedEmails() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('vividhata_submitted_emails') || '[]');
+    const set = new Set(stored.map(e => String(e).toLowerCase().trim()));
+    _submittedEmails.forEach(e => set.add(e));
+    return set;
+  } catch (e) {
+    return _submittedEmails;
+  }
+}
+
+function recordSubmittedEmail(email) {
+  if (!email) return;
+  const cleanEmail = String(email).toLowerCase().trim();
+  _submittedEmails.add(cleanEmail);
+  try {
+    const stored = JSON.parse(localStorage.getItem('vividhata_submitted_emails') || '[]');
+    if (!stored.includes(cleanEmail)) {
+      stored.push(cleanEmail);
+      localStorage.setItem('vividhata_submitted_emails', JSON.stringify(stored));
+    }
+  } catch (e) {}
+}
+
+function isEmailAlreadySubmitted(email) {
+  if (!email) return false;
+  const cleanEmail = String(email).toLowerCase().trim();
+  const set = getSubmittedEmails();
+  return set.has(cleanEmail);
+}
 
 window.formSubmitted = false;
 
@@ -1241,6 +1272,29 @@ function initFormHandlers() {
     if (prefTeamSel) prefTeamSel.addEventListener('change', syncTeamDropdowns);
     if (secondTeamSel) secondTeamSel.addEventListener('change', syncTeamDropdowns);
 
+    /* ── Real-time Email Duplicate Guard ── */
+    const emailInput = document.getElementById('email');
+    const emailErrNotice = document.getElementById('emailDuplicateNotice');
+    if (emailInput) {
+      function checkEmailDuplicate() {
+        const val = (emailInput.value || '').toLowerCase().trim();
+        if (val && isEmailAlreadySubmitted(val)) {
+          emailInput.style.borderColor = '#ff3e3e';
+          if (emailErrNotice) {
+            emailErrNotice.style.display = 'block';
+            emailErrNotice.textContent = '⚠️ An application has already been submitted for ' + val + '. Duplicate entries are not allowed.';
+          }
+        } else {
+          emailInput.style.borderColor = '';
+          if (emailErrNotice) {
+            emailErrNotice.style.display = 'none';
+          }
+        }
+      }
+      emailInput.addEventListener('blur', checkEmailDuplicate);
+      emailInput.addEventListener('input', checkEmailDuplicate);
+    }
+
     regForm.addEventListener('submit', (e) => {
       e.preventDefault();
       handleRegFormSubmit(e);
@@ -1267,6 +1321,18 @@ window.handleRegFormSubmit = async function(e) {
   const s = document.getElementById('secondTeam')?.value || '';
   if (p && s && s !== 'None' && p === s) {
     alert('Preferred Team and Second Preference cannot be the same.');
+    return;
+  }
+
+  // Unique Email Guard (Strictly 1 application per email address)
+  const candidateEmail = (document.getElementById('email')?.value || '').toLowerCase().trim();
+  if (candidateEmail && isEmailAlreadySubmitted(candidateEmail)) {
+    alert('⚠️ Duplicate Submission Error:\nAn application has already been submitted for ' + candidateEmail + '.\nOnly 1 application per email address is allowed.');
+    const emailEl = document.getElementById('email');
+    if (emailEl) {
+      emailEl.focus();
+      emailEl.style.borderColor = '#ff3e3e';
+    }
     return;
   }
 
@@ -1345,7 +1411,7 @@ window.handleRegFormSubmit = async function(e) {
 
     window.formSubmitted = true;
     _lastSubmitTime = Date.now();
-    if (payload.email) _submittedEmails.add(payload.email.toLowerCase());
+    if (payload.email) recordSubmittedEmail(payload.email);
 
     const candidateFullName = payload.fullName || 'Applicant';
     const candidatePrefTeam = payload.prefTeam || 'Vividhata Club 2026';
