@@ -1389,21 +1389,16 @@ window.handleRegFormSubmit = async function(e) {
       localStorage.setItem('vividhata_submissions', JSON.stringify(existing));
     } catch (err) { }
 
-    // 2. Post to Google Apps Script Web App (Dual-transmission for 100% arrival guarantee)
+    // 2. Post to Google Apps Script Web App (single fetch - no duplicate transmissions)
     if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith('http')) {
       const jsonBody = JSON.stringify(payload);
       try {
-        fetch(GOOGLE_SCRIPT_URL, {
+        await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: jsonBody
-        }).catch(err => console.warn('Fetch submission note:', err));
-
-        if (navigator.sendBeacon) {
-          const blob = new Blob([jsonBody], { type: 'text/plain;charset=utf-8' });
-          navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
-        }
+        });
       } catch (netErr) {
         console.warn('Network submission attempt completed:', netErr);
       }
