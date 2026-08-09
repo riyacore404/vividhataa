@@ -739,7 +739,7 @@ const boltGlow = document.getElementById('boltGlow');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ── thunder: filtered noise + sub rumble, no audio files ── */
-let audioCtx = null, thunderOn = true;
+let audioCtx = null, thunderOn = false;
 
 function initAudio() {
   if (!audioCtx) {
@@ -899,6 +899,7 @@ if (!reducedMotion) stormTimer = setTimeout(strike, 500);
 
 /* ── Thunder Audio Management (Web Audio Synthesizer) ── */
 function unlockAudioContext() {
+  if (!thunderOn) return;
   const ctx = initAudio();
   if (ctx && ctx.state === 'suspended') {
     ctx.resume().catch(() => {});
