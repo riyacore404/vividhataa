@@ -4562,51 +4562,146 @@ body.app-page .scanlines {
     background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 20%, rgba(255, 255, 255, 0.08) 80%, transparent 100%);
   }
 
-  /* Mobile Council Section */
+/* Mobile View MEET THE TEAM Section */
   .phone-council-section {
-    padding-top: 0.6rem;
-    padding-bottom: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .phone-section__header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .phone-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(229, 40, 40, 0.4) 50%, transparent 100%);
+  }
+
+  .phone-diamond {
+    color: #ff2b2b;
+    font-size: 0.55rem;
+  }
+
+  .phone-section__header-row h2 {
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    color: #ff3e3e;
+    margin: 0;
   }
 
   .phone-council-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
 
   .phone-council-card {
-    background: #000000;
-    border: 1px solid rgba(255, 43, 43, 0.25);
-    border-radius: 14px;
-    padding: 0.75rem;
+    background: #040306;
+    border: 1px solid rgba(255, 43, 43, 0.2);
+    border-radius: 16px;
+    padding: 1.1rem 0.6rem 0.9rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.85rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
   }
 
-  .phone-council-card__avatar {
-    width: 68px;
-    height: 68px;
+  .phone-council-card__avatar-wrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-council-card__aura {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(220, 30, 30, 0.75) 0%, rgba(130, 15, 15, 0.45) 45%, transparent 75%);
+    filter: blur(6px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .phone-council-card__avatar-box {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
     overflow: hidden;
-    flex-shrink: 0;
-    border: 2px solid rgba(229, 168, 85, 0.6);
-    box-shadow: 0 0 12px rgba(255, 43, 43, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.9);
+    background: #08060b;
   }
 
-  .phone-council-card__avatar img {
+  .phone-council-card__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top center;
+    display: block;
   }
 
-  .phone-council-card__info {
-    flex: 1;
-    min-width: 0;
-    text-align: left;
+  .phone-council-card__name {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.2rem;
+    line-height: 1.2;
+  }
+
+  .phone-council-card__role {
+    font-size: 0.62rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .phone-council-card__role--gold {
+    color: #e5a855;
+  }
+
+  .phone-council-card__role--red {
+    color: #ff3e3e;
+  }
+
+  .phone-council-card__socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .phone-council-card__socials a {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .phone-council-card__socials svg {
+    width: 13px;
+    height: 13px;
   }
 
   .phone-council-badge {
