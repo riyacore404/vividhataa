@@ -1411,13 +1411,15 @@ function initNotificationSidebar() {
   const notifyOverlay = document.getElementById('notifyOverlay');
   const notifyCloseBtn = document.getElementById('notifyCloseBtn');
 
-  function openNotifications() {
+  function openNotifications(e) {
+    if (e) e.stopPropagation();
     if (notifySidebar) notifySidebar.classList.add('active');
     if (notifyOverlay) notifyOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeNotifications() {
+  function closeNotifications(e) {
+    if (e) e.stopPropagation();
     if (notifySidebar) notifySidebar.classList.remove('active');
     if (notifyOverlay) notifyOverlay.classList.remove('active');
     document.body.style.overflow = '';
@@ -1441,13 +1443,15 @@ function initPhoneNavDrawer() {
   const phoneNavOverlay = document.getElementById('phoneNavOverlay');
   const phoneNavCloseBtn = document.getElementById('phoneNavCloseBtn');
 
-  function openPhoneNav() {
+  function openPhoneNav(e) {
+    if (e) e.stopPropagation();
     if (phoneNavDrawer) phoneNavDrawer.classList.add('active');
     if (phoneNavOverlay) phoneNavOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
-  function closePhoneNav() {
+  function closePhoneNav(e) {
+    if (e) e.stopPropagation();
     if (phoneNavDrawer) phoneNavDrawer.classList.remove('active');
     if (phoneNavOverlay) phoneNavOverlay.classList.remove('active');
     document.body.style.overflow = '';

@@ -3779,8 +3779,8 @@ body.app-page .scanlines {
 /* Mobile view (<= 768px): Hide desktop layout elements on phone screens on index page and show phone-landing */
 @media (max-width: 768px) {
   /* Hide desktop elements on index page on mobile */
-  body:not(.app-page) header.chrome,
-  body:not(.app-page) main,
+  body:not(.app-page):not(.gallery-page) header.chrome,
+  body:not(.app-page):not(.gallery-page) main,
   .rail,
   .hint,
   .sticky-badge,
@@ -3789,6 +3789,31 @@ body.app-page .scanlines {
   .amaterasu-bed,
   .storm {
     display: none !important;
+  }
+
+  /* Gallery Page Mobile Responsiveness */
+  body.gallery-page {
+    background-color: #060508 !important;
+    color: #f1edeb !important;
+  }
+
+  body.gallery-page main.gallery-container {
+    display: block !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    padding-top: 4.5rem !important;
+    padding-bottom: 5.5rem !important;
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
+    box-sizing: border-box !important;
+  }
+
+  body.gallery-page header.chrome {
+    display: none !important;
+  }
+
+  body.gallery-page .phone-header {
+    display: flex !important;
   }
 
   /* Application Registration Page Mobile Responsiveness */
@@ -3909,6 +3934,7 @@ body.app-page .scanlines {
     font-family: var(--sans, 'Space Grotesk', system-ui, -apple-system, sans-serif);
     position: relative;
     overflow-x: hidden;
+    padding-top: 54px;
     padding-bottom: 70px;
     box-sizing: border-box;
   }
@@ -4142,17 +4168,21 @@ body.app-page .scanlines {
 
   /* Mobile Top Header Bar */
   .phone-header {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 9995;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0.6rem 0.9rem;
-    background: rgba(6, 5, 8, 0.92);
+    background: rgba(6, 5, 8, 0.94);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 
   .phone-header__brand {
@@ -4440,6 +4470,70 @@ body.app-page .scanlines {
     line-height: 1.25;
     color: rgba(230, 225, 220, 0.55);
     margin: 0;
+  }
+
+  /* Mobile Join Us Box Above Storm2 Banner */
+  .phone-join-section {
+    padding-top: 0.8rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .phone-join-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(22, 6, 6, 0.95) 0%, rgba(42, 12, 12, 0.95) 100%);
+    border: 1.5px solid rgba(229, 168, 85, 0.45);
+    border-radius: 18px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9), 0 0 24px rgba(229, 168, 85, 0.15);
+  }
+
+  .phone-join-card__badge {
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    color: #ff3e3e;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+    display: block;
+  }
+
+  .phone-join-card__title {
+    font-family: var(--serif, 'Cinzel', serif);
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.4rem;
+  }
+
+  .phone-join-card__text {
+    font-size: 0.68rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0 0 0.85rem;
+  }
+
+  .phone-join-card__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #e5a855 0%, #c48332 100%);
+    color: #040306;
+    padding: 0.55rem 1.4rem;
+    border-radius: 24px;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    box-shadow: 0 0 16px rgba(229, 168, 85, 0.4);
+    transition: transform 0.25s ease;
+  }
+
+  .phone-join-card__btn:active {
+    transform: scale(0.96);
   }
 
   /* Storm2 Banner Section */
@@ -5041,8 +5135,8 @@ body.app-page .scanlines {
     left: 0;
     right: 0;
     height: 56px;
-    z-index: 999;
-    background: rgba(10, 8, 14, 0.94);
+    z-index: 9995;
+    background: rgba(10, 8, 14, 0.96);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -5050,6 +5144,8 @@ body.app-page .scanlines {
     align-items: center;
     justify-content: space-around;
     padding: 0 0.4rem;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 
   .phone-nav-item {
