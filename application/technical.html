@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Technical Team Recruitment 2026 — VIVIDHATA CLUB</title>
+  <meta name="description" content="Official Technical Team recruitment and student data collection portal for Vividhata Club 2026." />
+  <link rel="icon" type="image/png" href="../viviLogo.png" />
+  <link rel="shortcut icon" type="image/png" href="../viviLogo.png" />
+  <link rel="apple-touch-icon" href="../viviLogo.png" />
+  <meta property="og:title" content="Technical Team Recruitment 2026 — VIVIDHATA CLUB" />
+  <meta property="og:description" content="Official Technical Team recruitment and student data collection portal for Vividhata Club 2026." />
+  <meta property="og:image" content="../viviLogo.png" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    /* ════════════ TECHNICAL TEAM ACCENTS ════════════ */
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    /* Fix Title Overlap in Section Cards */
+    .reg-form__card-title {
+      display: flex !important;
+      align-items: center !important;
+      flex-wrap: wrap !important;
+      line-height: 1.4 !important;
+      gap: 0.75rem !important;
+    }
+
+    /* Ensure span badge only targets step number, NOT title text spans */
+    .reg-form__card-title span.card-step-num {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 26px !important;
+      height: 26px !important;
+      min-width: 26px !important;
+      min-height: 26px !important;
+      border-radius: 50% !important;
+      background: rgba(255, 43, 43, 0.15) !important;
+      border: 1px solid var(--blood-hot) !important;
+      font-size: 0.72rem !important;
+      color: #fff !important;
+      flex-shrink: 0 !important;
+    }
+
+    .form-hint {
+      display: block;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      margin-top: 0.4rem;
+      line-height: 1.35;
+    }
+  </style>
+</head>
+
+<body class="in-registration app-page">
+
+  <!-- ══════════ ACCESSIBILITY SKIP LINK ══════════ -->
+  <a href="#registration" class="sr-only focus:not-sr-only" style="position:fixed; top:10px; left:10px; z-index:9999; background:#e5a855; color:#000; padding:10px 15px; border-radius:5px; font-weight:bold; text-decoration:none;">Skip to Main Content</a>
+
+  <!-- ══════════ AMBIENT LAYERS ══════════ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ══════════ FIXED CHROME NAV ══════════ -->
+  <header class="chrome" role="banner">
+    <div class="chrome__mark">
+      <a href="../index.html" style="display:flex; align-items:center; gap:0.85rem; text-decoration:none; color:inherit;" aria-label="Vividhata Club Homepage">
+        <img src="../viviLogo.png" alt="Vividhata Club Logo" class="nav__logo" />
+        <span>VIVIDHATA</span>
+      </a>
+    </div>
+
+    <div class="chrome__actions">
+      <a href="../index.html" class="app-back-btn" title="Home" aria-label="Navigate to Home Page" style="text-decoration:none; color:#e5a855; width:36px; height:36px; border-radius:50%; border:1px solid rgba(229,168,85,0.5); display:inline-flex; align-items:center; justify-content:center; background:rgba(229,168,85,0.08); flex-shrink:0;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </a>
+      <button class="chrome__hamburger" id="hamburgerBtn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="chromeNav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <nav class="chrome__nav" id="chromeNav" role="navigation" aria-label="Main Navigation">
+      <a href="../index.html" data-sub="01">HOME</a>
+      <div class="nav-dropdown">
+        <a href="../application.html" class="nav-dropdown__trigger active" data-sub="02">TEAMS <span class="dropdown-arrow">▼</span></a>
+        <div class="nav-dropdown__menu" role="menu" aria-label="Club Teams">
+          <a href="technical" role="menuitem"><span>⚡</span> Technical Team</a>
+          <a href="cultural" role="menuitem"><span>🎭</span> Cultural Team</a>
+          <a href="management" role="menuitem"><span>📊</span> Management Team</a>
+          <a href="gamingandsports" role="menuitem"><span>🎮</span> Gaming &amp; Sports</a>
+          <a href="editorial" role="menuitem"><span>✍️</span> Editorial Team</a>
+          <a href="designandmedia" role="menuitem"><span>🎨</span> Design &amp; Media</a>
+          <a href="publicrelations" role="menuitem"><span>📢</span> Public Relations</a>
+          <a href="production" role="menuitem"><span>🎬</span> Production Team</a>
+          <a href="literature" role="menuitem"><span>📚</span> Literature Team</a>
+        </div>
+      </div>
+      <a href="../index.html#about" data-sub="03">ABOUT</a>
+      <a href="../gallery.html" data-sub="04">GALLERY</a>
+      <a href="mailto:vividhata@glbitm.ac.in" data-sub="05">CONTACT</a>
+    </nav>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <!-- ══════════ TECHNICAL TEAM REGISTRATION SECTION ══════════ -->
+    <section class="registration-section" id="registration" style="border-top:none; padding-top: clamp(6rem, 12vh, 9rem);" aria-labelledby="form-heading">
+      
+      <div class="registration__container">
+
+        <!-- Hero Portal Header -->
+        <div class="app-hero-head">
+          <div class="app-hero-logo" aria-hidden="true">
+            <img src="../viviLogo.png" alt="Vividhata Emblem" />
+          </div>
+          <span class="eyebrow">GL BAJAJ INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT</span>
+          <h1 id="form-heading" style="font-size: inherit; font-weight: inherit; margin: 0; line-height: inherit;">
+            <h2>VIVIDHATA CLUB <span>TECHNICAL TEAM</span></h2>
+          </h1>
+          <p>Official project submission &amp; recruitment portal for developers, coders, and system architects 2026.</p>
+        </div>
+
+        <form class="reg-form" id="techRegForm" onsubmit="handleTechFormSubmit(event); return false;" aria-describedby="formInstructions">
+          <p id="formInstructions" class="sr-only">Please complete all required fields marked with an asterisk (*).</p>
+
+          <!-- Honeypot anti-bot field -->
+          <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true">
+            <label for="hp_trap">Leave this blank</label>
+            <input type="text" id="hp_trap" name="hp_trap" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <!-- Section 01: Personal Information -->
+          <div class="reg-form__card">
+            <h2 class="reg-form__card-title"><span class="card-step-num">01</span> Personal Information</h2>
+            <div class="reg-form__grid">
+              
+              <div class="reg-form__field full-width">
+                <label for="fullName">Full Name <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required aria-required="true" autocomplete="name" />
+              </div>
+
+              <div class="reg-form__field">
+                <label for="email">Email Address <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="email" id="email" name="email" placeholder="name@domain.com" required aria-required="true" autocomplete="email" />
+              </div>
+
+              <div class="reg-form__field">
+                <label for="mobile">Contact Number <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="tel" id="mobile" name="mobile" placeholder="e.g. 9876543210" pattern="[0-9+\s\-]{10,15}" required aria-required="true" autocomplete="tel" aria-describedby="mobileHint" />
+                <small id="mobileHint" class="sr-only">Provide a valid 10-digit mobile number for WhatsApp communication.</small>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section 02: Academic Details -->
+          <div class="reg-form__card">
+            <h2 class="reg-form__card-title"><span class="card-step-num">02</span> Academic Details</h2>
+            <div class="reg-form__grid">
+              
+              <div class="reg-form__field">
+                <fieldset style="border:none; padding:0; margin:0;" aria-required="true">
+                  <legend style="font-size:0.88rem; font-weight:700; color:#e2e8f0; margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.05em;">
+                    Year <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span>
+                  </legend>
+                  <div class="reg-form__radio-group" role="radiogroup" aria-label="Academic Year Selection">
+                    <label class="reg-radio" for="year2">
+                      <input type="radio" id="year2" name="year" value="2nd Year" required aria-required="true" />
+                      <span>2nd Year</span>
+                    </label>
+                    <label class="reg-radio" for="year3">
+                      <input type="radio" id="year3" name="year" value="3rd Year" />
+                      <span>3rd Year</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="reg-form__field">
+                <label for="branch">Department or Branch <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="text" id="branch" name="branch" placeholder="e.g. CSE, CSE-AI, IT, ECE" required aria-required="true" />
+              </div>
+
+              <div class="reg-form__field">
+                <label for="rollNo">Roll Number <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="text" id="rollNo" name="rollNo" placeholder="University Roll No." required aria-required="true" />
+              </div>
+
+              <div class="reg-form__field">
+                <label for="section">Section <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="text" id="section" name="section" placeholder="e.g. Section A / CSE-1" required aria-required="true" />
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section 03: Assigned Project & Technical Skillset -->
+          <div class="reg-form__card">
+            <h2 class="reg-form__card-title"><span class="card-step-num">03</span> Assigned Project &amp; Technical Skillset</h2>
+            <div class="reg-form__stack">
+              
+              <div class="reg-form__field full-width">
+                <label for="assignedProject">Select Assigned Project / Topic <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <select id="assignedProject" name="assignedProject" required aria-required="true">
+                  <option value="" disabled selected>Select Your Assigned Project</option>
+                  <option value="1. Hackbuzz — Hackathon Landing Page">1. Hackbuzz — Hackathon Landing Page</option>
+                  <option value="2. Automated Certificate Generator">2. Automated Certificate Generator</option>
+                  <option value="3. Interview Queue & Slot Management">3. Interview Queue & Slot Management</option>
+                  <option value="4. QR-Based Event Check-In System">4. QR-Based Event Check-In System</option>
+                  <option value="5. Hackathon Judge & Live Scoreboard">5. Hackathon Judge & Live Scoreboard</option>
+                  <option value="Other / Custom Technical Project">Other / Custom Technical Project</option>
+                </select>
+                <small class="form-hint">Choose the project topic assigned for recruitment evaluation.</small>
+              </div>
+
+              <div class="reg-form__field">
+                <label style="font-weight: 700; color: #e2e8f0;">Programming Languages &amp; Tools Used (Check all that apply)</label>
+                <div class="reg-form__skills-grid" role="group" aria-label="Technical Skills Checkboxes">
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="C/C++" /> <span>C / C++</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="Python" /> <span>Python</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="JS/TS" /> <span>JS / TS</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="React / Next.js" /> <span>React / Next.js</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="Node.js" /> <span>Node.js</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="Java / Kotlin" /> <span>Java / Kotlin</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="Flutter" /> <span>Flutter</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="Databases" /> <span>Databases</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="Docker / DevOps" /> <span>Docker / DevOps</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="Git / GitHub" /> <span>Git / GitHub</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="Figma" /> <span>Figma</span></label>
+                  <label class="skill-pill"><input type="checkbox" name="techSkills" value="PyTorch / TF" /> <span>PyTorch / TF</span></label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section 04: Project Links & Repository -->
+          <div class="reg-form__card">
+            <h2 class="reg-form__card-title"><span class="card-step-num">04</span> Project Links &amp; Repository</h2>
+            <div class="reg-form__grid">
+              
+              <div class="reg-form__field">
+                <label for="githubUrl">GitHub Repository Link <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="url" id="githubUrl" name="githubUrl" placeholder="https://github.com/yourusername/project-repo" required aria-required="true" autocomplete="url" />
+                <small class="form-hint">Provide your public GitHub repository URL containing the source code.</small>
+              </div>
+
+              <div class="reg-form__field">
+                <label for="deployedUrl">Live Deployed Project Link <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="url" id="deployedUrl" name="deployedUrl" placeholder="https://your-project.vercel.app or netlify.app" required aria-required="true" autocomplete="url" />
+                <small class="form-hint">Provide your live working demo URL (Vercel, Netlify, Render, GitHub Pages, etc.).</small>
+              </div>
+
+              <div class="reg-form__field full-width">
+                <label for="projectDesc">Project Implementation Notes / Overview (Optional)</label>
+                <textarea id="projectDesc" name="projectDesc" placeholder="Describe key features built, tech stack highlights, database setup, or deployment details..."></textarea>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section 05: Remarks & Special Achievements -->
+          <div class="reg-form__card">
+            <h2 class="reg-form__card-title"><span class="card-step-num">05</span> Remarks &amp; Achievements (Optional)</h2>
+            <div class="reg-form__field full-width">
+              <label for="remarks">Hackathon Wins, Coding Ratings or Additional Remarks</label>
+              <textarea id="remarks" name="remarks" placeholder="Mention hackathon ranks, LeetCode/CodeChef ratings, open source contributions, or any special note..."></textarea>
+              <small class="form-hint">Optional. Share any technical accomplishments or notes for the tech coordinators.</small>
+            </div>
+          </div>
+
+          <!-- Section 06: Community & Submission -->
+          <div class="reg-form__card reg-form__card--submit">
+
+            <!-- WhatsApp Community Join Banner -->
+            <a href="https://chat.whatsapp.com/GKQ3YjLbucu9fJPSidSNyN" target="_blank" rel="noopener" class="whatsapp-banner" id="whatsappBanner" aria-label="Join Vividhata WhatsApp Community for technical interview schedules (opens in new tab)">
+              <div class="whatsapp-banner__glow" aria-hidden="true"></div>
+              <div class="whatsapp-banner__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.115.549 4.099 1.508 5.827L0 24l6.336-1.482A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.806 9.806 0 0 1-5.006-1.371l-.36-.214-3.727.871.95-3.614-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/>
+                </svg>
+              </div>
+              <div class="whatsapp-banner__text">
+                <span class="whatsapp-banner__label">IMPORTANT — Join Before You Submit</span>
+                <span class="whatsapp-banner__title">Join Technical WhatsApp Community</span>
+                <span class="whatsapp-banner__sub">Tap to join for interview schedules, project reviews &amp; technical updates</span>
+              </div>
+              <div class="whatsapp-banner__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </a>
+
+            <!-- Mandatory Confirmation Checkbox -->
+            <label class="declaration-checkbox" for="declaration">
+              <input type="checkbox" id="declaration" required aria-required="true" />
+              <span>I have joined the WhatsApp Community and confirm all project links provided are accurate and working. <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></span>
+            </label>
+
+            <button type="submit" class="reg-submit-btn" id="regSubmitBtn">
+              <span>SUBMIT APPLICATION</span>
+              <span class="btn-flare" aria-hidden="true"></span>
+            </button>
+
+          </div>
+
+        </form>
+
+        <!-- Success Message Card -->
+        <div class="reg-success" id="regSuccess" style="display:none;" role="alert" aria-live="polite">
+          <div class="reg-success__icon" aria-hidden="true">✓</div>
+          <h3>TECHNICAL PROJECT SUBMITTED SUCCESSFULLY!</h3>
+          <p>Thank you for submitting your project for the <strong>Technical Team</strong>. We will review your GitHub repository and live deployment link and contact you via WhatsApp / Email regarding interview slots.</p>
+          <button type="button" class="reg-success__btn" onclick="resetTechForm()">Submit Another Response</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer id="end" role="contentinfo">
+    <div class="footer__big">WELCOME TO VIVIDHATA</div>
+    <div class="footer__row">
+      <span>MORE THAN A CLUB</span>
+      <span>A COMMUNITY BUILT TO LEARN, CREATE, LEAD, AND LEAVE A LEGACY.</span>
+      <span>GL BAJAJ INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT</span>
+    </div>
+  </footer>
+
+  <script src="../main.js"></script>
+  <script>
+    async function handleTechFormSubmit(e) {
+      if (e) e.preventDefault();
+      
+      const form = document.getElementById('techRegForm');
+      const successCard = document.getElementById('regSuccess');
+      const submitBtn = document.getElementById('regSubmitBtn');
+      
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return false;
+      }
+      
+      const yearRadio = document.querySelector('input[name="year"]:checked');
+      if (!yearRadio) {
+        alert('Please select your academic year.');
+        return false;
+      }
+
+      // Collect checked tech skills
+      const checkedSkills = Array.from(document.querySelectorAll('input[name="techSkills"]:checked')).map(cb => cb.value);
+
+      const origBtnText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        const span = submitBtn.querySelector('span');
+        if (span) span.textContent = 'SUBMITTING DATA...';
+      }
+
+      const assignedProject = (document.getElementById('assignedProject')?.value || '').trim();
+      const githubUrl = (document.getElementById('githubUrl')?.value || '').trim();
+      const deployedUrl = (document.getElementById('deployedUrl')?.value || '').trim();
+
+      const payload = {
+        formType: 'Technical Team Recruitment',
+        category: 'TECHNICAL TEAM',
+        game: assignedProject || 'Technical Project',
+        timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+        fullName: (document.getElementById('fullName')?.value || '').trim(),
+        email: (document.getElementById('email')?.value || '').trim(),
+        mobile: (document.getElementById('mobile')?.value || '').trim(),
+        year: yearRadio ? yearRadio.value : '',
+        branch: (document.getElementById('branch')?.value || '').trim(),
+        rollNo: (document.getElementById('rollNo')?.value || '').trim(),
+        section: (document.getElementById('section')?.value || '').trim(),
+        
+        // Tech project fields mapping cleanly to new sheet columns
+        assignedProject: assignedProject,
+        primaryDomain: assignedProject,
+        secondaryDomain: deployedUrl,
+        techSkills: checkedSkills.join(', '),
+        githubUrl: githubUrl,
+        deployedUrl: deployedUrl,
+        portfolioUrl: deployedUrl,
+        projectDesc: (document.getElementById('projectDesc')?.value || '').trim(),
+        remarks: (document.getElementById('remarks')?.value || '').trim()
+      };
+
+      // 1. Local backup store
+      try {
+        const existing = JSON.parse(localStorage.getItem('vividhata_tech_submissions') || '[]');
+        existing.push(payload);
+        localStorage.setItem('vividhata_tech_submissions', JSON.stringify(existing));
+      } catch (err) {}
+
+      // 2. Post to Google Apps Script Web App endpoint
+      const scriptUrl = (typeof TECH_GOOGLE_SCRIPT_URL !== 'undefined' && TECH_GOOGLE_SCRIPT_URL) 
+        ? TECH_GOOGLE_SCRIPT_URL 
+        : (typeof GOOGLE_SCRIPT_URL !== 'undefined' && GOOGLE_SCRIPT_URL) 
+        ? GOOGLE_SCRIPT_URL 
+        : 'https://script.google.com/macros/s/AKfycbwXvQ2yLhajoTu8cJuKXNOBpjzt2aBF5zR8cTn8YPUJjL8DlCUgTtJ8QDFX84JDdTGe/exec';
+
+      if (scriptUrl && scriptUrl.startsWith('http')) {
+        try {
+          await fetch(scriptUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+        } catch (netErr) {
+          console.warn('Google Apps Script submission:', netErr);
+        }
+      }
+
+      // 3. Display Success View
+      if (form) form.style.display = 'none';
+
+      if (successCard) {
+        successCard.style.display = 'block';
+        successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origBtnText;
+      }
+      return false;
+    }
+
+    function resetTechForm() {
+      const form = document.getElementById('techRegForm');
+      const successCard = document.getElementById('regSuccess');
+      
+      if (form) {
+        form.reset();
+        form.style.display = 'flex';
+      }
+      if (successCard) {
+        successCard.style.display = 'none';
+      }
+      const regElem = document.getElementById('registration');
+      if (regElem) {
+        regElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  </script>
+</body>
+
+</html>

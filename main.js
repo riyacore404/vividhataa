@@ -1087,7 +1087,9 @@ document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
 
 /* ═════════════════════ FORM HANDLERS ═════════════════════ */
 // PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL BELOW:
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKxGJ5p0WmzVjIV5qXV9JPie0uzYiHOvUuKPXeJt-3hGF52c70tkfi239TU1NKmTvWEg/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfx8LWPpwmDOiLUIHckqzkWdnUFjs9OIZHqe7yq31p2TthhOgxP6My-i207L0criJXvQ/exec';
+const TECH_GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXvQ2yLhajoTu8cJuKXNOBpjzt2aBF5zR8cTn8YPUJjL8DlCUgTtJ8QDFX84JDdTGe/exec';
+
 
 /* ── Anti-spam protection & Unique Email Enforcement ── */
 let _lastSubmitTime = 0;

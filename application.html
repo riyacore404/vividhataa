@@ -53,11 +53,23 @@
 
     <nav class="chrome__nav" id="chromeNav">
       <a href="index.html" data-sub="01">HOME</a>
-      <a href="application.html" data-sub="02">RECRUITMENT</a>
+      <div class="nav-dropdown">
+        <a href="application.html" class="nav-dropdown__trigger active" data-sub="02">TEAMS <span class="dropdown-arrow">▼</span></a>
+        <div class="nav-dropdown__menu" role="menu" aria-label="Club Teams">
+          <a href="application/technical" role="menuitem"><span>⚡</span> Technical Team</a>
+          <a href="application/cultural" role="menuitem"><span>🎭</span> Cultural Team</a>
+          <a href="application/management" role="menuitem"><span>📊</span> Management Team</a>
+          <a href="application/gamingandsports" role="menuitem"><span>🎮</span> Gaming &amp; Sports</a>
+          <a href="application/editorial" role="menuitem"><span>✍️</span> Editorial Team</a>
+          <a href="application/designandmedia" role="menuitem"><span>🎨</span> Design &amp; Media</a>
+          <a href="application/publicrelations" role="menuitem"><span>📢</span> Public Relations</a>
+          <a href="application/production" role="menuitem"><span>🎬</span> Production Team</a>
+          <a href="application/literature" role="menuitem"><span>📚</span> Literature Team</a>
+        </div>
+      </div>
       <a href="index.html#about" data-sub="03">ABOUT</a>
-      <a href="tournament.html" data-sub="04">EVENTS</a>
-      <a href="gallery.html" data-sub="05">GALLERY</a>
-      <a href="mailto:vividhata@glbitm.ac.in" data-sub="06">CONTACT</a>
+      <a href="gallery.html" data-sub="04">GALLERY</a>
+      <a href="mailto:vividhata@glbitm.ac.in" data-sub="05">CONTACT</a>
     </nav>
   </header>
 
@@ -75,10 +87,120 @@
           <div class="app-hero-logo" aria-hidden="true">
             <img src="viviLogo.png" alt="Vividhata Emblem" />
           </div>
-          <span class="eyebrow">GL BAJAJ INSTITUTE OF TECHNOLOGY & MANAGEMENT</span>
-          <h2>VIVIDHATA CLUB <span>RECRUITMENT 2026</span></h2>
-          <p>Official registration form for 2nd & 3rd year students. Select your preferred functional team and present
-            your talent to join our community.</p>
+          <span class="eyebrow">GL BAJAJ INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT</span>
+          <h2>VIVIDHATA CLUB <span>OUR TEAMS &amp; RECRUITMENT 2026</span></h2>
+          <p>Explore our official club teams below. Click on any team to open its dedicated recruitment portal, or fill out the general application form.</p>
+        </div>
+
+        <!-- ══════════ 9 CLUB TEAMS GRID ══════════ -->
+        <div class="teams-grid">
+          <!-- 1. Technical Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">⚡</span>
+              <h3 class="team-card__title">Technical Team</h3>
+              <p class="team-card__desc">Web development, full-stack apps, AI/ML, hackathon projects, certificate automation &amp; system architecture.</p>
+            </div>
+            <a href="application/technical" class="team-card__btn">
+              <span>APPLY FOR TECHNICAL</span> &rarr;
+            </a>
+          </div>
+
+          <!-- 2. Cultural Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">🎭</span>
+              <h3 class="team-card__title">Cultural Team</h3>
+              <p class="team-card__desc">Music, dance, dramatics, nukkad natak, fashion shows, stage performances &amp; cultural festival management.</p>
+            </div>
+            <a href="application/cultural" class="team-card__btn">
+              <span>APPLY FOR CULTURAL</span> &rarr;
+            </a>
+          </div>
+
+          <!-- 3. Management Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">📊</span>
+              <h3 class="team-card__title">Management Team</h3>
+              <p class="team-card__desc">Event execution, logistics planning, hospitality, crowd management, security &amp; executive administration.</p>
+            </div>
+            <a href="application/management" class="team-card__btn">
+              <span>APPLY FOR MANAGEMENT</span> &rarr;
+            </a>
+          </div>
+
+          <!-- 4. Gaming & Sports Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">🎮</span>
+              <h3 class="team-card__title">Gaming &amp; Sports</h3>
+              <p class="team-card__desc">Esports tournaments (Valorant, BGMI, Free Fire, COD), Chess championships &amp; indoor/outdoor sports events.</p>
+            </div>
+            <a href="application/gamingandsports" class="team-card__btn">
+              <span>APPLY FOR GAMING &amp; SPORTS</span> &rarr;
+            </a>
+          </div>
+
+          <!-- 5. Editorial Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">✍️</span>
+              <h3 class="team-card__title">Editorial Team</h3>
+              <p class="team-card__desc">Content creation, newsletter writing, club blog, report documentation, article editing &amp; social copy.</p>
+            </div>
+            <a href="application/editorial" class="team-card__btn">
+              <span>APPLY FOR EDITORIAL</span> &rarr;
+            </a>
+          </div>
+
+          <!-- 6. Design & Media Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">🎨</span>
+              <h3 class="team-card__title">Design &amp; Media Team</h3>
+              <p class="team-card__desc">Poster design, video editing, motion graphics, UI/UX prototyping, branding &amp; photography visual arts.</p>
+            </div>
+            <a href="application/designandmedia" class="team-card__btn">
+              <span>APPLY FOR DESIGN &amp; MEDIA</span> &rarr;
+            </a>
+          </div>
+
+          <!-- 7. Public Relations Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">📢</span>
+              <h3 class="team-card__title">Public Relations</h3>
+              <p class="team-card__desc">Corporate sponsorships, inter-college partnerships, media outreach, brand representation &amp; press relations.</p>
+            </div>
+            <a href="application/publicrelations" class="team-card__btn">
+              <span>APPLY FOR PUBLIC RELATIONS</span> &rarr;
+            </a>
+          </div>
+
+          <!-- 8. Production Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">🎬</span>
+              <h3 class="team-card__title">Production Team</h3>
+              <p class="team-card__desc">Stage sound mixing, light engineering, video camera production, film directing &amp; live event setup.</p>
+            </div>
+            <a href="application/production" class="team-card__btn">
+              <span>APPLY FOR PRODUCTION</span> &rarr;
+            </a>
+          </div>
+
+          <!-- 9. Literature Team -->
+          <div class="team-card">
+            <div>
+              <span class="team-card__icon" aria-hidden="true">📚</span>
+              <h3 class="team-card__title">Literature Team</h3>
+              <p class="team-card__desc">Debating, poetry recitations, storytelling sessions, quiz master competitions &amp; literary events.</p>
+            </div>
+            <a href="application/literature" class="team-card__btn">
+              <span>APPLY FOR LITERATURE</span> &rarr;
+            </a>
+          </div>
         </div>
 
         <form class="reg-form" id="regForm" onsubmit="handleRegFormSubmit(event); return false;">

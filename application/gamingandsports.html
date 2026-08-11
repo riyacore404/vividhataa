@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gaming & Sports Registration 2026 — VIVIDHATA CLUB</title>
+  <meta name="description" content="Official Gaming & Sports Student Data Collection Portal for Vividhata Club 2026." />
+  <link rel="icon" type="image/png" href="../viviLogo.png" />
+  <link rel="shortcut icon" type="image/png" href="../viviLogo.png" />
+  <link rel="apple-touch-icon" href="../viviLogo.png" />
+  <meta property="og:title" content="Gaming & Sports Registration 2026 — VIVIDHATA CLUB" />
+  <meta property="og:description" content="Official Gaming & Sports Student Data Collection Portal for Vividhata Club 2026." />
+  <meta property="og:image" content="../viviLogo.png" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    /* ════════════ GAMING & SPORTS ACCENTS ════════════ */
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    /* Fix Title Overlap in Section Cards */
+    .reg-form__card-title {
+      display: flex !important;
+      align-items: center !important;
+      flex-wrap: wrap !important;
+      line-height: 1.4 !important;
+      gap: 0.75rem !important;
+    }
+
+    /* Ensure span badge only targets step number, NOT title text spans */
+    .reg-form__card-title span.card-step-num {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 26px !important;
+      height: 26px !important;
+      min-width: 26px !important;
+      min-height: 26px !important;
+      border-radius: 50% !important;
+      background: rgba(255, 43, 43, 0.15) !important;
+      border: 1px solid var(--blood-hot) !important;
+      font-size: 0.72rem !important;
+      color: #fff !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Reset formTitleGame text container */
+    #formTitleGame {
+      display: inline-block !important;
+      width: auto !important;
+      height: auto !important;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      font-size: 0.88rem !important;
+      color: var(--blood-hot) !important;
+      line-height: 1.4 !important;
+      letter-spacing: 0.14em !important;
+      word-break: normal !important;
+      white-space: normal !important;
+      flex: 1 !important;
+    }
+
+    /* Category Cards & Game Options */
+    .category-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(229, 168, 85, 0.08) 100%);
+      border: 1px solid rgba(229, 168, 85, 0.3);
+      border-radius: 14px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card:hover {
+      border-color: #e5a855 !important;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(229, 168, 85, 0.22);
+    }
+
+    .category-card__icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      background: rgba(229, 168, 85, 0.12);
+      border: 1px solid rgba(229, 168, 85, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .category-card__icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+
+    .game-option-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .game-option-card:hover {
+      background: rgba(229, 168, 85, 0.12);
+      border-color: #e5a855;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(229, 168, 85, 0.18);
+    }
+
+    .game-option-card__icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+
+    .game-option-card__icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    }
+
+    .game-option-card:hover .game-option-card__icon {
+      transform: scale(1.08);
+    }
+
+    .game-option-card__name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .game-option-card__type {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .back-step-btn:hover {
+      background: rgba(229, 168, 85, 0.25) !important;
+      border-color: #e5a855 !important;
+      color: #fff !important;
+    }
+
+    .form-hint {
+      display: block;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      margin-top: 0.4rem;
+      line-height: 1.35;
+    }
+  </style>
+</head>
+
+<body class="in-registration app-page">
+
+  <!-- ══════════ ACCESSIBILITY SKIP LINK ══════════ -->
+  <a href="#registration" class="sr-only focus:not-sr-only" style="position:fixed; top:10px; left:10px; z-index:9999; background:#e5a855; color:#000; padding:10px 15px; border-radius:5px; font-weight:bold; text-decoration:none;">Skip to Main Content</a>
+
+  <!-- ══════════ AMBIENT LAYERS ══════════ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ══════════ FIXED CHROME NAV ══════════ -->
+  <header class="chrome" role="banner">
+    <div class="chrome__mark">
+      <a href="../index.html" style="display:flex; align-items:center; gap:0.85rem; text-decoration:none; color:inherit;" aria-label="Vividhata Club Homepage">
+        <img src="../viviLogo.png" alt="Vividhata Club Logo" class="nav__logo" />
+        <span>VIVIDHATA</span>
+      </a>
+    </div>
+
+    <div class="chrome__actions">
+      <a href="../index.html" class="app-back-btn" title="Home" aria-label="Navigate to Home Page" style="text-decoration:none; color:#e5a855; width:36px; height:36px; border-radius:50%; border:1px solid rgba(229,168,85,0.5); display:inline-flex; align-items:center; justify-content:center; background:rgba(229,168,85,0.08); flex-shrink:0;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </a>
+      <button class="chrome__hamburger" id="hamburgerBtn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="chromeNav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <nav class="chrome__nav" id="chromeNav" role="navigation" aria-label="Main Navigation">
+      <a href="../index.html" data-sub="01">HOME</a>
+      <div class="nav-dropdown">
+        <a href="../application.html" class="nav-dropdown__trigger active" data-sub="02">TEAMS <span class="dropdown-arrow">▼</span></a>
+        <div class="nav-dropdown__menu" role="menu" aria-label="Club Teams">
+          <a href="technical" role="menuitem"><span>⚡</span> Technical Team</a>
+          <a href="cultural" role="menuitem"><span>🎭</span> Cultural Team</a>
+          <a href="management" role="menuitem"><span>📊</span> Management Team</a>
+          <a href="gamingandsports" role="menuitem"><span>🎮</span> Gaming &amp; Sports</a>
+          <a href="editorial" role="menuitem"><span>✍️</span> Editorial Team</a>
+          <a href="designandmedia" role="menuitem"><span>🎨</span> Design &amp; Media</a>
+          <a href="publicrelations" role="menuitem"><span>📢</span> Public Relations</a>
+          <a href="production" role="menuitem"><span>🎬</span> Production Team</a>
+          <a href="literature" role="menuitem"><span>📚</span> Literature Team</a>
+        </div>
+      </div>
+      <a href="../index.html#about" data-sub="03">ABOUT</a>
+      <a href="../gallery.html" data-sub="04">GALLERY</a>
+      <a href="mailto:vividhata@glbitm.ac.in" data-sub="05">CONTACT</a>
+    </nav>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <!-- ══════════ GAMING & SPORTS REGISTRATION SECTION ══════════ -->
+    <section class="registration-section" id="registration" style="border-top:none; padding-top: clamp(6rem, 12vh, 9rem);" aria-labelledby="form-heading">
+      
+      <div class="registration__container">
+
+        <!-- Hero Portal Header -->
+        <div class="app-hero-head">
+          <div class="app-hero-logo" aria-hidden="true">
+            <img src="../viviLogo.png" alt="Vividhata Emblem" />
+          </div>
+          <span class="eyebrow">GL BAJAJ INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT</span>
+          <h1 id="form-heading" style="font-size: inherit; font-weight: inherit; margin: 0; line-height: inherit;">
+            <h2>VIVIDHATA CLUB <span>GAMING &amp; SPORTS</span></h2>
+          </h1>
+          <p>Official student data collection &amp; registration portal for Gaming and Esports events 2026.</p>
+        </div>
+
+        <!-- Step Flow Breadcrumbs & Back Bar -->
+        <div class="flow-nav" id="flowNav" style="display:none; margin-bottom: 1.5rem; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+          <button type="button" class="back-step-btn" id="backStepBtn" onclick="goPreviousStep()" style="background: rgba(229,168,85,0.1); border: 1px solid rgba(229,168,85,0.4); color: #e5a855; padding: 0.5rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span id="backStepText">Back</span>
+          </button>
+          
+          <div class="flow-breadcrumbs" id="flowBreadcrumbs" style="color: #94a3b8; font-size: 0.88rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+            <span id="crumbCategory" style="color: #e5a855;">SELECT CATEGORY</span>
+            <span id="crumbGameSep" style="display:none; margin: 0 0.4rem; color: #64748b;">›</span>
+            <span id="crumbGame" style="color: #fff; display:none;"></span>
+          </div>
+        </div>
+
+        <!-- STEP 1: CATEGORY SELECTION -->
+        <div class="step-view" id="stepCategory" style="display: block;">
+          <h2 class="step-title" style="color: #e2e8f0; font-size: 1.3rem; font-weight: 800; margin-bottom: 1.25rem; text-align: center; letter-spacing: 0.05em; text-transform: uppercase;">SELECT GAME CATEGORY</h2>
+          
+          <div class="category-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
+            
+            <!-- ONLINE GAMES -->
+            <div class="category-card" onclick="selectCategory('ONLINE GAMES')" role="button" tabindex="0" aria-label="Select Online Games Category">
+              <div class="category-card__badge" style="position: absolute; top: 12px; right: 12px; background: rgba(229,168,85,0.2); color: #e5a855; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;">Esports</div>
+              <div class="category-card__icon">
+                <img src="online_gaming.png" alt="Online Games Logo" />
+              </div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: 0.03em;">ONLINE GAMES</h3>
+              <p style="color: #94a3b8; font-size: 0.88rem; line-height: 1.4; margin-bottom: 1.25rem;">Valorant • BGMI • Free Fire • Call of Duty</p>
+              <span class="category-card__btn" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #e5a855; font-weight: 700; font-size: 0.9rem;">
+                ONLINE GAMES
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </span>
+            </div>
+
+            <!-- OFFLINE GAMES -->
+            <div class="category-card" onclick="selectCategory('OFFLINE GAMES')" role="button" tabindex="0" aria-label="Select Offline Games Category">
+              <div class="category-card__badge" style="position: absolute; top: 12px; right: 12px; background: rgba(229,168,85,0.2); color: #e5a855; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;">Sports &amp; Board</div>
+              <div class="category-card__icon">
+                <img src="offline_gaming.png" alt="Offline Games Logo" />
+              </div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: 0.03em;">OFFLINE GAMES</h3>
+              <p style="color: #94a3b8; font-size: 0.88rem; line-height: 1.4; margin-bottom: 1.25rem;">Chess • Table Tennis • Football • Basketball • Volleyball</p>
+              <span class="category-card__btn" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #e5a855; font-weight: 700; font-size: 0.9rem;">
+                OFFLINE GAMES
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STEP 2: GAME SELECTION -->
+        <div class="step-view" id="stepGame" style="display: none;">
+          <h2 class="step-title" id="gameStepTitle" style="color: #e2e8f0; font-size: 1.3rem; font-weight: 800; margin-bottom: 1.25rem; text-align: center; letter-spacing: 0.05em; text-transform: uppercase;">SELECT GAME</h2>
+          
+          <!-- ONLINE GAMES GRID -->
+          <div class="game-select-grid" id="onlineGamesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+            
+            <div class="game-option-card" onclick="selectGame('Valorant')" role="button" tabindex="0">
+              <div class="game-option-card__icon"><img src="valorant.png" alt="Valorant Logo" /></div>
+              <span class="game-option-card__name">Valorant</span>
+              <span class="game-option-card__type">Riot ID required</span>
+            </div>
+
+            <div class="game-option-card" onclick="selectGame('BGMI')" role="button" tabindex="0">
+              <div class="game-option-card__icon"><img src="bgmi.png" alt="BGMI Logo" /></div>
+              <span class="game-option-card__name">BGMI</span>
+              <span class="game-option-card__type">Character ID required</span>
+            </div>
+
+            <div class="game-option-card" onclick="selectGame('Free Fire')" role="button" tabindex="0">
+              <div class="game-option-card__icon"><img src="freefire.png" alt="Free Fire Logo" /></div>
+              <span class="game-option-card__name">Free Fire</span>
+              <span class="game-option-card__type">Player ID required</span>
+            </div>
+
+            <div class="game-option-card" onclick="selectGame('Call of Duty')" role="button" tabindex="0">
+              <div class="game-option-card__icon"><img src="call of duty.png" alt="Call of Duty Logo" /></div>
+              <span class="game-option-card__name">Call of Duty</span>
+              <span class="game-option-card__type">Player UID required</span>
+            </div>
+
+          </div>
+
+          <!-- OFFLINE GAMES GRID -->
+          <div class="game-select-grid" id="offlineGamesGrid" style="display: none; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;">
+            
+            <div class="game-option-card" onclick="selectGame('Chess')" role="button" tabindex="0">
+              <div class="game-option-card__icon">
+                <img src="chess.png" alt="Chess Logo" />
+              </div>
+              <span class="game-option-card__name">Chess</span>
+              <span class="game-option-card__type">Chess.com ID required</span>
+            </div>
+
+            <div class="game-option-card" onclick="selectGame('Table Tennis')" role="button" tabindex="0">
+              <div class="game-option-card__icon">
+                <img src="tabletennis.png" alt="Table Tennis Logo" />
+              </div>
+              <span class="game-option-card__name">Table Tennis</span>
+              <span class="game-option-card__type">Student Details Only</span>
+            </div>
+
+            <div class="game-option-card" onclick="selectGame('Football')" role="button" tabindex="0">
+              <div class="game-option-card__icon">
+                <img src="football.png" alt="Football Logo" />
+              </div>
+              <span class="game-option-card__name">Football</span>
+              <span class="game-option-card__type">Student Details Only</span>
+            </div>
+
+            <div class="game-option-card" onclick="selectGame('Basketball')" role="button" tabindex="0">
+              <div class="game-option-card__icon">
+                <img src="basketball.png" alt="Basketball Logo" />
+              </div>
+              <span class="game-option-card__name">Basketball</span>
+              <span class="game-option-card__type">Student Details Only</span>
+            </div>
+
+            <div class="game-option-card" onclick="selectGame('Volleyball')" role="button" tabindex="0">
+              <div class="game-option-card__icon">
+                <img src="volleyball.png" alt="Volleyball Logo" />
+              </div>
+              <span class="game-option-card__name">Volleyball</span>
+              <span class="game-option-card__type">Student Details Only</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STEP 3: REGISTRATION FORM VIEW -->
+        <div class="step-view" id="stepForm" style="display: none;">
+
+          <form class="reg-form" id="gamingRegForm" onsubmit="handleGamingFormSubmit(event); return false;" aria-describedby="formInstructions">
+            <p id="formInstructions" class="sr-only">Please complete all required fields marked with an asterisk (*).</p>
+
+            <!-- Honeypot anti-bot field -->
+            <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true">
+              <label for="hp_trap">Leave this blank</label>
+              <input type="text" id="hp_trap" name="hp_trap" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <!-- Section 01: Personal Details -->
+            <div class="reg-form__card">
+              <h2 class="reg-form__card-title"><span class="card-step-num">01</span> Personal Details</h2>
+              <div class="reg-form__grid">
+                
+                <div class="reg-form__field full-width">
+                  <label for="fullName">Full Name <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                  <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required aria-required="true" autocomplete="name" />
+                </div>
+
+                <div class="reg-form__field">
+                  <fieldset style="border:none; padding:0; margin:0;" aria-required="true">
+                    <legend style="font-size:0.88rem; font-weight:700; color:#e2e8f0; margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.05em;">
+                      Gender <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span>
+                    </legend>
+                    <div class="reg-form__radio-group" role="radiogroup" aria-label="Gender Selection">
+                      <label class="reg-radio" for="genderMale">
+                        <input type="radio" id="genderMale" name="gender" value="Male" required aria-required="true" />
+                        <span>Male</span>
+                      </label>
+                      <label class="reg-radio" for="genderFemale">
+                        <input type="radio" id="genderFemale" name="gender" value="Female" />
+                        <span>Female</span>
+                      </label>
+                      <label class="reg-radio" for="genderOther">
+                        <input type="radio" id="genderOther" name="gender" value="Other" />
+                        <span>Other</span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div class="reg-form__field">
+                  <label for="email">Email Address <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                  <input type="email" id="email" name="email" placeholder="name@domain.com" required aria-required="true" autocomplete="email" />
+                </div>
+
+                <div class="reg-form__field full-width">
+                  <label for="mobile">Contact Number <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                  <input type="tel" id="mobile" name="mobile" placeholder="e.g. 9876543210" pattern="[0-9+\s\-]{10,15}" required aria-required="true" autocomplete="tel" aria-describedby="mobileHint" />
+                  <small id="mobileHint" class="sr-only">Provide a valid 10-digit mobile number for WhatsApp communication.</small>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section 02: Academic Details -->
+            <div class="reg-form__card">
+              <h2 class="reg-form__card-title"><span class="card-step-num">02</span> Academic Details</h2>
+              <div class="reg-form__grid">
+                
+                <div class="reg-form__field">
+                  <fieldset style="border:none; padding:0; margin:0;" aria-required="true">
+                    <legend style="font-size:0.88rem; font-weight:700; color:#e2e8f0; margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.05em;">
+                      Year <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span>
+                    </legend>
+                    <div class="reg-form__radio-group" role="radiogroup" aria-label="Academic Year Selection">
+                      <label class="reg-radio" for="year2">
+                        <input type="radio" id="year2" name="year" value="2nd Year" required aria-required="true" />
+                        <span>2nd Year</span>
+                      </label>
+                      <label class="reg-radio" for="year3">
+                        <input type="radio" id="year3" name="year" value="3rd Year" />
+                        <span>3rd Year</span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div class="reg-form__field">
+                  <label for="branch">Department or Branch <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                  <input type="text" id="branch" name="branch" placeholder="e.g. CSE, CSE-AI, IT, ECE" required aria-required="true" />
+                </div>
+
+                <div class="reg-form__field">
+                  <label for="rollNo">Roll Number <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                  <input type="text" id="rollNo" name="rollNo" placeholder="University Roll No." required aria-required="true" />
+                </div>
+
+                <div class="reg-form__field">
+                  <label for="section">Section <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                  <input type="text" id="section" name="section" placeholder="e.g. Section A / CSE-1" required aria-required="true" />
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section 03: Game Credentials (ONLY FOR ONLINE GAMES & CHESS) -->
+            <div class="reg-form__card" id="cardSection03">
+              <h2 class="reg-form__card-title"><span class="card-step-num">03</span> <span id="formTitleGame">Game Credentials</span></h2>
+              <div class="reg-form__stack">
+                
+                <!-- VALORANT SPECIFIC FIELDS -->
+                <div class="reg-form__grid game-specific-container" id="valorantFieldsContainer" style="display:none;">
+                  <div class="reg-form__field">
+                    <label for="riotId">Riot ID / In-Game Name <span class="req" aria-hidden="true">*</span></label>
+                    <input type="text" id="riotId" name="riotId" class="game-specific-input" placeholder="e.g. ShadowViper" aria-describedby="riotIdHint" />
+                    <small id="riotIdHint" class="form-hint">Enter your exact Riot display name without tagline.</small>
+                  </div>
+                  <div class="reg-form__field">
+                    <label for="tagline">Riot ID Tagline <span class="req" aria-hidden="true">*</span></label>
+                    <input type="text" id="tagline" name="tagline" class="game-specific-input" placeholder="e.g. #IND or #1024" aria-describedby="taglineHint" />
+                    <small id="taglineHint" class="form-hint">Include the hash (#) symbol and tagline digits.</small>
+                  </div>
+                  <div class="reg-form__field full-width">
+                    <label for="riotPlayerId">Riot ID / Player ID (Optional)</label>
+                    <input type="text" id="riotPlayerId" name="riotPlayerId" placeholder="e.g. Player UID / Unique Tag ID" />
+                  </div>
+                </div>
+
+                <!-- STANDARD ONLINE GAMES (BGMI, Free Fire, Call of Duty) -->
+                <div class="reg-form__grid game-specific-container" id="standardOnlineFieldsContainer" style="display:none;">
+                  <div class="reg-form__field">
+                    <label for="ign">In-Game Name (IGN) <span class="req" aria-hidden="true">*</span></label>
+                    <input type="text" id="ign" name="ign" class="game-specific-input" placeholder="e.g. ShadowRider" aria-describedby="ignHint" />
+                    <small id="ignHint" class="form-hint">Enter your exact display name as seen on your game profile.</small>
+                  </div>
+
+                  <div class="reg-form__field">
+                    <label for="gameUid">Game UID / Player ID <span class="req" aria-hidden="true">*</span></label>
+                    <input type="text" id="gameUid" name="gameUid" class="game-specific-input" placeholder="e.g. 5123987410" aria-describedby="uidHint" />
+                    <small id="uidHint" class="form-hint">Double check your unique numeric ID for lobby setup &amp; tracking.</small>
+                  </div>
+                </div>
+
+                <!-- CHESS SPECIFIC FIELDS -->
+                <div class="reg-form__field game-specific-container" id="chessFieldsContainer" style="display:none;">
+                  <label for="chessUsername">Chess.com Username / Chess.com ID <span class="req" aria-hidden="true">*</span></label>
+                  <input type="text" id="chessUsername" name="chessUsername" class="game-specific-input" placeholder="e.g. Grandmaster_Kakul" aria-describedby="chessHint" />
+                  <small id="chessHint" class="form-hint">Enter your active Chess.com username for pairing &amp; rating checks.</small>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section 04/03: Achievements & Additional Information -->
+            <div class="reg-form__card">
+              <h2 class="reg-form__card-title"><span class="card-step-num" id="remarksStepNum">04</span> Remarks &amp; Achievements</h2>
+              <div class="reg-form__stack">
+                
+                <div class="reg-form__field">
+                  <fieldset style="border:none; padding:0; margin:0;" aria-required="true">
+                    <legend style="font-size:0.88rem; font-weight:700; color:#e2e8f0; margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.05em;">
+                      Do you have any achievements or special remarks? <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span>
+                    </legend>
+                    <div class="reg-form__radio-group" role="radiogroup" aria-label="Achievements Option Selection">
+                      <label class="reg-radio" for="achieveNo">
+                        <input type="radio" id="achieveNo" name="hasAchievements" value="No" checked onchange="toggleAchievementsBox(false)" />
+                        <span>No</span>
+                      </label>
+                      <label class="reg-radio" for="achieveYes">
+                        <input type="radio" id="achieveYes" name="hasAchievements" value="Yes" onchange="toggleAchievementsBox(true)" />
+                        <span>Yes</span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div class="reg-form__field full-width" id="achievementsBoxContainer" style="display: none;">
+                  <label for="remarks">Describe Your Achievements &amp; Remarks <span class="req" aria-hidden="true">*</span></label>
+                  <textarea id="remarks" name="remarks" placeholder="Describe any past tournament achievements, sports accomplishments, medals, special requests, or issues..."></textarea>
+                  <small class="form-hint">Please describe your achievements, ratings, medals, or any note for event coordinators.</small>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section Submit Card -->
+            <div class="reg-form__card reg-form__card--submit">
+
+              <!-- WhatsApp Community Join Banner -->
+              <a href="https://chat.whatsapp.com/GKQ3YjLbucu9fJPSidSNyN" target="_blank" rel="noopener" class="whatsapp-banner" id="whatsappBanner" aria-label="Join Vividhata WhatsApp Community for tournament updates (opens in new tab)">
+                <div class="whatsapp-banner__glow" aria-hidden="true"></div>
+                <div class="whatsapp-banner__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.115.549 4.099 1.508 5.827L0 24l6.336-1.482A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.806 9.806 0 0 1-5.006-1.371l-.36-.214-3.727.871.95-3.614-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/>
+                  </svg>
+                </div>
+                <div class="whatsapp-banner__text">
+                  <span class="whatsapp-banner__label">IMPORTANT — Join Before You Submit</span>
+                  <span class="whatsapp-banner__title">Join Our WhatsApp Community</span>
+                  <span class="whatsapp-banner__sub">Tap to join for match schedules, announcements &amp; lobby info</span>
+                </div>
+                <div class="whatsapp-banner__arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+              </a>
+
+              <!-- Mandatory Confirmation Checkbox -->
+              <label class="declaration-checkbox" for="declaration">
+                <input type="checkbox" id="declaration" required aria-required="true" />
+                <span>I have joined the WhatsApp Community and confirm all provided details are accurate. <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></span>
+              </label>
+
+              <button type="submit" class="reg-submit-btn" id="regSubmitBtn">
+                <span>SUBMIT APPLICATION</span>
+                <span class="btn-flare" aria-hidden="true"></span>
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+        <!-- Success Message Card -->
+        <div class="reg-success" id="regSuccess" style="display:none;" role="alert" aria-live="polite">
+          <div class="reg-success__icon" aria-hidden="true">✓</div>
+          <h3>DETAILS SUBMITTED SUCCESSFULLY!</h3>
+          <p>Thank you for submitting your registration for <strong id="successGameName">Gaming &amp; Sports</strong>. We will contact you via WhatsApp / Mobile regarding fixtures and event schedules.</p>
+          <button type="button" class="reg-success__btn" onclick="resetGamingForm()">Register For Another Event</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer id="end" role="contentinfo">
+    <div class="footer__big">WELCOME TO VIVIDHATA</div>
+    <div class="footer__row">
+      <span>MORE THAN A CLUB</span>
+      <span>A COMMUNITY BUILT TO LEARN, CREATE, LEAD, AND LEAVE A LEGACY.</span>
+      <span>GL BAJAJ INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT</span>
+    </div>
+  </footer>
+
+  <script src="../main.js"></script>
+  <script>
+    let currentStep = 1; // 1: Category, 2: Game, 3: Form
+    let selectedCategory = ''; // 'ONLINE GAMES' or 'OFFLINE GAMES'
+    let selectedGame = '';
+
+    function selectCategory(category) {
+      selectedCategory = category;
+      currentStep = 2;
+      updateStepView();
+    }
+
+    function selectGame(game) {
+      selectedGame = game;
+      currentStep = 3;
+      updateStepView();
+    }
+
+    function goPreviousStep() {
+      if (currentStep === 3) {
+        currentStep = 2;
+      } else if (currentStep === 2) {
+        currentStep = 1;
+      }
+      updateStepView();
+    }
+
+    function updateStepView() {
+      const flowNav = document.getElementById('flowNav');
+      const stepCategory = document.getElementById('stepCategory');
+      const stepGame = document.getElementById('stepGame');
+      const stepForm = document.getElementById('stepForm');
+      const onlineGrid = document.getElementById('onlineGamesGrid');
+      const offlineGrid = document.getElementById('offlineGamesGrid');
+      const gameStepTitle = document.getElementById('gameStepTitle');
+      
+      const crumbCategory = document.getElementById('crumbCategory');
+      const crumbGameSep = document.getElementById('crumbGameSep');
+      const crumbGame = document.getElementById('crumbGame');
+      const backStepText = document.getElementById('backStepText');
+
+      if (currentStep === 1) {
+        flowNav.style.display = 'none';
+        stepCategory.style.display = 'block';
+        stepGame.style.display = 'none';
+        stepForm.style.display = 'none';
+      } else if (currentStep === 2) {
+        flowNav.style.display = 'flex';
+        stepCategory.style.display = 'none';
+        stepGame.style.display = 'block';
+        stepForm.style.display = 'none';
+
+        backStepText.textContent = 'Back to Categories';
+        crumbCategory.textContent = selectedCategory;
+        crumbCategory.style.color = '#e5a855';
+        crumbGameSep.style.display = 'none';
+        crumbGame.style.display = 'none';
+
+        gameStepTitle.textContent = `SELECT ${selectedCategory} GAME`;
+
+        if (selectedCategory === 'ONLINE GAMES') {
+          onlineGrid.style.display = 'grid';
+          offlineGrid.style.display = 'none';
+        } else {
+          onlineGrid.style.display = 'none';
+          offlineGrid.style.display = 'grid';
+        }
+      } else if (currentStep === 3) {
+        flowNav.style.display = 'flex';
+        stepCategory.style.display = 'none';
+        stepGame.style.display = 'none';
+        stepForm.style.display = 'block';
+
+        backStepText.textContent = 'Back to Games';
+        crumbCategory.textContent = selectedCategory;
+        crumbCategory.style.color = '#94a3b8';
+        crumbGameSep.style.display = 'inline';
+        crumbGame.style.display = 'inline';
+        crumbGame.textContent = selectedGame;
+
+        setupGameFormFields();
+      }
+      
+      const regElem = document.getElementById('registration');
+      if (regElem) {
+        regElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function setupGameFormFields() {
+      const cardSection03 = document.getElementById('cardSection03');
+      const formTitleGame = document.getElementById('formTitleGame');
+      const remarksStepNum = document.getElementById('remarksStepNum');
+
+      const valorantFields = document.getElementById('valorantFieldsContainer');
+      const standardOnlineFields = document.getElementById('standardOnlineFieldsContainer');
+      const chessFields = document.getElementById('chessFieldsContainer');
+
+      // Clear required on all game specific inputs first
+      document.querySelectorAll('.game-specific-input').forEach(inp => {
+        inp.required = false;
+      });
+
+      if (valorantFields) valorantFields.style.display = 'none';
+      if (standardOnlineFields) standardOnlineFields.style.display = 'none';
+      if (chessFields) chessFields.style.display = 'none';
+
+      // Games that require Section 03 Game Credentials ID: Online Games & Chess
+      const requiresId = selectedCategory === 'ONLINE GAMES' || selectedGame === 'Chess';
+
+      if (requiresId) {
+        if (cardSection03) cardSection03.style.display = 'block';
+        if (remarksStepNum) remarksStepNum.textContent = '04';
+        if (formTitleGame) formTitleGame.textContent = `${selectedCategory} — ${selectedGame.toUpperCase()}`;
+
+        if (selectedGame === 'Valorant') {
+          if (valorantFields) valorantFields.style.display = 'grid';
+          const riotId = document.getElementById('riotId');
+          const tagline = document.getElementById('tagline');
+          if (riotId) riotId.required = true;
+          if (tagline) tagline.required = true;
+        } else if (['BGMI', 'Free Fire', 'Call of Duty'].includes(selectedGame)) {
+          if (standardOnlineFields) standardOnlineFields.style.display = 'grid';
+          const ign = document.getElementById('ign');
+          const gameUid = document.getElementById('gameUid');
+          if (ign) ign.required = true;
+          if (gameUid) gameUid.required = true;
+        } else if (selectedGame === 'Chess') {
+          if (chessFields) chessFields.style.display = 'block';
+          const chessUsername = document.getElementById('chessUsername');
+          if (chessUsername) chessUsername.required = true;
+        }
+      } else {
+        // Non-ID Offline Games: Table Tennis, Football, Basketball, Volleyball
+        // Hide Section 03 card completely!
+        if (cardSection03) cardSection03.style.display = 'none';
+        if (remarksStepNum) remarksStepNum.textContent = '03';
+      }
+    }
+
+    function toggleAchievementsBox(show) {
+      const container = document.getElementById('achievementsBoxContainer');
+      const remarksInput = document.getElementById('remarks');
+      if (container) {
+        container.style.display = show ? 'block' : 'none';
+      }
+      if (remarksInput) {
+        if (!show) {
+          remarksInput.value = '';
+          remarksInput.required = false;
+        } else {
+          remarksInput.required = true;
+        }
+      }
+    }
+
+    async function handleGamingFormSubmit(e) {
+      if (e) e.preventDefault();
+      
+      const form = document.getElementById('gamingRegForm');
+      const successCard = document.getElementById('regSuccess');
+      const submitBtn = document.getElementById('regSubmitBtn');
+      
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return false;
+      }
+      
+      const yearRadio = document.querySelector('input[name="year"]:checked');
+      if (!yearRadio) {
+        alert('Please select your academic year.');
+        return false;
+      }
+
+      const genderRadio = document.querySelector('input[name="gender"]:checked');
+      if (!genderRadio) {
+        alert('Please select your gender.');
+        return false;
+      }
+
+      const hasAchieveRadio = document.querySelector('input[name="hasAchievements"]:checked');
+      const remarksVal = (document.getElementById('remarks')?.value || '').trim();
+
+      if (hasAchieveRadio && hasAchieveRadio.value === 'Yes' && !remarksVal) {
+        alert('Please describe your achievements or special remarks.');
+        const remarksInput = document.getElementById('remarks');
+        if (remarksInput) remarksInput.focus();
+        return false;
+      }
+
+      const origBtnText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        const span = submitBtn.querySelector('span');
+        if (span) span.textContent = 'SUBMITTING DATA...';
+      }
+
+      const payload = {
+        formType: 'Gaming & Sports Registration',
+        category: selectedCategory || 'General',
+        game: selectedGame || 'General',
+        timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+        fullName: (document.getElementById('fullName')?.value || '').trim(),
+        gender: genderRadio ? genderRadio.value : '',
+        email: (document.getElementById('email')?.value || '').trim(),
+        mobile: (document.getElementById('mobile')?.value || '').trim(),
+        year: yearRadio ? yearRadio.value : '',
+        branch: (document.getElementById('branch')?.value || '').trim(),
+        rollNo: (document.getElementById('rollNo')?.value || '').trim(),
+        section: (document.getElementById('section')?.value || '').trim(),
+        
+        // Game-specific fields
+        ign: (document.getElementById('ign')?.value || document.getElementById('riotId')?.value || '').trim(),
+        tagline: (document.getElementById('tagline')?.value || '').trim(),
+        gameUid: (document.getElementById('gameUid')?.value || document.getElementById('riotPlayerId')?.value || '').trim(),
+        chessUsername: (document.getElementById('chessUsername')?.value || '').trim(),
+
+        // Achievements & remarks
+        hasAchievements: hasAchieveRadio ? hasAchieveRadio.value : 'No',
+        remarks: (hasAchieveRadio && hasAchieveRadio.value === 'Yes') ? remarksVal : 'None'
+      };
+
+      // 1. Local backup store
+      try {
+        const existing = JSON.parse(localStorage.getItem('vividhata_gaming_submissions') || '[]');
+        existing.push(payload);
+        localStorage.setItem('vividhata_gaming_submissions', JSON.stringify(existing));
+      } catch (err) {}
+
+      // 2. Post to Google Apps Script Web App
+      const scriptUrl = (typeof GOOGLE_SCRIPT_URL !== 'undefined' && GOOGLE_SCRIPT_URL) 
+        ? GOOGLE_SCRIPT_URL 
+        : 'https://script.google.com/macros/s/AKfycbyfx8LWPpwmDOiLUIHckqzkWdnUFjs9OIZHqe7yq31p2TthhOgxP6My-i207L0criJXvQ/exec';
+
+      if (scriptUrl && scriptUrl.startsWith('http')) {
+        try {
+          await fetch(scriptUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+        } catch (netErr) {
+          console.warn('Google Apps Script submission:', netErr);
+        }
+      }
+
+      // 3. Display Success View
+      const flowNav = document.getElementById('flowNav');
+      if (flowNav) flowNav.style.display = 'none';
+
+      const stepForm = document.getElementById('stepForm');
+      if (stepForm) stepForm.style.display = 'none';
+
+      if (successCard) {
+        successCard.style.display = 'block';
+        const successGameName = document.getElementById('successGameName');
+        if (successGameName) successGameName.textContent = `${selectedCategory} — ${selectedGame}`;
+        successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origBtnText;
+      }
+      return false;
+    }
+
+    function resetGamingForm() {
+      const form = document.getElementById('gamingRegForm');
+      const successCard = document.getElementById('regSuccess');
+      
+      if (form) {
+        form.reset();
+      }
+      if (successCard) {
+        successCard.style.display = 'none';
+      }
+      currentStep = 1;
+      selectedCategory = '';
+      selectedGame = '';
+      updateStepView();
+    }
+  </script>
+</body>
+
+</html>
