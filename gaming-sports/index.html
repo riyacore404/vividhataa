@@ -31,9 +31,6 @@
 
 <body class="gs-page">
 
-  <!-- ══════════ ACCESSIBILITY SKIP LINK ══════════ -->
-  <a href="#hero-content" class="sr-only focus:not-sr-only" style="position:fixed; top:10px; left:10px; z-index:9999; background:#e5a855; color:#000; padding:10px 15px; border-radius:5px; font-weight:bold; text-decoration:none;">Skip to Main Content</a>
-
   <!-- ══════════ AMBIENT LAYERS ══════════ -->
   <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
@@ -51,12 +48,12 @@
 
     <nav class="gs-header__nav" aria-label="Gaming &amp; Sports Navigation">
       <a href="../index.html">HOME</a>
-      <a href="../index.html#about">ABOUT US</a>
+      <a href="../index.html#about">ABOUT US <span class="cs-badge">COMING SOON</span></a>
       <a href="#games" class="active">GAMES</a>
       <a href="#sports">SPORTS</a>
       <a href="../tournament.html">EVENTS</a>
-      <a href="#leaderboard">LEADERBOARD</a>
-      <a href="mailto:vividhata@glbitm.ac.in">CONTACT</a>
+      <a href="#leaderboard">LEADERBOARD <span class="cs-badge">COMING SOON</span></a>
+      <a href="mailto:vividhata@glbitm.ac.in">CONTACT <span class="cs-badge">COMING SOON</span></a>
     </nav>
 
     <a href="../application/gamingandsports.html" class="gs-header__join-btn">
@@ -104,6 +101,12 @@
         <p class="gs-hero__desc">
           The official student hub for gaming and sports events, tournaments, and everything in between. Level up your passion.
         </p>
+
+        <!-- Registration For Round 1 Is Live Badge -->
+        <div class="gs-hero__round1-badge">
+          <span class="pulse-dot-gold"></span>
+          <span>REGISTRATION FOR ROUND 1 IS LIVE</span>
+        </div>
 
         <div class="gs-hero__actions">
           <a href="#games" class="gs-btn-primary">
@@ -167,7 +170,7 @@
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
               <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 1 0 7.75"></path>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
           </div>
@@ -210,7 +213,9 @@
           <!-- Valorant -->
           <div class="team-card">
             <div>
-              <span class="team-card__icon" aria-hidden="true">🎯</span>
+              <div class="team-card__logo-wrap">
+                <img src="../valorant.png" alt="Valorant Logo" class="game-card-logo" />
+              </div>
               <h3 class="team-card__title">Valorant 5v5</h3>
               <p class="team-card__desc">Tactical shooter 5v5 tournaments with custom lobbies, live casters &amp; prize pools.</p>
             </div>
@@ -222,7 +227,9 @@
           <!-- BGMI -->
           <div class="team-card">
             <div>
-              <span class="team-card__icon" aria-hidden="true">🔥</span>
+              <div class="team-card__logo-wrap">
+                <img src="../bgmi.png" alt="BGMI Logo" class="game-card-logo" />
+              </div>
               <h3 class="team-card__title">BGMI Battle Royale</h3>
               <p class="team-card__desc">Squad battle royale custom matches, daily scrims &amp; annual esports championship.</p>
             </div>
@@ -234,9 +241,25 @@
           <!-- Free Fire -->
           <div class="team-card">
             <div>
-              <span class="team-card__icon" aria-hidden="true">💥</span>
+              <div class="team-card__logo-wrap">
+                <img src="../freefire.png" alt="Free Fire Logo" class="game-card-logo" />
+              </div>
               <h3 class="team-card__title">Free Fire MAX</h3>
               <p class="team-card__desc">Fast-paced squad battles, clash squad tournaments &amp; leaderboards.</p>
+            </div>
+            <a href="../tournament.html" class="team-card__btn">
+              <span>REGISTER SQUAD</span> &rarr;
+            </a>
+          </div>
+
+          <!-- Call of Duty -->
+          <div class="team-card">
+            <div>
+              <div class="team-card__logo-wrap">
+                <img src="../call of duty.png" alt="Call of Duty Logo" class="game-card-logo" />
+              </div>
+              <h3 class="team-card__title">Call of Duty Mobile</h3>
+              <p class="team-card__desc">Multiplayer search &amp; destroy, hardpoint battles and battle royale tournament.</p>
             </div>
             <a href="../tournament.html" class="team-card__btn">
               <span>REGISTER SQUAD</span> &rarr;
@@ -246,7 +269,9 @@
           <!-- Chess -->
           <div class="team-card">
             <div>
-              <span class="team-card__icon" aria-hidden="true">♟️</span>
+              <div class="team-card__logo-wrap">
+                <img src="../chess.png" alt="Chess Logo" class="game-card-logo" />
+              </div>
               <h3 class="team-card__title">Chess.com Masters</h3>
               <p class="team-card__desc">Blitz, Rapid &amp; Classical chess tournaments with FIDE &amp; Chess.com ratings.</p>
             </div>
@@ -271,7 +296,9 @@
           <!-- Football -->
           <div class="team-card">
             <div>
-              <span class="team-card__icon" aria-hidden="true">⚽</span>
+              <div class="team-card__logo-wrap">
+                <img src="../football.png" alt="Football Logo" class="game-card-logo" />
+              </div>
               <h3 class="team-card__title">Football Championship</h3>
               <p class="team-card__desc">Inter-department 11v11 &amp; 7v7 football leagues under floodlights.</p>
             </div>
@@ -283,7 +310,9 @@
           <!-- Basketball -->
           <div class="team-card">
             <div>
-              <span class="team-card__icon" aria-hidden="true">🏀</span>
+              <div class="team-card__logo-wrap">
+                <img src="../basketball.png" alt="Basketball Logo" class="game-card-logo" />
+              </div>
               <h3 class="team-card__title">Basketball 3x3 &amp; 5v5</h3>
               <p class="team-card__desc">Court battles, 3-point shootout contests &amp; annual basketball league.</p>
             </div>
@@ -295,7 +324,9 @@
           <!-- Volleyball -->
           <div class="team-card">
             <div>
-              <span class="team-card__icon" aria-hidden="true">🏐</span>
+              <div class="team-card__logo-wrap">
+                <img src="../volleyball.png" alt="Volleyball Logo" class="game-card-logo" />
+              </div>
               <h3 class="team-card__title">Volleyball Smash</h3>
               <p class="team-card__desc">Spike and block tournaments for men and women's campus teams.</p>
             </div>
@@ -307,7 +338,9 @@
           <!-- Table Tennis -->
           <div class="team-card">
             <div>
-              <span class="team-card__icon" aria-hidden="true">🏓</span>
+              <div class="team-card__logo-wrap">
+                <img src="../tabletennis.png" alt="Table Tennis Logo" class="game-card-logo" />
+              </div>
               <h3 class="team-card__title">Table Tennis Singles &amp; Doubles</h3>
               <p class="team-card__desc">Indoor table tennis championships with singles, doubles &amp; mixed categories.</p>
             </div>
