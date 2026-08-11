@@ -23,6 +23,9 @@
 
 <body class="gs-page">
 
+  <!-- ══════════ ACCESSIBILITY SKIP LINK (VISUALLY HIDDEN) ══════════ -->
+  <a href="#main-content" class="sr-only">Skip to Main Content</a>
+
   <!-- ══════════ AMBIENT LAYERS ══════════ -->
   <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
@@ -38,14 +41,14 @@
       </div>
     </a>
 
+    <!-- Cleaned Navbar: HOME | ABOUT US | LEADERBOARD (COMING SOON) | CONTACT -->
     <nav class="gs-header__nav" aria-label="Gaming &amp; Sports Navigation">
       <a href="index.html">HOME</a>
-      <a href="index.html#about">ABOUT US <span class="cs-badge">COMING SOON</span></a>
-      <a href="#games" class="active">GAMES</a>
-      <a href="#sports">SPORTS</a>
-      <a href="tournament.html">EVENTS</a>
-      <a href="#leaderboard">LEADERBOARD <span class="cs-badge">COMING SOON</span></a>
-      <a href="mailto:vividhata@glbitm.ac.in">CONTACT <span class="cs-badge">COMING SOON</span></a>
+      <a href="index.html#about">ABOUT US</a>
+      <a href="#leaderboard" style="cursor: default;">
+        LEADERBOARD <span class="gs-badge-coming-soon">COMING SOON</span>
+      </a>
+      <a href="mailto:vividhata@glbitm.ac.in">CONTACT</a>
     </nav>
 
     <a href="application/gamingandsports.html" class="gs-header__join-btn">
@@ -69,20 +72,19 @@
 
   <main id="main-content">
 
-    <!-- ══════════ HERO LANDING BANNER ══════════ -->
+    <!-- ══════════ HERO LANDING EXPERIENCE ══════════ -->
     <section class="gs-hero" id="hero-content">
 
-      <!-- Dark Vignette Overlay for Left Content Contrast -->
+      <!-- Radial Vignette Overlay for Text Contrast -->
       <div class="gs-hero__overlay"></div>
 
-      <!-- Background Split with Gamer Room & Stadium Kick -->
+      <!-- Natural Background Imagery (No Yellow Diagonal Line) -->
       <div class="gs-hero__split-bg" aria-hidden="true">
         <div class="gs-split__gamer"></div>
-        <div class="gs-split__line"></div>
         <div class="gs-split__sports"></div>
       </div>
 
-      <!-- Left Hero Text Content -->
+      <!-- Hero Main Content Area -->
       <div class="gs-hero__content-wrap">
         <span class="gs-hero__eyebrow">GAMING &amp; SPORTS CLUB</span>
         <h1 class="gs-hero__title">
@@ -94,14 +96,20 @@
           The official student hub for gaming and sports events, tournaments, and everything in between. Level up your passion.
         </p>
 
-        <!-- Registration For Round 1 Is Live Badge -->
-        <div class="gs-hero__round1-badge">
-          <span class="pulse-dot-gold"></span>
-          <span>REGISTRATION FOR ROUND 1 IS LIVE</span>
+        <!-- ── PROMINENT REGISTRATION FOR ROUND 1 CTA CARD ── -->
+        <div class="gs-round1-cta">
+          <div class="gs-round1-text">
+            <span class="gs-round1-badge">✦ LIVE REGISTRATION</span>
+            <span class="gs-round1-title">REGISTRATION FOR ROUND 1</span>
+          </div>
+          <a href="tournament.html" class="gs-round1-btn">
+            <span>REGISTER NOW</span> &rarr;
+          </a>
         </div>
 
+        <!-- Action Buttons -->
         <div class="gs-hero__actions">
-          <a href="#games" class="gs-btn-primary">
+          <a href="tournament.html" class="gs-btn-primary">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="6" y1="12" x2="10" y2="12"></line>
               <line x1="8" y1="10" x2="8" y2="14"></line>
@@ -112,7 +120,7 @@
             <span>EXPLORE GAMES</span>
           </a>
 
-          <a href="#sports" class="gs-btn-outline">
+          <a href="application/gamingandsports.html" class="gs-btn-outline">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="10"></circle>
               <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
@@ -190,158 +198,6 @@
         ONE CLUB. MANY PASSIONS. ENDLESS MEMORIES.
       </div>
 
-    </section>
-
-    <!-- ══════════ GAMES CATALOG SECTION ══════════ -->
-    <section class="registration-section" id="games" style="padding-top: 5rem; padding-bottom: 4rem;">
-      <div class="registration__container">
-        <div class="app-hero-head">
-          <span class="eyebrow">ESPORTS &amp; ONLINE TITLES</span>
-          <h2>FEATURED <span>ONLINE GAMES</span></h2>
-          <p>Compete in official college leagues, scrims, and rank battles across leading esports titles.</p>
-        </div>
-
-        <div class="teams-grid">
-          <!-- Valorant -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="valorant.png" alt="Valorant Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">Valorant 5v5</h3>
-              <p class="team-card__desc">Tactical shooter 5v5 tournaments with custom lobbies, live casters &amp; prize pools.</p>
-            </div>
-            <a href="tournament.html" class="team-card__btn">
-              <span>REGISTER SQUAD</span> &rarr;
-            </a>
-          </div>
-
-          <!-- BGMI -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="bgmi.png" alt="BGMI Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">BGMI Battle Royale</h3>
-              <p class="team-card__desc">Squad battle royale custom matches, daily scrims &amp; annual esports championship.</p>
-            </div>
-            <a href="tournament.html" class="team-card__btn">
-              <span>REGISTER SQUAD</span> &rarr;
-            </a>
-          </div>
-
-          <!-- Free Fire -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="freefire.png" alt="Free Fire Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">Free Fire MAX</h3>
-              <p class="team-card__desc">Fast-paced squad battles, clash squad tournaments &amp; leaderboards.</p>
-            </div>
-            <a href="tournament.html" class="team-card__btn">
-              <span>REGISTER SQUAD</span> &rarr;
-            </a>
-          </div>
-
-          <!-- Call of Duty -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="call of duty.png" alt="Call of Duty Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">Call of Duty Mobile</h3>
-              <p class="team-card__desc">Multiplayer search &amp; destroy, hardpoint battles and battle royale tournament.</p>
-            </div>
-            <a href="tournament.html" class="team-card__btn">
-              <span>REGISTER SQUAD</span> &rarr;
-            </a>
-          </div>
-
-          <!-- Chess -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="chess.png" alt="Chess Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">Chess.com Masters</h3>
-              <p class="team-card__desc">Blitz, Rapid &amp; Classical chess tournaments with FIDE &amp; Chess.com ratings.</p>
-            </div>
-            <a href="application/gamingandsports.html" class="team-card__btn">
-              <span>REGISTER PLAYER</span> &rarr;
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════ SPORTS CATALOG SECTION ══════════ -->
-    <section class="registration-section" id="sports" style="padding-top: 2rem; padding-bottom: 5rem;">
-      <div class="registration__container">
-        <div class="app-hero-head">
-          <span class="eyebrow">ATHLETICS &amp; PHYSICAL SPORTS</span>
-          <h2>CAMPUS <span>SPORTS LEAGUES</span></h2>
-          <p>Represent GL Bajaj in intra and inter-college sports meets, tournaments, and athletic championships.</p>
-        </div>
-
-        <div class="teams-grid">
-          <!-- Football -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="football.png" alt="Football Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">Football Championship</h3>
-              <p class="team-card__desc">Inter-department 11v11 &amp; 7v7 football leagues under floodlights.</p>
-            </div>
-            <a href="application/gamingandsports.html" class="team-card__btn">
-              <span>JOIN TEAM</span> &rarr;
-            </a>
-          </div>
-
-          <!-- Basketball -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="basketball.png" alt="Basketball Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">Basketball 3x3 &amp; 5v5</h3>
-              <p class="team-card__desc">Court battles, 3-point shootout contests &amp; annual basketball league.</p>
-            </div>
-            <a href="application/gamingandsports.html" class="team-card__btn">
-              <span>JOIN TEAM</span> &rarr;
-            </a>
-          </div>
-
-          <!-- Volleyball -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="volleyball.png" alt="Volleyball Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">Volleyball Smash</h3>
-              <p class="team-card__desc">Spike and block tournaments for men and women's campus teams.</p>
-            </div>
-            <a href="application/gamingandsports.html" class="team-card__btn">
-              <span>JOIN TEAM</span> &rarr;
-            </a>
-          </div>
-
-          <!-- Table Tennis -->
-          <div class="team-card">
-            <div>
-              <div class="team-card__logo-wrap">
-                <img src="tabletennis.png" alt="Table Tennis Logo" class="game-card-logo" />
-              </div>
-              <h3 class="team-card__title">Table Tennis Singles &amp; Doubles</h3>
-              <p class="team-card__desc">Indoor table tennis championships with singles, doubles &amp; mixed categories.</p>
-            </div>
-            <a href="application/gamingandsports.html" class="team-card__btn">
-              <span>JOIN TEAM</span> &rarr;
-            </a>
-          </div>
-        </div>
-      </div>
     </section>
 
   </main>
