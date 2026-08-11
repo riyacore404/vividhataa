@@ -2,6 +2,11 @@
   publish = "."
 
 [[redirects]]
+  from = "/gaming-sports"
+  to = "/gaming-sports.html"
+  status = 200
+
+[[redirects]]
   from = "/application"
   to = "/application.html"
   status = 200
@@ -11,3 +16,7 @@
   to = "/application/gamingandsports.html"
   status = 200
 
+[[redirects]]
+  from = "/application/technical"
+  to = "/application/technical.html"
+  status = 200

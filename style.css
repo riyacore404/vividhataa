@@ -6099,3 +6099,422 @@ body.app-page .scanlines {
     scroll-behavior: auto
   }
 }
+
+/* ════════════ GAMING & SPORTS LANDING PAGE STYLES ════════════ */
+.gs-page {
+  background-color: #06050a !important;
+  color: #ffffff;
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  overflow-x: hidden;
+}
+
+/* Chrome Header Customization for GS */
+.gs-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 3.5rem;
+  background: rgba(6, 5, 10, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(229, 168, 85, 0.18);
+}
+
+.gs-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.gs-header__logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.gs-header__title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.gs-header__title {
+  font-family: var(--serif, 'Cinzel', serif);
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+}
+
+.gs-header__title span {
+  color: #e5a855;
+}
+
+.gs-header__sub {
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.gs-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.gs-header__nav a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--mono, 'Space Grotesk', monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.gs-header__nav a:hover,
+.gs-header__nav a.active {
+  color: #e5a855;
+}
+
+.gs-header__nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #e5a855;
+  box-shadow: 0 0 8px #e5a855;
+}
+
+.gs-header__join-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border: 1px solid #e5a855;
+  border-radius: 25px;
+  color: #e5a855;
+  font-family: var(--mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  background: rgba(229, 168, 85, 0.05);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(229, 168, 85, 0.15);
+}
+
+.gs-header__join-btn:hover {
+  background: #e5a855;
+  color: #000000;
+  box-shadow: 0 0 24px rgba(229, 168, 85, 0.5);
+}
+
+/* ════ HERO SECTION ════ */
+.gs-hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 4rem 3rem 4rem;
+  background: #06050a;
+  overflow: hidden;
+}
+
+/* Hero Content Area */
+.gs-hero__content-wrap {
+  position: relative;
+  z-index: 10;
+  max-width: 580px;
+}
+
+.gs-hero__eyebrow {
+  font-family: var(--mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: #e5a855;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.gs-hero__title {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: clamp(3.2rem, 6.5vw, 5.2rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin: 0 0 1.5rem 0;
+  text-transform: uppercase;
+}
+
+.gs-hero__title .gold {
+  color: #e5a855;
+  display: block;
+  text-shadow: 0 0 30px rgba(229, 168, 85, 0.3);
+}
+
+.gs-hero__desc {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 2.4rem;
+  max-width: 480px;
+}
+
+.gs-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.gs-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #e5a855;
+  color: #000000;
+  font-family: var(--mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 0.95rem 1.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 0 24px rgba(229, 168, 85, 0.35);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.gs-btn-primary:hover {
+  background: #f5c47f;
+  transform: translateY(-2px);
+  box-shadow: 0 0 36px rgba(229, 168, 85, 0.6);
+}
+
+.gs-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(229, 168, 85, 0.04);
+  color: #ffffff;
+  font-family: var(--mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 0.95rem 1.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid rgba(229, 168, 85, 0.6);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.gs-btn-outline:hover {
+  border-color: #e5a855;
+  background: rgba(229, 168, 85, 0.15);
+  color: #e5a855;
+  transform: translateY(-2px);
+}
+
+/* ════ BACKGROUND DIAGONAL SPLIT VISUAL ════ */
+.gs-hero__split-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Left part: Gamer Room Image */
+.gs-split__gamer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 62%;
+  height: 100%;
+  background: url('gamer_room.png') center center / cover no-repeat;
+  opacity: 0.85;
+  mask-image: linear-gradient(to right, transparent 0%, black 30%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 85%, transparent 100%);
+}
+
+/* Right part: Football Stadium Kick Image with Diagonal Clip */
+.gs-split__sports {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 62%;
+  height: 100%;
+  background: url('football_kick.png') center center / cover no-repeat;
+  opacity: 0.92;
+  clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+  -webkit-clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Gold Glowing Diagonal Line Divider */
+.gs-split__line {
+  position: absolute;
+  top: -10%;
+  right: 38%;
+  width: 2px;
+  height: 130%;
+  background: linear-gradient(180deg, #ffd782 0%, #e5a855 50%, #946019 100%);
+  box-shadow: 0 0 15px #e5a855, 0 0 30px rgba(229, 168, 85, 0.7);
+  transform: rotate(18deg);
+  z-index: 3;
+}
+
+/* Gradient Mask overlay for Left Content contrast */
+.gs-hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(90deg, #06050a 0%, #06050a 65%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ════ BOTTOM 4 CYBER CARDS GLASS CONTAINER ════ */
+.gs-features-bar {
+  position: relative;
+  z-index: 10;
+  margin-top: 4rem;
+  background: rgba(14, 12, 22, 0.85);
+  border: 1px solid rgba(229, 168, 85, 0.25);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1.8rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(229, 168, 85, 0.08);
+}
+
+.gs-feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.gs-feature-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -0.75rem;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background: rgba(229, 168, 85, 0.15);
+}
+
+.gs-feature-item:hover {
+  transform: translateY(-4px);
+}
+
+.gs-feature-icon {
+  font-size: 1.8rem;
+  color: #e5a855;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gs-feature-title {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.gs-feature-desc {
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Footer Ticker */
+.gs-hero__ticker {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  margin-top: 2.5rem;
+  font-family: var(--mono, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.35em;
+  color: rgba(229, 168, 85, 0.6);
+  text-transform: uppercase;
+}
+
+/* Responsive adjustments for Mobile */
+@media (max-width: 991px) {
+  .gs-header {
+    padding: 1rem 1.5rem;
+  }
+  .gs-header__nav {
+    display: none;
+  }
+  .gs-hero {
+    padding: 7rem 1.5rem 2rem 1.5rem;
+    min-height: auto;
+  }
+  .gs-hero__split-bg {
+    width: 100%;
+    opacity: 0.35;
+  }
+  .gs-hero__overlay {
+    width: 100%;
+    background: linear-gradient(180deg, rgba(6, 5, 10, 0.92) 0%, rgba(6, 5, 10, 0.98) 100%);
+  }
+  .gs-hero__content-wrap {
+    max-width: 100%;
+    text-align: center;
+  }
+  .gs-hero__actions {
+    justify-content: center;
+  }
+  .gs-features-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  .gs-feature-item:not(:last-child)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .gs-features-bar {
+    grid-template-columns: 1fr;
+  }
+}
