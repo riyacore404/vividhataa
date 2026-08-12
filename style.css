@@ -4079,11 +4079,34 @@ body.app-page .scanlines {
    PC/Desktop view (>768px) remains 100% untouched and intact.
    ═══════════════════════════════════════════════════════════ */
 
-/* Desktop view default: Hide phone-landing completely on screens > 768px */
+/* Desktop view default: Hide phone-landing and phone components completely on screens > 768px */
 @media (min-width: 769px) {
-  .phone-landing {
+  .phone-landing,
+  .phone-header,
+  .phone-bottom-nav,
+  .phone-nav-drawer,
+  .phone-nav-overlay {
     display: none !important;
   }
+}
+
+/* Base Logo & SVG Safety Constraints */
+.nav__logo {
+  height: clamp(40px, 3.6vw, 54px) !important;
+  max-height: 54px !important;
+  width: auto !important;
+  max-width: 60px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+}
+
+.phone-header__logo {
+  width: 34px !important;
+  height: 34px !important;
+  max-width: 34px !important;
+  max-height: 34px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
 }
 
 /* Mobile view (<= 768px): Hide desktop layout elements on phone screens on index page and show phone-landing */
@@ -4123,6 +4146,10 @@ body.app-page .scanlines {
   }
 
   body.gallery-page .phone-header {
+    display: flex !important;
+  }
+
+  body.gallery-page .phone-bottom-nav {
     display: flex !important;
   }
 
