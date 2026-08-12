@@ -42,6 +42,7 @@ for row in ws.iter_rows(min_row=2, values_only=True):
     pref1 = row[3]   # Col D
     pref2 = row[4]   # Col E
     branch = row[7]  # Col H
+    year = row[8]    # Col I
     section = row[9] # Col J
 
     if not email:
@@ -58,6 +59,7 @@ for row in ws.iter_rows(min_row=2, values_only=True):
             "name":      str(name).strip() if name else "Candidate",
             "emailHash": sha256_email(str(email)),
             "branch":    str(branch).strip() if branch else "N/A",
+            "year":      str(year).strip() if year else "N/A",
             "section":   str(section).strip() if section else "N/A",
             "pref":      1 if is_pref1 else 2
         })
