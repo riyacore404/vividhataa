@@ -23,6 +23,11 @@
   box-sizing: border-box
 }
 
+img, svg {
+  max-width: 100%;
+  height: auto;
+}
+
 html {
   scroll-behavior: smooth
 }
@@ -4084,8 +4089,8 @@ body.app-page .scanlines {
 /* Mobile view (<= 768px): Hide desktop layout elements on phone screens on index page and show phone-landing */
 @media (max-width: 768px) {
   /* Hide desktop elements on index page on mobile */
-  body:not(.app-page):not(.gallery-page) header.chrome,
-  body:not(.app-page):not(.gallery-page) main,
+  body:not(.app-page):not(.gallery-page):not(.events-page):not(.gs-round1-page) header.chrome,
+  body:not(.app-page):not(.gallery-page):not(.events-page):not(.gs-round1-page) main,
   .rail,
   .hint,
   .sticky-badge,
