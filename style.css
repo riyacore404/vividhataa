@@ -6346,30 +6346,32 @@ body.app-page .scanlines {
   overflow: hidden;
 }
 
-/* Left Gamer Image - Natural placement without line or central push */
+/* Left Gamer Image - Brighter, cinematic & natural */
 .gs-split__gamer {
   position: absolute;
   top: 0;
   left: 0;
-  width: 55%;
+  width: 58%;
   height: 100%;
   background: url('gamer_room.png') center center / cover no-repeat;
-  opacity: 0.55;
-  mask-image: radial-gradient(ellipse at 40% 50%, black 20%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at 40% 50%, black 20%, transparent 80%);
+  opacity: 0.85;
+  filter: brightness(1.08) contrast(1.05);
+  mask-image: linear-gradient(to right, black 35%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 35%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
 }
 
-/* Right Football Image - Blended naturally */
+/* Right Football Image - Brighter, clear stadium & player */
 .gs-split__sports {
   position: absolute;
   top: 0;
   right: 0;
-  width: 55%;
+  width: 58%;
   height: 100%;
   background: url('football_kick.png') center center / cover no-repeat;
-  opacity: 0.65;
-  mask-image: radial-gradient(ellipse at 70% 50%, black 25%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at 70% 50%, black 25%, transparent 80%);
+  opacity: 0.88;
+  filter: brightness(1.08) contrast(1.05);
+  mask-image: linear-gradient(to left, black 35%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black 35%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
 }
 
 /* REMOVE YELLOW DIAGONAL LINE COMPLETELY */
@@ -6377,14 +6379,14 @@ body.app-page .scanlines {
   display: none !important;
 }
 
-/* Gradient Mask overlay for Left Content contrast */
+/* Dark Gradient Overlay Behind Left Text Block for High Contrast */
 .gs-hero__overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 30% 50%, rgba(6, 5, 10, 0.75) 0%, rgba(6, 5, 10, 0.95) 75%);
+  background: linear-gradient(90deg, #06050a 0%, rgba(6, 5, 10, 0.95) 30%, rgba(6, 5, 10, 0.5) 60%, rgba(6, 5, 10, 0.15) 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -6399,12 +6401,12 @@ body.app-page .scanlines {
   border: 1px solid rgba(229, 168, 85, 0.4);
   border-left: 4px solid #ff3e3e;
   border-radius: 12px;
-  padding: 1rem 1.4rem;
+  padding: 0.9rem 1.3rem;
   margin-bottom: 2rem;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 62, 62, 0.15);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  max-width: 520px;
+  max-width: 500px;
   transition: all 0.3s ease;
 }
 
@@ -6417,7 +6419,7 @@ body.app-page .scanlines {
 .gs-round1-text {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 .gs-round1-badge {
@@ -6431,7 +6433,7 @@ body.app-page .scanlines {
 
 .gs-round1-title {
   font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   color: #ffffff;
@@ -6462,21 +6464,129 @@ body.app-page .scanlines {
   box-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
 }
 
-/* LEADERBOARD COMING SOON BADGE */
-.gs-badge-coming-soon {
-  display: inline-block;
-  font-size: 0.55rem;
-  font-family: var(--mono, monospace);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #e5a855;
-  background: rgba(229, 168, 85, 0.12);
+/* ════ LEADERBOARD COMING SOON MODAL STYLES ════ */
+.gs-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 3, 7, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.gs-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gs-modal-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(16, 14, 24, 0.96) 0%, rgba(28, 12, 18, 0.96) 100%);
   border: 1px solid rgba(229, 168, 85, 0.4);
-  padding: 0.15rem 0.45rem;
-  border-radius: 10px;
-  margin-left: 0.35rem;
-  vertical-align: middle;
+  border-top: 3px solid #e5a855;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(229, 168, 85, 0.2);
+  transform: scale(0.92);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gs-modal-overlay.active .gs-modal-card {
+  transform: scale(1);
+}
+
+.gs-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.gs-modal-close:hover {
+  color: #e5a855;
+}
+
+.gs-modal-icon {
+  font-size: 2.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.gs-modal-eyebrow {
+  font-family: var(--mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  color: #e5a855;
   text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.gs-modal-title {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+}
+
+.gs-modal-divider {
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, #ff3e3e, #e5a855);
+  margin: 0 auto 1.2rem auto;
+}
+
+.gs-modal-desc {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+  margin-bottom: 1.8rem;
+}
+
+.gs-modal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e5a855 0%, #c8843a 100%);
+  color: #000000;
+  font-family: var(--mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(229, 168, 85, 0.3);
+  transition: all 0.25s ease;
+}
+
+.gs-modal-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
 }
 
 /* ════ BOTTOM 4 CYBER CARDS GLASS CONTAINER ════ */
@@ -6576,11 +6686,11 @@ body.app-page .scanlines {
   }
   .gs-split__gamer {
     width: 100%;
-    opacity: 0.3;
+    opacity: 0.4;
   }
   .gs-split__sports {
     width: 100%;
-    opacity: 0.3;
+    opacity: 0.4;
   }
   .gs-hero__overlay {
     width: 100%;

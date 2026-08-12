@@ -41,26 +41,13 @@
       </div>
     </a>
 
-    <!-- Cleaned Navbar: HOME | ABOUT US | LEADERBOARD (COMING SOON) | CONTACT -->
+    <!-- Cleaned Navbar: HOME | ABOUT US | LEADERBOARD | CONTACT -->
     <nav class="gs-header__nav" aria-label="Gaming &amp; Sports Navigation">
       <a href="index.html">HOME</a>
       <a href="index.html#about">ABOUT US</a>
-      <a href="#leaderboard" style="cursor: default;">
-        LEADERBOARD <span class="gs-badge-coming-soon">COMING SOON</span>
-      </a>
+      <a href="javascript:void(0)" onclick="openLeaderboardModal()">LEADERBOARD</a>
       <a href="mailto:vividhata@glbitm.ac.in">CONTACT</a>
     </nav>
-
-    <a href="application/gamingandsports.html" class="gs-header__join-btn">
-      <span>JOIN CLUB</span>
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="6" y1="12" x2="10" y2="12"></line>
-        <line x1="8" y1="10" x2="8" y2="14"></line>
-        <circle cx="15" cy="13" r="1"></circle>
-        <circle cx="18" cy="11" r="1"></circle>
-        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
-      </svg>
-    </a>
 
     <!-- Mobile Hamburger Toggle -->
     <button class="chrome__hamburger" id="hamburgerBtn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" style="display:none;">
@@ -78,7 +65,7 @@
       <!-- Radial Vignette Overlay for Text Contrast -->
       <div class="gs-hero__overlay"></div>
 
-      <!-- Natural Background Imagery (No Yellow Diagonal Line) -->
+      <!-- Natural Background Imagery (Brighter, Cinematic Blend, No Yellow Line) -->
       <div class="gs-hero__split-bg" aria-hidden="true">
         <div class="gs-split__gamer"></div>
         <div class="gs-split__sports"></div>
@@ -123,7 +110,7 @@
           <a href="application/gamingandsports.html" class="gs-btn-outline">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path>
               <path d="M2 12h20"></path>
             </svg>
             <span>EXPLORE SPORTS</span>
@@ -170,7 +157,7 @@
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
               <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M23 21v-2a4 4 0 0 1 0 7.75"></path>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
           </div>
@@ -202,6 +189,19 @@
 
   </main>
 
+  <!-- ══════════ LEADERBOARD COMING SOON MODAL ══════════ -->
+  <div class="gs-modal-overlay" id="leaderboardModal" role="dialog" aria-modal="true" aria-labelledby="lbModalTitle" onclick="closeLeaderboardOnOverlay(event)">
+    <div class="gs-modal-card">
+      <button type="button" class="gs-modal-close" onclick="closeLeaderboardModal()" aria-label="Close modal">&times;</button>
+      <div class="gs-modal-icon" aria-hidden="true">🏆</div>
+      <span class="gs-modal-eyebrow">LEADERBOARD</span>
+      <h2 class="gs-modal-title" id="lbModalTitle">COMING SOON</h2>
+      <div class="gs-modal-divider"></div>
+      <p class="gs-modal-desc">Leaderboard rankings will be available soon.</p>
+      <button type="button" class="gs-modal-btn" onclick="closeLeaderboardModal()">GOT IT</button>
+    </div>
+  </div>
+
   <!-- ══════════ FOOTER ══════════ -->
   <footer id="end">
     <div class="footer__big">VIVIDHATA GAMING &amp; SPORTS</div>
@@ -213,6 +213,35 @@
   </footer>
 
   <script src="main.js"></script>
+  <script>
+    function openLeaderboardModal() {
+      const modal = document.getElementById('leaderboardModal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeLeaderboardModal() {
+      const modal = document.getElementById('leaderboardModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function closeLeaderboardOnOverlay(e) {
+      if (e.target.id === 'leaderboardModal') {
+        closeLeaderboardModal();
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLeaderboardModal();
+      }
+    });
+  </script>
 </body>
 
 </html>
