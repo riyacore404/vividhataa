@@ -7046,84 +7046,23 @@ body.app-page .scanlines {
   transform: translateY(-2px);
 }
 
-/* ════ BOTTOM 4 CYBER CARDS GLASS CONTAINER (TECH) ════ */
-.tech-features-bar {
-  position: relative;
-  z-index: 10;
-  margin-top: 3.5rem;
-  background: rgba(16, 12, 26, 0.88);
-  border: 1px solid rgba(168, 85, 247, 0.25);
-  border-radius: 16px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 1.8rem 2rem;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.1);
-}
-
-.tech-feature-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0.5rem 1rem;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-.tech-feature-item:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: -0.75rem;
-  top: 15%;
-  height: 70%;
-  width: 1px;
-  background: rgba(168, 85, 247, 0.15);
-}
-
-.tech-feature-item:hover {
-  transform: translateY(-4px);
-}
-
-.tech-feature-icon {
-  font-size: 1.8rem;
-  color: #a855f7;
-  margin-bottom: 0.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tech-feature-title {
-  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  color: #ffffff;
-  text-transform: uppercase;
-  margin-bottom: 0.4rem;
-}
-
-.tech-feature-desc {
-  font-size: 0.76rem;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.4;
-  margin: 0;
-}
-
-/* Footer Ticker */
-.tech-hero__ticker {
+/* Clean Tech Footer Statement */
+.tech-statement {
   position: relative;
   z-index: 10;
   text-align: center;
-  margin-top: 2.5rem;
+  margin-top: 4rem;
   font-family: var(--mono, monospace);
-  font-size: 0.68rem;
-  letter-spacing: 0.35em;
-  color: rgba(168, 85, 247, 0.7);
+  font-size: clamp(0.78rem, 1.8vw, 1.08rem);
+  font-weight: 800;
+  letter-spacing: 0.38em;
+  color: rgba(255, 255, 255, 0.75);
   text-transform: uppercase;
+}
+
+.tech-statement .purple {
+  color: #a855f7;
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
 }
 
 /* Responsive adjustments for Mobile */
@@ -7157,19 +7096,5 @@ body.app-page .scanlines {
   }
   .tech-hero__actions {
     justify-content: center;
-  }
-  .tech-features-bar {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    padding: 1.5rem;
-  }
-  .tech-feature-item:not(:last-child)::after {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .tech-features-bar {
-    grid-template-columns: 1fr;
   }
 }
