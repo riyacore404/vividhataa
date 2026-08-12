@@ -25,3 +25,8 @@
   from = "/application/technical"
   to = "/application/technical.html"
   status = 200
+
+[[redirects]]
+  from = "/gaming-sports/round1"
+  to = "/gaming-sports/round1.html"
+  status = 200
