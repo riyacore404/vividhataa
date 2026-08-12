@@ -853,7 +853,7 @@
             <p id="sumRemarksDisplay" style="display:none; margin-top:0.3rem; color:#94a3b8; font-style:italic;"></p>
           </div>
 
-          <button type="button" class="btn-verify" onclick="submitFinalForm()" style="background: linear-gradient(135deg, #10b981 0%, #059669 55%, #10b981 100%); box-shadow: 0 4px 28px rgba(16, 185, 129, 0.4);">
+          <button type="button" id="final-submit-btn" class="btn-verify" onclick="submitFinalForm()" style="background: linear-gradient(135deg, #10b981 0%, #059669 55%, #10b981 100%); box-shadow: 0 4px 28px rgba(16, 185, 129, 0.4);">
             CONFIRM & SUBMIT
           </button>
         </div>
@@ -1142,7 +1142,7 @@
         const btn = document.getElementById('final-submit-btn');
         if (btn) {
           btn.disabled = true;
-          btn.innerHTML = 'SUBMITTING...';
+          btn.innerHTML = 'SUBMITTING - DO NOT CLOSE...';
         }
 
         const payload = {
@@ -1182,7 +1182,7 @@
               window.showState('submit-error');
               if (btn) {
                 btn.disabled = false;
-                btn.innerHTML = 'SUBMIT REGISTRATION';
+                btn.innerHTML = 'CONFIRM & SUBMIT';
               }
               return; // Stop here, don't go to success state
             } else if (result.status === 'error') {
@@ -1191,7 +1191,7 @@
               window.showState('submit-error');
               if (btn) {
                 btn.disabled = false;
-                btn.innerHTML = 'SUBMIT REGISTRATION';
+                btn.innerHTML = 'CONFIRM & SUBMIT';
               }
               return;
             }
@@ -1202,7 +1202,7 @@
             window.showState('submit-error');
             if (btn) {
               btn.disabled = false;
-              btn.innerHTML = 'SUBMIT REGISTRATION';
+              btn.innerHTML = 'CONFIRM & SUBMIT';
             }
             return;
           }
