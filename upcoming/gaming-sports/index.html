@@ -6,19 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gaming &amp; Sports Club — VIVIDHATA CLUB</title>
   <meta name="description" content="The official student hub for gaming and sports events, tournaments, and everything in between at GL Bajaj Institute of Technology & Management." />
-  <link rel="icon" type="image/png" href="viviLogo.png" />
-  <link rel="shortcut icon" type="image/png" href="viviLogo.png" />
-  <link rel="apple-touch-icon" href="viviLogo.png" />
+  <link rel="icon" type="image/png" href="../viviLogo.png" />
+  <link rel="shortcut icon" type="image/png" href="../viviLogo.png" />
+  <link rel="apple-touch-icon" href="../viviLogo.png" />
   <meta property="og:title" content="Gaming &amp; Sports Club — VIVIDHATA CLUB" />
   <meta property="og:description" content="Play. Compete. Belong. Official Gaming and Sports hub for Vividhata Club." />
-  <meta property="og:image" content="gamer_room.png" />
+  <meta property="og:image" content="../gamer_room.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .gs-split__gamer {
+      background-image: url('../gamer_room.png') !important;
+    }
+    .gs-split__sports {
+      background-image: url('../football_kick.png') !important;
+    }
+  </style>
 </head>
 
 <body class="gs-page">
@@ -33,8 +41,8 @@
 
   <!-- ══════════ TOP FIXED NAVBAR ══════════ -->
   <header class="gs-header">
-    <a href="index.html" class="gs-header__brand" aria-label="Vividhata Club Homepage">
-      <img src="viviLogo.png" alt="Vividhata Emblem" class="gs-header__logo" />
+    <a href="../index.html" class="gs-header__brand" aria-label="Vividhata Club Homepage">
+      <img src="../viviLogo.png" alt="Vividhata Emblem" class="gs-header__logo" />
       <div class="gs-header__title-wrap">
         <span class="gs-header__title">VIVIDHATA <span>CLUB</span></span>
         <span class="gs-header__sub">G.L. BAJAJ INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT</span>
@@ -43,8 +51,8 @@
 
     <!-- Cleaned Navbar: HOME | ABOUT US | LEADERBOARD | CONTACT -->
     <nav class="gs-header__nav" aria-label="Gaming &amp; Sports Navigation">
-      <a href="index.html">HOME</a>
-      <a href="index.html#about">ABOUT US</a>
+      <a href="../index.html">HOME</a>
+      <a href="../index.html#about">ABOUT US</a>
       <a href="javascript:void(0)" onclick="showComingSoonModal('LEADERBOARD', 'COMING SOON', 'Leaderboard rankings will be available soon.', '🏆'); return false;">LEADERBOARD</a>
       <a href="mailto:vividhata@glbitm.ac.in">CONTACT</a>
     </nav>
@@ -89,7 +97,7 @@
             <span class="gs-round1-badge">✦ LIVE REGISTRATION</span>
             <span class="gs-round1-title">REGISTRATION FOR ROUND 1</span>
           </div>
-          <a href="gaming-sports.html" class="gs-round1-btn">
+          <a href="../tournament.html" class="gs-round1-btn">
             <span>REGISTER NOW</span> &rarr;
           </a>
         </div>
@@ -212,7 +220,7 @@
     </div>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="../main.js"></script>
   <script>
     function showComingSoonModal(eyebrow, title, desc, icon) {
       const modal = document.getElementById('gsModal');

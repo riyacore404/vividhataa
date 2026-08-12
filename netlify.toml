@@ -2,18 +2,8 @@
   publish = "."
 
 [[redirects]]
-  from = "/events"
-  to = "/events.html"
-  status = 200
-
-[[redirects]]
   from = "/technical"
   to = "/technical.html"
-  status = 200
-
-[[redirects]]
-  from = "/gaming-sports"
-  to = "/gaming-sports.html"
   status = 200
 
 [[redirects]]
@@ -21,10 +11,6 @@
   to = "/application.html"
   status = 200
 
-[[redirects]]
-  from = "/application/gamingandsports"
-  to = "/application/gamingandsports.html"
-  status = 200
 
 [[redirects]]
   from = "/application/technical"
