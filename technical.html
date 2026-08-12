@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Technical &amp; Innovation Club — VIVIDHATA CLUB</title>
+  <meta name="description" content="The official student hub for coders, developers, and innovators at GL Bajaj Institute of Technology & Management. Build solutions, solve problems, and shape the future." />
+  <link rel="icon" type="image/png" href="viviLogo.png" />
+  <link rel="shortcut icon" type="image/png" href="viviLogo.png" />
+  <link rel="apple-touch-icon" href="viviLogo.png" />
+  <meta property="og:title" content="Technical &amp; Innovation Club — VIVIDHATA CLUB" />
+  <meta property="og:description" content="Code. Innovate. Elevate. Official Technical and Innovation hub for Vividhata Club." />
+  <meta property="og:image" content="tech_developer.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="tech-page">
+
+  <!-- ══════════ ACCESSIBILITY SKIP LINK (VISUALLY HIDDEN) ══════════ -->
+  <a href="#main-content" class="sr-only">Skip to Main Content</a>
+
+  <!-- ══════════ AMBIENT LAYERS ══════════ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ══════════ TOP FIXED NAVBAR ══════════ -->
+  <header class="tech-header">
+    <a href="index.html" class="tech-header__brand" aria-label="Vividhata Club Homepage">
+      <img src="viviLogo.png" alt="Vividhata Emblem" class="tech-header__logo" />
+      <div class="tech-header__title-wrap">
+        <span class="tech-header__title">VIVIDHATA <span>CLUB</span></span>
+        <span class="tech-header__sub">G.L. BAJAJ INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT</span>
+      </div>
+    </a>
+
+    <!-- Cleaned Navbar: HOME | ABOUT US | CONTACT -->
+    <nav class="tech-header__nav" aria-label="Technical Club Navigation">
+      <a href="index.html">HOME</a>
+      <a href="index.html#about">ABOUT US</a>
+      <a href="mailto:vividhata@glbitm.ac.in">CONTACT</a>
+    </nav>
+
+    <!-- Mobile Hamburger Toggle -->
+    <button class="chrome__hamburger" id="hamburgerBtn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" style="display:none;">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ══════════ HERO LANDING EXPERIENCE ══════════ -->
+    <section class="tech-hero" id="hero-content">
+
+      <!-- Radial Vignette Overlay for Text Contrast -->
+      <div class="tech-hero__overlay"></div>
+
+      <!-- Developer Workstation & Projects Visual -->
+      <div class="tech-hero__bg-wrap" aria-hidden="true">
+        <div class="tech-hero__bg-img"></div>
+      </div>
+
+      <!-- Hero Main Content Area -->
+      <div class="tech-hero__content-wrap">
+        <span class="tech-hero__eyebrow">TECHNICAL &amp; INNOVATION CLUB</span>
+        <h1 class="tech-hero__title">
+          CODE.<br />
+          INNOVATE.<br />
+          <span class="purple">ELEVATE.</span>
+        </h1>
+        <p class="tech-hero__desc">
+          The official student hub for coders, developers, and innovators. Build solutions, solve problems, and shape the future with technology.
+        </p>
+
+        <!-- ── PROMINENT REGISTRATION FOR ROUND 1 CTA CARD ── -->
+        <div class="tech-round1-cta">
+          <div class="tech-round1-text">
+            <span class="tech-round1-badge">✦ LIVE REGISTRATION</span>
+            <span class="tech-round1-title">REGISTRATION FOR ROUND 1</span>
+          </div>
+          <a href="application/technical.html" class="tech-round1-btn">
+            <span>REGISTER NOW</span> &rarr;
+          </a>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="tech-hero__actions">
+          <button type="button" class="tech-btn-primary" onclick="showComingSoonModal('TECH EVENTS', 'COMING SOON', 'We\'re working on something awesome. Stay tuned!', '💻')">
+            <span>💻 EXPLORE TECH EVENTS</span>
+          </button>
+
+          <button type="button" class="tech-btn-outline" onclick="showComingSoonModal('COMPETITIONS', 'COMING SOON', 'We\'re working on something awesome. Stay tuned!', '🚀')">
+            <span>🚀 EXPLORE COMPETITIONS</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom 4 Feature Cyber Cards Glass Container -->
+      <div class="tech-features-bar">
+        <!-- 1. Web & App Dev -->
+        <div class="tech-feature-item">
+          <div class="tech-feature-icon" aria-hidden="true">💻</div>
+          <h3 class="tech-feature-title">WEB &amp; APP DEV</h3>
+          <p class="tech-feature-desc">Full-stack development, mobile apps, Cloud &amp; DevOps architectures.</p>
+        </div>
+
+        <!-- 2. AI & ML Labs -->
+        <div class="tech-feature-item">
+          <div class="tech-feature-icon" aria-hidden="true">🤖</div>
+          <h3 class="tech-feature-title">AI &amp; ML LABS</h3>
+          <p class="tech-feature-desc">Artificial intelligence, machine learning, neural networks &amp; computer vision.</p>
+        </div>
+
+        <!-- 3. Hackathons -->
+        <div class="tech-feature-item">
+          <div class="tech-feature-icon" aria-hidden="true">⚡</div>
+          <h3 class="tech-feature-title">HACKATHONS</h3>
+          <p class="tech-feature-desc">Intra &amp; inter-college 24-hour hackathons, coding contests &amp; bug bounties.</p>
+        </div>
+
+        <!-- 4. Open Source -->
+        <div class="tech-feature-item">
+          <div class="tech-feature-icon" aria-hidden="true">🚀</div>
+          <h3 class="tech-feature-title">OPEN SOURCE</h3>
+          <p class="tech-feature-desc">Build real-world products, open-source contributions &amp; team projects.</p>
+        </div>
+      </div>
+
+      <!-- Sub Footer Ticker -->
+      <div class="tech-hero__ticker">
+        THINK. CODE. INNOVATE. IMPACT.
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ══════════ REUSABLE COMING SOON MODAL ══════════ -->
+  <div class="gs-modal-overlay" id="gsModal" role="dialog" aria-modal="true" aria-labelledby="gsModalTitle" onclick="closeGsModalOnOverlay(event)">
+    <div class="gs-modal-card" style="border-top-color: #a855f7;">
+      <button type="button" class="gs-modal-close" onclick="closeGsModal()" aria-label="Close modal">&times;</button>
+      <div class="gs-modal-icon" id="gsModalIcon" aria-hidden="true">💻</div>
+      <span class="gs-modal-eyebrow" id="gsModalEyebrow" style="color: #a855f7;">TECHNICAL CLUB</span>
+      <h2 class="gs-modal-title" id="gsModalTitle">COMING SOON</h2>
+      <div class="gs-modal-divider" style="background: linear-gradient(90deg, #a855f7, #38bdf8);"></div>
+      <p class="gs-modal-desc" id="gsModalDesc">We're working on something awesome. Stay tuned!</p>
+      <button type="button" class="gs-modal-btn" onclick="closeGsModal()" style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: #ffffff;">GOT IT</button>
+    </div>
+  </div>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer id="end">
+    <div class="footer__big">VIVIDHATA TECHNICAL CLUB</div>
+    <div class="footer__row">
+      <span>THINK. CODE. INNOVATE. IMPACT.</span>
+      <span>VIVIDHATA CLUB © 2026 — GL BAJAJ INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT</span>
+      <span>ORGANIZED BY VIVIDHATA CLUB</span>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    function showComingSoonModal(eyebrow, title, desc, icon) {
+      const modal = document.getElementById('gsModal');
+      if (!modal) return;
+      document.getElementById('gsModalEyebrow').textContent = eyebrow || 'FEATURE';
+      document.getElementById('gsModalTitle').textContent = title || 'COMING SOON';
+      document.getElementById('gsModalDesc').textContent = desc || "We're working on something awesome. Stay tuned!";
+      document.getElementById('gsModalIcon').textContent = icon || '💻';
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeGsModal() {
+      const modal = document.getElementById('gsModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function closeGsModalOnOverlay(e) {
+      if (e.target.id === 'gsModal') {
+        closeGsModal();
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeGsModal();
+      }
+    });
+  </script>
+</body>
+
+</html>

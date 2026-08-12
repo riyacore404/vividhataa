@@ -6724,3 +6724,452 @@ body.app-page .scanlines {
     grid-template-columns: 1fr;
   }
 }
+
+/* ════════════ TECHNICAL CLUB LANDING PAGE STYLES ════════════ */
+.tech-page {
+  background-color: #06050a !important;
+  color: #ffffff;
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  overflow-x: hidden;
+}
+
+/* Header Customization for Tech */
+.tech-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 3.5rem;
+  background: rgba(6, 5, 10, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.tech-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.tech-header__logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.tech-header__title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.tech-header__title {
+  font-family: var(--serif, 'Cinzel', serif);
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+}
+
+.tech-header__title span {
+  color: #a855f7;
+}
+
+.tech-header__sub {
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.tech-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  margin-left: auto;
+}
+
+.tech-header__nav a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--mono, 'Space Grotesk', monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.tech-header__nav a:hover,
+.tech-header__nav a.active {
+  color: #a855f7;
+}
+
+.tech-header__nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #a855f7;
+  box-shadow: 0 0 8px #a855f7;
+}
+
+/* ════ TECH HERO SECTION ════ */
+.tech-hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 4rem 3rem 4rem;
+  background: #06050a;
+  overflow: hidden;
+}
+
+/* Tech Hero Background Visual */
+.tech-hero__bg-wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tech-hero__bg-img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 100%;
+  background: url('tech_developer.png') center right / cover no-repeat;
+  opacity: 0.88;
+  filter: brightness(1.08) contrast(1.05);
+  mask-image: linear-gradient(to left, black 40%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black 40%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
+}
+
+.tech-hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #06050a 0%, rgba(6, 5, 10, 0.95) 35%, rgba(6, 5, 10, 0.5) 65%, rgba(6, 5, 10, 0.1) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.tech-hero__content-wrap {
+  position: relative;
+  z-index: 10;
+  max-width: 580px;
+}
+
+.tech-hero__eyebrow {
+  font-family: var(--mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: #a855f7;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.tech-hero__title {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: clamp(3.2rem, 6.5vw, 5.2rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin: 0 0 1.5rem 0;
+  text-transform: uppercase;
+}
+
+.tech-hero__title .purple {
+  color: #a855f7;
+  display: block;
+  text-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+}
+
+.tech-hero__desc {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 2.2rem;
+  max-width: 480px;
+}
+
+/* ════ REGISTRATION FOR ROUND 1 CTA CARD (PURPLE THEME) ════ */
+.tech-round1-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  background: linear-gradient(135deg, rgba(22, 16, 32, 0.92) 0%, rgba(35, 12, 38, 0.92) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-left: 4px solid #a855f7;
+  border-radius: 12px;
+  padding: 0.9rem 1.3rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  max-width: 500px;
+  transition: all 0.3s ease;
+}
+
+.tech-round1-cta:hover {
+  border-color: #c084fc;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 28px rgba(168, 85, 247, 0.35);
+  transform: translateY(-2px);
+}
+
+.tech-round1-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.tech-round1-badge {
+  font-family: var(--mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #a855f7;
+  text-transform: uppercase;
+}
+
+.tech-round1-title {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 0.96rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.tech-round1-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+  color: #ffffff;
+  font-family: var(--mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  padding: 0.65rem 1.3rem;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.tech-round1-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
+}
+
+/* Action Buttons */
+.tech-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.tech-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #a855f7;
+  color: #ffffff;
+  font-family: var(--mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 0.95rem 1.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.35);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tech-btn-primary:hover {
+  background: #c084fc;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 0 36px rgba(168, 85, 247, 0.6);
+}
+
+.tech-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(168, 85, 247, 0.05);
+  color: #ffffff;
+  font-family: var(--mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 0.95rem 1.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid rgba(168, 85, 247, 0.6);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tech-btn-outline:hover {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.18);
+  color: #c084fc;
+  transform: translateY(-2px);
+}
+
+/* ════ BOTTOM 4 CYBER CARDS GLASS CONTAINER (TECH) ════ */
+.tech-features-bar {
+  position: relative;
+  z-index: 10;
+  margin-top: 3.5rem;
+  background: rgba(16, 12, 26, 0.88);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1.8rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.1);
+}
+
+.tech-feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.tech-feature-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -0.75rem;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background: rgba(168, 85, 247, 0.15);
+}
+
+.tech-feature-item:hover {
+  transform: translateY(-4px);
+}
+
+.tech-feature-icon {
+  font-size: 1.8rem;
+  color: #a855f7;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tech-feature-title {
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.tech-feature-desc {
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Footer Ticker */
+.tech-hero__ticker {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  margin-top: 2.5rem;
+  font-family: var(--mono, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.35em;
+  color: rgba(168, 85, 247, 0.7);
+  text-transform: uppercase;
+}
+
+/* Responsive adjustments for Mobile */
+@media (max-width: 991px) {
+  .tech-header {
+    padding: 1rem 1.5rem;
+  }
+  .tech-header__nav {
+    display: none;
+  }
+  .tech-hero {
+    padding: 7rem 1.5rem 3rem 1.5rem;
+    min-height: auto;
+  }
+  .tech-hero__bg-img {
+    width: 100%;
+    opacity: 0.35;
+  }
+  .tech-hero__overlay {
+    width: 100%;
+    background: linear-gradient(180deg, rgba(6, 5, 10, 0.92) 0%, rgba(6, 5, 10, 0.98) 100%);
+  }
+  .tech-hero__content-wrap {
+    max-width: 100%;
+    text-align: center;
+  }
+  .tech-round1-cta {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  .tech-hero__actions {
+    justify-content: center;
+  }
+  .tech-features-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  .tech-feature-item:not(:last-child)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .tech-features-bar {
+    grid-template-columns: 1fr;
+  }
+}
