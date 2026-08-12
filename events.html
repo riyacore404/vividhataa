@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Events — VIVIDHATA CLUB</title>
+  <meta name="description" content="Upcoming events and competitions by Vividhata Club." />
+  <link rel="icon" type="image/png" href="viviLogo.png" />
+  <link rel="shortcut icon" type="image/png" href="viviLogo.png" />
+  <link rel="apple-touch-icon" href="viviLogo.png" />
+  <meta property="og:title" content="Events — VIVIDHATA CLUB" />
+  <meta property="og:description" content="Upcoming events and competitions by Vividhata Club." />
+  <meta property="og:image" content="viviLogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="events-page">
+
+  <!-- ══════════ AMBIENT LAYERS ══════════ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ══════════ FIXED CHROME NAV (DESKTOP) ══════════ -->
+  <header class="chrome">
+    <div class="chrome__mark">
+      <a href="index.html" style="display:flex; align-items:center; gap:0.85rem; text-decoration:none; color:inherit;">
+        <img src="viviLogo.png" alt="Vividhata Logo" class="nav__logo" />
+        <span>VIVIDHATA</span>
+      </a>
+    </div>
+
+    <div class="chrome__actions">
+      <a href="index.html" class="app-back-btn" title="Home" aria-label="Home" style="text-decoration:none; color:#e5a855; width:36px; height:36px; border-radius:50%; border:1px solid rgba(229,168,85,0.5); display:inline-flex; align-items:center; justify-content:center; background:rgba(229,168,85,0.08); flex-shrink:0;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </a>
+      <button class="chrome__hamburger" id="hamburgerBtn" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <nav class="chrome__nav" id="chromeNav">
+      <a href="index.html" data-sub="01">HOME</a>
+      <a href="index.html#about" data-sub="02">ABOUT</a>
+      <a href="events.html" class="active" data-sub="03">EVENTS</a>
+      <a href="gallery.html" data-sub="04">GALLERY</a>
+      <a href="mailto:vividhata@glbitm.ac.in" data-sub="05">CONTACT</a>
+    </nav>
+  </header>
+
+  <!-- ══════════ MOBILE HEADER BAR ══════════ -->
+  <header class="phone-header">
+    <div class="phone-header__brand">
+      <a href="index.html" style="display:flex; align-items:center; gap:0.6rem; text-decoration:none; color:inherit;">
+        <img src="viviLogo.png" alt="Vividhata Logo" class="phone-header__logo" />
+        <span class="phone-header__title">VIVIDHATA</span>
+      </a>
+    </div>
+    <div class="phone-header__actions">
+      <button class="phone-icon-btn phone-bell-btn" type="button" id="phoneBellBtn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="phone-bell-dot"></span>
+      </button>
+      <button class="phone-icon-btn phone-menu-btn" type="button" id="phoneMenuBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ══════════ MAIN COMING SOON CONTENT ══════════ -->
+  <main class="events-coming-soon-container">
+    <div class="events-cs-card">
+      <div class="events-cs-badge">VIVIDHATA CLUB EVENTS</div>
+      <h1 class="events-cs-title">COMING SOON</h1>
+      <p class="events-cs-desc">
+        We are preparing exciting new hackathons, cultural festivals, and inter-college competitions for 2026. Stay tuned for official announcements!
+      </p>
+
+      <div class="events-cs-active-box">
+        <h3>ACTIVE EVENT</h3>
+        <p>Check out our ongoing Gaming & Sports Championship Round 1 details.</p>
+        <a href="gaming-sports.html" class="events-cs-btn">
+          <span>EXPLORE GAMING & SPORTS</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══════════ FIXED MOBILE BOTTOM NAVIGATION DOCK ══════════ -->
+  <nav class="phone-bottom-nav">
+    <a href="index.html" class="phone-nav-item" data-target="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      <span>HOME</span>
+    </a>
+
+    <a href="events.html" class="phone-nav-item active" data-target="events">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      <span>EVENTS</span>
+    </a>
+
+    <!-- Center Elevated Orb -->
+    <a href="application.html" class="phone-nav-orb" title="Join Vividhata">
+      <div class="phone-nav-orb__glow"></div>
+      <div class="phone-nav-orb__inner">
+        <img src="viviLogo.png" alt="Vividhata Center Orb" />
+      </div>
+    </a>
+
+    <a href="gallery.html" class="phone-nav-item" data-target="gallery">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+      <span>GALLERY</span>
+    </a>
+
+    <a href="mailto:vividhata@glbitm.ac.in" class="phone-nav-item" data-target="contact">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+      </svg>
+      <span>CONTACT</span>
+    </a>
+  </nav>
+
+  <!-- ══════════ NOTIFICATION SIDEBAR & OVERLAY ══════════ -->
+  <div class="notification-overlay" id="notifyOverlay" aria-hidden="true"></div>
+  <aside class="notification-sidebar" id="notifySidebar" aria-label="Notifications Drawer">
+    <div class="notification-sidebar__header">
+      <div class="notification-sidebar__title-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <h3>NOTIFICATIONS</h3>
+      </div>
+      <button class="notification-close-btn" id="notifyCloseBtn" type="button" aria-label="Close Notifications">&times;</button>
+    </div>
+
+    <div class="notification-sidebar__content">
+      <div class="notification-card">
+        <span class="notification-card__badge">RECRUITMENT 2026</span>
+        <h4 class="notification-card__heading">Registrations are Now Open!</h4>
+        <p class="notification-card__text">
+          Official recruitment for the 2026 session of Vividhata Club is now active. Step into innovation, build real-world tech projects, and lead the future.
+        </p>
+        <a href="application.html" class="notification-card__btn">
+          <span>REGISTER NOW</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════ TOP MOBILE NAVIGATION DRAWER & OVERLAY ══════════ -->
+  <div class="phone-nav-overlay" id="phoneNavOverlay" aria-hidden="true"></div>
+  <aside class="phone-nav-drawer" id="phoneNavDrawer" aria-label="Mobile Navigation Menu">
+    <div class="phone-nav-drawer__header">
+      <div class="phone-nav-drawer__brand">
+        <img src="viviLogo.png" alt="Vividhata Logo" />
+        <span>VIVIDHATA CLUB</span>
+      </div>
+      <button class="phone-nav-drawer__close" id="phoneNavCloseBtn" type="button" aria-label="Close Menu">&times;</button>
+    </div>
+
+    <div class="phone-nav-drawer__links">
+      <a href="index.html" class="phone-drawer-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>HOME</span>
+      </a>
+      <a href="application.html" class="phone-drawer-link phone-drawer-link--highlight">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <span>RECRUITMENT 2026</span>
+      </a>
+      <a href="events.html" class="phone-drawer-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>EVENTS</span>
+      </a>
+      <a href="gallery.html" class="phone-drawer-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <span>GALLERY</span>
+      </a>
+      <a href="mailto:vividhata@glbitm.ac.in" class="phone-drawer-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <span>CONTACT US</span>
+      </a>
+    </div>
+  </aside>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
