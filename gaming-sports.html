@@ -45,7 +45,7 @@
     <nav class="gs-header__nav" aria-label="Gaming &amp; Sports Navigation">
       <a href="index.html">HOME</a>
       <a href="index.html#about">ABOUT US</a>
-      <a href="javascript:void(0)" onclick="openLeaderboardModal()">LEADERBOARD</a>
+      <a href="javascript:void(0)" onclick="showComingSoonModal('LEADERBOARD', 'COMING SOON', 'Leaderboard rankings will be available soon.', '🏆'); return false;">LEADERBOARD</a>
       <a href="mailto:vividhata@glbitm.ac.in">CONTACT</a>
     </nav>
 
@@ -96,7 +96,7 @@
 
         <!-- Action Buttons -->
         <div class="gs-hero__actions">
-          <a href="tournament.html" class="gs-btn-primary">
+          <button type="button" class="gs-btn-primary" onclick="showComingSoonModal('GAMES CATALOG', 'COMING SOON', 'We\'re working on something awesome. Stay tuned!', '🎮')">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="6" y1="12" x2="10" y2="12"></line>
               <line x1="8" y1="10" x2="8" y2="14"></line>
@@ -105,16 +105,16 @@
               <rect x="2" y="6" width="20" height="12" rx="6"></rect>
             </svg>
             <span>EXPLORE GAMES</span>
-          </a>
+          </button>
 
-          <a href="application/gamingandsports.html" class="gs-btn-outline">
+          <button type="button" class="gs-btn-outline" onclick="showComingSoonModal('SPORTS LEAGUES', 'COMING SOON', 'We\'re working on something awesome. Stay tuned!', '⚽')">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="10"></circle>
               <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path>
               <path d="M2 12h20"></path>
             </svg>
             <span>EXPLORE SPORTS</span>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -189,16 +189,16 @@
 
   </main>
 
-  <!-- ══════════ LEADERBOARD COMING SOON MODAL ══════════ -->
-  <div class="gs-modal-overlay" id="leaderboardModal" role="dialog" aria-modal="true" aria-labelledby="lbModalTitle" onclick="closeLeaderboardOnOverlay(event)">
+  <!-- ══════════ REUSABLE COMING SOON MODAL ══════════ -->
+  <div class="gs-modal-overlay" id="gsModal" role="dialog" aria-modal="true" aria-labelledby="gsModalTitle" onclick="closeGsModalOnOverlay(event)">
     <div class="gs-modal-card">
-      <button type="button" class="gs-modal-close" onclick="closeLeaderboardModal()" aria-label="Close modal">&times;</button>
-      <div class="gs-modal-icon" aria-hidden="true">🏆</div>
-      <span class="gs-modal-eyebrow">LEADERBOARD</span>
-      <h2 class="gs-modal-title" id="lbModalTitle">COMING SOON</h2>
+      <button type="button" class="gs-modal-close" onclick="closeGsModal()" aria-label="Close modal">&times;</button>
+      <div class="gs-modal-icon" id="gsModalIcon" aria-hidden="true">🏆</div>
+      <span class="gs-modal-eyebrow" id="gsModalEyebrow">LEADERBOARD</span>
+      <h2 class="gs-modal-title" id="gsModalTitle">COMING SOON</h2>
       <div class="gs-modal-divider"></div>
-      <p class="gs-modal-desc">Leaderboard rankings will be available soon.</p>
-      <button type="button" class="gs-modal-btn" onclick="closeLeaderboardModal()">GOT IT</button>
+      <p class="gs-modal-desc" id="gsModalDesc">Leaderboard rankings will be available soon.</p>
+      <button type="button" class="gs-modal-btn" onclick="closeGsModal()">GOT IT</button>
     </div>
   </div>
 
@@ -214,31 +214,35 @@
 
   <script src="main.js"></script>
   <script>
-    function openLeaderboardModal() {
-      const modal = document.getElementById('leaderboardModal');
-      if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
+    function showComingSoonModal(eyebrow, title, desc, icon) {
+      const modal = document.getElementById('gsModal');
+      if (!modal) return;
+      document.getElementById('gsModalEyebrow').textContent = eyebrow || 'FEATURE';
+      document.getElementById('gsModalTitle').textContent = title || 'COMING SOON';
+      document.getElementById('gsModalDesc').textContent = desc || "We're working on something awesome. Stay tuned!";
+      document.getElementById('gsModalIcon').textContent = icon || '⚡';
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
 
-    function closeLeaderboardModal() {
-      const modal = document.getElementById('leaderboardModal');
+    function closeGsModal() {
+      const modal = document.getElementById('gsModal');
       if (modal) {
         modal.classList.remove('active');
         document.body.style.overflow = '';
       }
     }
 
-    function closeLeaderboardOnOverlay(e) {
-      if (e.target.id === 'leaderboardModal') {
-        closeLeaderboardModal();
+    function closeGsModalOnOverlay(e) {
+      if (e.target.id === 'gsModal') {
+        closeGsModal();
       }
     }
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
-        closeLeaderboardModal();
+        closeGsModal();
       }
     });
   </script>

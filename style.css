@@ -6168,6 +6168,7 @@ body.app-page .scanlines {
   display: flex;
   align-items: center;
   gap: 2.2rem;
+  margin-left: auto;
 }
 
 .gs-header__nav a {
