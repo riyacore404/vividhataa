@@ -83,6 +83,10 @@ function normalizeEmail(value) {
   return String(value || '').trim().toLowerCase();
 }
 
+function escapeDriveQueryValue(value) {
+  return String(value || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
 function validatePayload(body, event) {
   const required = [
     ['fullName', 'Full name is required'],
@@ -168,21 +172,101 @@ async function findDuplicate(sheets, eventId, email) {
   return rows.slice(1).some(row => row[2] === eventId && normalizeEmail(row[6]) === email);
 }
 
+async function findEventFolders(drive, rootId, eventId) {
+  const escapedEventId = escapeDriveQueryValue(eventId);
+  const escapedRootId = escapeDriveQueryValue(rootId);
+  const query = [
+    `'${escapedRootId}' in parents`,
+    `name='${escapedEventId}'`,
+    `mimeType='application/vnd.google-apps.folder'`,
+    'trashed=false'
+  ].join(' and ');
+
+  const response = await drive.files.list({
+    q: query,
+    fields: 'files(id,name,createdTime)',
+    orderBy: 'createdTime asc',
+    pageSize: 10,
+    includeItemsFromAllDrives: true,
+    supportsAllDrives: true
+  });
+  return response.data.files || [];
+}
+
+async function getOrCreateEventFolder(drive, eventId) {
+  const rootId = process.env.GOOGLE_DRIVE_FOLDER_ID;
+  const matches = await findEventFolders(drive, rootId, eventId);
+  if (matches.length > 1) {
+    const error = new Error(`Multiple event folders found for event id '${eventId}' under the configured Drive root. Manual cleanup is required before new uploads.`);
+    error.statusCode = 500;
+    throw error;
+  }
+
+  if (matches.length === 1) return matches[0].id;
+
+  const created = await drive.files.create({
+    requestBody: { name: eventId, mimeType: 'application/vnd.google-apps.folder', parents: [rootId] },
+    fields: 'id',
+    supportsAllDrives: true
+  });
+
+  // Reconcile concurrent creates: keep a single canonical folder and remove only this request's extra folder.
+  const postCreateMatches = await findEventFolders(drive, rootId, eventId);
+  if (postCreateMatches.length === 1) return postCreateMatches[0].id;
+
+  const canonicalId = postCreateMatches[0]?.id;
+  if (!canonicalId) {
+    const error = new Error(`Event folder could not be confirmed for event id '${eventId}'.`);
+    error.statusCode = 500;
+    throw error;
+  }
+
+  if (created.data.id !== canonicalId) {
+    try {
+      await drive.files.delete({
+        fileId: created.data.id,
+        supportsAllDrives: true
+      });
+    } catch (cleanupError) {
+      const error = new Error(`Concurrent event folder creation detected for event id '${eventId}', but automatic cleanup failed. Manual cleanup is required.`);
+      error.statusCode = 500;
+      throw error;
+    }
+    return canonicalId;
+  }
+
+  const error = new Error(`Concurrent event folder creation detected for event id '${eventId}'. Retry the request if it does not complete.`);
+  error.statusCode = 409;
+  throw error;
+}
+
+async function cleanupRegistrationFolder(drive, folderId) {
+  if (!folderId) return true;
+  try {
+    await drive.files.delete({
+      fileId: folderId,
+      supportsAllDrives: true
+    });
+    return true;
+  } catch (error) {
+    console.error('Registration cleanup failed for Drive folder:', folderId, error.message);
+    return false;
+  }
+}
+
 async function uploadFiles(drive, files, event, id) {
-  if (!files.length) return [];
+  if (!files.length) return { urls: [], registrationFolderId: null };
   if (!process.env.GOOGLE_DRIVE_FOLDER_ID) {
     const error = new Error('File upload storage is not configured');
     error.statusCode = 503;
     throw error;
   }
 
-  const eventFolder = await drive.files.create({
-    requestBody: { name: event.id, mimeType: 'application/vnd.google-apps.folder', parents: [process.env.GOOGLE_DRIVE_FOLDER_ID] },
-    fields: 'id'
-  });
+  const eventFolderId = await getOrCreateEventFolder(drive, event.id);
   const registrationFolder = await drive.files.create({
-    requestBody: { name: id, mimeType: 'application/vnd.google-apps.folder', parents: [eventFolder.data.id] },
-    fields: 'id'
+    requestBody: { name: id, mimeType: 'application/vnd.google-apps.folder', parents: [eventFolderId] },
+    fields: 'id',
+    supportsAllDrives: true
   });
 
   const urls = [];
@@ -191,11 +275,12 @@ async function uploadFiles(drive, files, event, id) {
     const created = await drive.files.create({
       requestBody: { name: safeName, parents: [registrationFolder.data.id] },
       media: { mimeType: file.mimetype, body: require('node:stream').Readable.from(file.buffer) },
-      fields: 'id,webViewLink'
+      fields: 'id,webViewLink',
+      supportsAllDrives: true
     });
     urls.push(`${file.fieldname}: ${created.data.webViewLink || `https://drive.google.com/open?id=${created.data.id}`}`);
   }
-  return urls;
+  return { urls, registrationFolderId: registrationFolder.data.id };
 }
 
 app.get('/health', (_req, res) => res.json({ ok: true }));
@@ -221,7 +306,8 @@ app.post('/api/register', upload.any(), async (req, res) => {
     }
 
     const id = registrationId();
-    const fileUrls = await uploadFiles(drive, req.files || [], event, id);
+    const uploadResult = await uploadFiles(drive, req.files || [], event, id);
+    const fileUrls = uploadResult.urls;
     const row = [
       new Date().toISOString(), id, event.id, event.name, event.category,
       String(req.body.fullName || '').trim(), email, String(req.body.contact || '').trim(),
@@ -231,12 +317,22 @@ app.post('/api/register', upload.any(), async (req, res) => {
       String(req.body.motivation || '').trim(), String(req.body.additional || '').trim(),
       'RECEIVED', fileUrls.join('\n')
     ];
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: `${process.env.GOOGLE_SHEET_NAME}!A:R`,
-      valueInputOption: 'USER_ENTERED',
-      requestBody: { values: [row] }
-    });
+    try {
+      await sheets.spreadsheets.values.append({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID,
+        range: `${process.env.GOOGLE_SHEET_NAME}!A:R`,
+        valueInputOption: 'USER_ENTERED',
+        requestBody: { values: [row] }
+      });
+    } catch (appendError) {
+      if (uploadResult.registrationFolderId) {
+        const cleaned = await cleanupRegistrationFolder(drive, uploadResult.registrationFolderId);
+        if (!cleaned) {
+          console.error('Drive cleanup required after failed sheet append for registration:', id, 'event:', event.id);
+        }
+      }
+      throw appendError;
+    }
 
     return res.status(201).json({ registrationId: id, status: 'RECEIVED' });
   } catch (error) {
