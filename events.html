@@ -86,28 +86,87 @@
     </div>
   </header>
 
-  <!-- ══════════ MAIN COMING SOON CONTENT ══════════ -->
-  <main class="events-coming-soon-container">
-    <div class="events-cs-card">
-      <div class="events-cs-badge">VIVIDHATA CLUB EVENTS</div>
-      <h1 class="events-cs-title">COMING SOON</h1>
-      <p class="events-cs-desc">
-        We are preparing exciting new hackathons, cultural festivals, and inter-college competitions for 2026. Stay tuned for official announcements!
-      </p>
-
-      <div class="events-cs-active-box">
-        <h3>ACTIVE EVENT</h3>
-        <p>Check out our ongoing Gaming & Sports Championship Round 1 details.</p>
-        <a href="gaming-sports.html" class="events-cs-btn">
-          <span>EXPLORE GAMING & SPORTS</span>
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
+  <!-- ══════════ EVENTS LISTING ══════════ -->
+  <main class="events-listing-container">
+    <header class="events-listing-hero">
+      <div class="events-listing-hero__eyebrow">
+        <span class="events-listing-hero__diamond"></span>
+        VIVIDHATA CLUB / 2026 CALENDAR
+        <span class="events-listing-hero__diamond"></span>
       </div>
-    </div>
+      <h1 class="events-listing-hero__title">EVENTS</h1>
+      <p class="events-listing-hero__intro">Ideas in motion. People in rhythm. Find the next place to make your mark.</p>
+      <div class="events-listing-hero__rule" aria-hidden="true"><span></span></div>
+    </header>
+
+    <section class="events-catalogue" aria-labelledby="events-catalogue-title">
+      <div class="events-catalogue__head">
+        <div>
+          <span class="events-catalogue__kicker">FIELD NOTES / 001</span>
+          <h2 id="events-catalogue-title">THE GATHERING LIST</h2>
+        </div>
+        <span class="events-catalogue__count" id="eventsCount">EVENTS</span>
+      </div>
+      <div class="events-grid" id="eventsGrid" aria-live="polite"></div>
+    </section>
   </main>
+
+  <script src="events-data.js"></script>
+  <script>
+    const eventData = window.VIVIDHATA_EVENTS || [];
+    const eventUtils = window.VIVIDHATA_EVENT_UTILS;
+
+    const eventsGrid = document.getElementById('eventsGrid');
+    const eventsCount = document.getElementById('eventsCount');
+    const arrowIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+
+    if (!eventUtils || !eventData.length) {
+      eventsGrid.innerHTML = '<p class="events-data-error">EVENT DATA IS CURRENTLY UNAVAILABLE. PLEASE RETURN SOON.</p>';
+    } else {
+      eventsGrid.innerHTML = eventData.map((event, index) => {
+      const text = value => eventUtils.escapeHtml(value);
+      const detailsUrl = eventUtils.getDetailsUrl(event);
+      const registrationState = eventUtils.getRegistrationState(event);
+      const registrationAction = registrationState === 'closed'
+        ? '<span class="event-card__button event-card__button--primary event-card__button--disabled" aria-disabled="true">REGISTRATION CLOSED</span>'
+        : registrationState === 'disabled'
+          ? '<span class="event-card__button event-card__button--primary event-card__button--disabled" aria-disabled="true">REGISTRATION UNAVAILABLE</span>'
+        : `<a class="event-card__button event-card__button--primary" href="registration.html?event=${encodeURIComponent(event.id)}" aria-label="Register now for ${text(event.name)}">REGISTER NOW${arrowIcon}</a>`;
+
+      return `
+      <article class="event-card" style="--card-index: ${index}">
+        <div class="event-card__poster">
+          <img src="${text(event.poster)}" alt="${text(event.posterAlt)}" loading="lazy">
+          <div class="event-card__poster-overlay"></div>
+          <span class="event-card__index">0${index + 1}</span>
+          <span class="event-card__status event-card__status--${text(event.status.toLowerCase())}">${text(event.status)}</span>
+          <span class="event-card__category">${text(event.category)}</span>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__heading">
+            <h3>${text(event.name)}</h3>
+            <span class="event-card__glyph">✦</span>
+          </div>
+          <p class="event-card__description">${text(event.description)}</p>
+          <dl class="event-card__details">
+            <div><dt>DATE</dt><dd>${text(event.date)}</dd></div>
+            <div><dt>TIME</dt><dd>${text(event.time)}</dd></div>
+            <div><dt>VENUE</dt><dd>${text(event.venue)}</dd></div>
+            <div><dt>DEADLINE</dt><dd>${text(event.deadline)}</dd></div>
+          </dl>
+          ${event.prize ? `<p class="event-card__prize"><span>◆</span>${text(event.prize)}</p>` : ''}
+          <div class="event-card__actions">
+            <a class="event-card__button event-card__button--secondary" href="${text(detailsUrl)}" aria-label="View details for ${text(event.name)}">VIEW DETAILS${arrowIcon}</a>
+            ${registrationAction}
+          </div>
+        </div>
+      </article>
+    `;
+      }).join('');
+    }
+
+    eventsCount.textContent = `${String(eventData.length).padStart(2, '0')} EVENTS`;
+  </script>
 
   <!-- ══════════ FIXED MOBILE BOTTOM NAVIGATION DOCK ══════════ -->
   <nav class="phone-bottom-nav">

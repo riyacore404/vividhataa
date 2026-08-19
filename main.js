@@ -859,6 +859,7 @@ function isInQuietZone() {
 }
 
 function strike() {
+  if (!stormFlash || !stormBolt || !boltPath || !boltGlow) return;
   if (isInQuietZone()) {
     const [lo, hi] = STRIKE_EVERY;
     stormTimer = setTimeout(strike, lo + Math.random() * (hi - lo));
@@ -895,7 +896,9 @@ function strike() {
   stormTimer = setTimeout(strike, lo + Math.random() * (hi - lo));
 }
 
-if (!reducedMotion) stormTimer = setTimeout(strike, 500);
+if (!reducedMotion && stormFlash && stormBolt && boltPath && boltGlow) {
+  stormTimer = setTimeout(strike, 500);
+}
 
 /* ── Thunder Audio Management (Web Audio Synthesizer) ── */
 function unlockAudioContext() {
@@ -1016,7 +1019,7 @@ function tick() {
 
   requestAnimationFrame(tick);
 }
-requestAnimationFrame(tick);
+if (mainCanvas && featherCanvas && jutsuSection && cursorEl) requestAnimationFrame(tick);
 
 /* ═════════════════════ reveals ═════════════════════ */
 /* #jutsu is excluded — it runs the scroll-driven parallax instead */
