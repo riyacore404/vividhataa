@@ -13,7 +13,8 @@ window.VIVIDHATA_EVENTS = [
     poster: 'icon_hackathon.jpg',
     posterAlt: 'Hackathon placeholder poster',
     detailsUrl: 'event-details.html?event=hackathon-2026',
-    registrationUrl: 'registration.html?event=hackathon-2026'
+    registrationUrl: 'registration.html?event=hackathon-2026',
+    registration: { enabled: true, fields: [] }
   },
   {
     id: 'workshop-2026',
@@ -29,7 +30,8 @@ window.VIVIDHATA_EVENTS = [
     poster: 'tech_developer.png',
     posterAlt: 'Workshop placeholder poster',
     detailsUrl: 'event-details.html?event=workshop-2026',
-    registrationUrl: 'registration.html?event=workshop-2026'
+    registrationUrl: 'registration.html?event=workshop-2026',
+    registration: { enabled: true, fields: [] }
   },
   {
     id: 'competition-2026',
@@ -45,7 +47,8 @@ window.VIVIDHATA_EVENTS = [
     poster: 'frames/storm2.webp',
     posterAlt: 'Competition placeholder poster',
     detailsUrl: 'event-details.html?event=competition-2026',
-    registrationUrl: 'registration.html?event=competition-2026'
+    registrationUrl: 'registration.html?event=competition-2026',
+    registration: { enabled: true, fields: [] }
   }
 ];
 
@@ -96,6 +99,7 @@ window.VIVIDHATA_EVENT_UTILS = {
 
   getRegistrationState(event) {
     if (event.status === 'COMPLETED') return 'closed';
+    if (event.registration?.enabled === false) return 'disabled';
     if (!this.isSafeUrl(event.registrationUrl) || this.isPlaceholderRegistrationUrl(event.registrationUrl, event.id)) {
       return 'soon';
     }

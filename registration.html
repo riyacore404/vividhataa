@@ -38,6 +38,7 @@
   <main class="event-detail-container registration-container" id="registrationContent" aria-live="polite"></main>
 
   <script src="events-data.js"></script>
+  <script src="registration-config.js"></script>
   <script>
     const registrationRoot = document.getElementById('registrationContent');
     const eventId = new URLSearchParams(window.location.search).get('event');
@@ -53,23 +54,167 @@
       const external = eventUtils.isExternalRegistrationUrl(event.registrationUrl);
       const isClosed = registrationState === 'closed';
       const isOpen = registrationState === 'open';
+      const isDisabled = registrationState === 'disabled';
+      const fileFields = (event.registration?.fields || []).filter(field => field.type === 'file');
+      const fileFieldMarkup = fileFields.length ? `
+            <section class="event-form-section">
+              <h2>DOCUMENTS</h2>
+              <div class="event-form-grid">
+                ${fileFields.map(field => `<label class="event-form-field event-form-field--full">${text(field.label)}${field.required ? ' *' : ''}<input name="${text(field.id)}" type="file" accept="${text((field.acceptExtensions || []).join(','))}"${field.required ? ' required' : ''}><span class="event-form-error" data-error-for="${text(field.id)}"></span></label>`).join('')}
+              </div>
+            </section>` : '';
       const continueAction = isOpen
         ? `<a class="event-detail__button event-detail__button--primary" href="${text(event.registrationUrl)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>CONTINUE TO REGISTRATION</a>`
         : '';
       registrationRoot.innerHTML = `
         <section class="registration-panel">
-          <span class="event-detail__eyebrow">${text(event.category)} / REGISTRATION</span>
-          <h1>${isClosed ? 'REGISTRATION CLOSED' : isOpen ? 'CONTINUE TO REGISTRATION' : 'REGISTRATION OPENING SOON'}</h1>
-          <p>${isClosed ? 'This event has been completed and registrations are no longer being accepted.' : isOpen ? 'Continue to the official registration page for this event.' : 'The official registration link for this placeholder event has not been published yet. Please return here once the real registration link is added to the event data.'}</p>
-          <div class="registration-panel__event">${text(event.name)} <span>${text(event.status)}</span></div>
-          <div class="registration-panel__facts">
-            <div><span>DATE</span><strong>${text(event.date)}</strong></div>
-            <div><span>VENUE</span><strong>${text(event.venue)}</strong></div>
+          <a class="event-detail-back registration-panel__back-to-event" href="event-details.html?event=${encodeURIComponent(event.id)}">&larr; BACK TO EVENT</a>
+          <div class="registration-panel__layout registration-panel__layout--intro">
+            <div class="registration-panel__poster">
+              <img src="${text(event.poster)}" alt="${text(event.posterAlt)}">
+            </div>
+            <div class="registration-panel__content">
+              <span class="event-detail__eyebrow">${text(event.category)} / REGISTRATION</span>
+              <h1>${isClosed ? 'REGISTRATION CLOSED' : isDisabled ? 'REGISTRATION UNAVAILABLE' : 'REGISTER FOR'}</h1>
+              <h2 class="registration-panel__event-name">${text(event.name)}</h2>
+              <p>${isClosed ? 'This event has been completed and registrations are no longer being accepted.' : isDisabled ? 'Registration is not enabled for this event.' : isOpen ? 'Continue to the official registration page or complete the front-end registration form below.' : 'The official registration link has not been published yet. This front-end form is available for demonstration and will be connected to the official submission system later.'}</p>
+              <div class="registration-panel__event">${text(event.name)} <span>${text(event.status)}</span></div>
+              <div class="registration-panel__facts">
+                <div><span>DATE</span><strong>${text(event.date)}</strong></div>
+                <div><span>TIME</span><strong>${text(event.time)}</strong></div>
+                <div><span>VENUE</span><strong>${text(event.venue)}</strong></div>
+                <div><span>DEADLINE</span><strong>${text(event.deadline)}</strong></div>
+                ${event.prize ? `<div><span>PRIZE</span><strong>${text(event.prize)}</strong></div>` : ''}
+              </div>
+              ${continueAction}
+            </div>
           </div>
-          ${continueAction}
-          <a class="event-detail__button event-detail__button--secondary" href="event-details.html?event=${encodeURIComponent(event.id)}">VIEW EVENT DETAILS</a>
+          ${isClosed || isDisabled ? '' : `
+          <div class="registration-form-intro">
+            <span class="event-detail__eyebrow">SECURE REGISTRATION / GOOGLE SHEETS</span>
+            <p>Your details will be sent securely to the registration service and recorded for club organizers.</p>
+          </div>
+          <form class="event-registration-form" id="eventRegistrationForm" novalidate>
+            <section class="event-form-section">
+              <h2>PERSONAL INFORMATION</h2>
+              <div class="event-form-grid">
+                <label class="event-form-field">FULL NAME *<input name="fullName" type="text" placeholder="Enter your full name" autocomplete="name"><span class="event-form-error" data-error-for="fullName"></span></label>
+                <label class="event-form-field">EMAIL ADDRESS *<input name="email" type="email" placeholder="Enter your email address" autocomplete="email"><span class="event-form-error" data-error-for="email"></span></label>
+                <label class="event-form-field">CONTACT NUMBER *<input name="contact" type="tel" placeholder="Enter your contact number" autocomplete="tel"><span class="event-form-error" data-error-for="contact"></span></label>
+                <label class="event-form-field">COLLEGE / INSTITUTION *<input name="college" type="text" placeholder="Enter your college or institution" autocomplete="organization"><span class="event-form-error" data-error-for="college"></span></label>
+                <label class="event-form-field">COURSE / BRANCH<input name="course" type="text" placeholder="Enter your course / branch"></label>
+                <label class="event-form-field">YEAR OF STUDY<select name="year"><option value="">Select year</option><option>1ST YEAR</option><option>2ND YEAR</option><option>3RD YEAR</option><option>4TH YEAR</option><option>POSTGRADUATE</option></select></label>
+              </div>
+            </section>
+            <section class="event-form-section">
+              <h2>TEAM INFORMATION</h2>
+              <div class="event-form-grid">
+                <label class="event-form-field">TEAM NAME<input name="teamName" type="text" placeholder="Enter team name"></label>
+                <label class="event-form-field">TEAM SIZE<select name="teamSize"><option value="">Select team size</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></label>
+                <label class="event-form-field event-form-field--full">TEAM MEMBERS<textarea name="teamMembers" rows="3" placeholder="Add team member names"></textarea></label>
+              </div>
+            </section>
+            <section class="event-form-section">
+              <h2>ADDITIONAL INFORMATION</h2>
+              <div class="event-form-grid">
+                <label class="event-form-field event-form-field--full">WHY DO YOU WANT TO PARTICIPATE?<textarea name="motivation" rows="4" placeholder="Tell us why you want to participate"></textarea></label>
+                <label class="event-form-field event-form-field--full">ADDITIONAL INFORMATION<textarea name="additional" rows="3" placeholder="Optional"></textarea></label>
+              </div>
+            </section>
+            ${fileFieldMarkup}
+            <section class="event-form-section event-form-section--agreement">
+              <h2>AGREEMENT</h2>
+              <label class="event-form-check"><input name="accuracy" type="checkbox"><span>I confirm that the information provided is correct. *</span></label>
+              <span class="event-form-error" data-error-for="accuracy"></span>
+              <label class="event-form-check"><input name="rules" type="checkbox"><span>I agree to the event rules and guidelines. *</span></label>
+              <span class="event-form-error" data-error-for="rules"></span>
+              <button class="event-detail__button event-detail__button--primary event-form-submit" type="submit">SUBMIT REGISTRATION</button>
+              <p class="event-form-server-error" id="eventFormServerError" role="alert"></p>
+            </section>
+          </form>
+          <section class="event-form-success" hidden aria-live="polite">
+            <span class="event-detail__eyebrow">${text(event.category)} / CONFIRMED</span>
+            <h2>REGISTRATION SUCCESSFUL</h2>
+            <p>Your registration has been recorded successfully.</p>
+            <p class="event-form-registration-id">REGISTRATION ID: <strong id="eventRegistrationId"></strong></p>
+            <button class="event-detail__button event-detail__button--secondary event-form-reset" type="button">EDIT REGISTRATION</button>
+          </section>`}
           <a class="event-detail-back registration-panel__back" href="events.html">&larr; BACK TO EVENTS</a>
         </section>`;
+
+      if (!isClosed && !isDisabled) {
+        const form = document.getElementById('eventRegistrationForm');
+        const success = registrationRoot.querySelector('.event-form-success');
+        const reset = registrationRoot.querySelector('.event-form-reset');
+        const serverError = document.getElementById('eventFormServerError');
+        const submitButton = form.querySelector('.event-form-submit');
+        const showError = (name, message) => {
+          const error = form.querySelector(`[data-error-for="${name}"]`);
+          const field = form.elements[name];
+          if (error) error.textContent = message;
+          if (field) field.classList.toggle('event-form-input--invalid', Boolean(message));
+        };
+        form.querySelectorAll('input, select, textarea').forEach(field => {
+          field.addEventListener('input', () => showError(field.name, ''));
+          field.addEventListener('change', () => showError(field.name, ''));
+        });
+        form.addEventListener('submit', submitEvent => {
+          submitEvent.preventDefault();
+          const values = Object.fromEntries(new FormData(form).entries());
+          let valid = true;
+          const checks = {
+            fullName: [values.fullName?.trim(), 'FULL NAME IS REQUIRED'],
+            email: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email || ''), 'ENTER A VALID EMAIL ADDRESS'],
+            contact: [/^[+\d][\d\s().-]{6,}$/.test(values.contact?.trim() || ''), 'ENTER A VALID CONTACT NUMBER'],
+            college: [values.college?.trim(), 'COLLEGE / INSTITUTION IS REQUIRED'],
+            accuracy: [form.elements.accuracy.checked, 'PLEASE CONFIRM YOUR INFORMATION'],
+            rules: [form.elements.rules.checked, 'PLEASE AGREE TO THE EVENT RULES']
+          };
+          Object.entries(checks).forEach(([name, [passed, message]]) => {
+            showError(name, passed ? '' : message);
+            if (!passed) valid = false;
+          });
+          if (!valid) {
+            form.querySelector('.event-form-input--invalid, input:not(:checked)')?.focus();
+            return;
+          }
+          const formData = new FormData(form);
+          formData.set('eventId', event.id);
+          formData.set('accuracy', String(form.elements.accuracy.checked));
+          formData.set('rules', String(form.elements.rules.checked));
+          serverError.textContent = '';
+          submitButton.disabled = true;
+          submitButton.textContent = 'SUBMITTING...';
+          fetch(window.VIVIDHATA_REGISTRATION_API_URL || '/api/register', {
+            method: 'POST',
+            body: formData
+          })
+            .then(async response => {
+              const result = await response.json().catch(() => ({}));
+              if (!response.ok) throw new Error(result.error || 'Registration could not be completed right now');
+              return result;
+            })
+            .then(result => {
+              form.hidden = true;
+              success.hidden = false;
+              document.getElementById('eventRegistrationId').textContent = result.registrationId || 'PENDING';
+              success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            })
+            .catch(error => {
+              serverError.textContent = error.message || 'Registration could not be completed right now. Please try again.';
+            })
+            .finally(() => {
+              submitButton.disabled = false;
+              submitButton.textContent = 'SUBMIT REGISTRATION';
+            });
+        });
+        reset.addEventListener('click', () => {
+          form.reset();
+          form.hidden = false;
+          success.hidden = true;
+          serverError.textContent = '';
+        });
+      }
     }
   </script>
 </body>

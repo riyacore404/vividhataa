@@ -105,7 +105,7 @@
           <span class="events-catalogue__kicker">FIELD NOTES / 001</span>
           <h2 id="events-catalogue-title">THE GATHERING LIST</h2>
         </div>
-        <span class="events-catalogue__count" id="eventsCount">03 EVENTS</span>
+        <span class="events-catalogue__count" id="eventsCount">EVENTS</span>
       </div>
       <div class="events-grid" id="eventsGrid" aria-live="polite"></div>
     </section>
@@ -127,12 +127,11 @@
       const text = value => eventUtils.escapeHtml(value);
       const detailsUrl = eventUtils.getDetailsUrl(event);
       const registrationState = eventUtils.getRegistrationState(event);
-      const registrationTarget = eventUtils.isExternalRegistrationUrl(event.registrationUrl) ? ' target="_blank" rel="noopener noreferrer"' : '';
       const registrationAction = registrationState === 'closed'
         ? '<span class="event-card__button event-card__button--primary event-card__button--disabled" aria-disabled="true">REGISTRATION CLOSED</span>'
-        : registrationState === 'soon'
-          ? '<span class="event-card__button event-card__button--primary event-card__button--disabled" aria-disabled="true">REGISTRATION OPENING SOON</span>'
-          : `<a class="event-card__button event-card__button--primary" href="${text(event.registrationUrl)}"${registrationTarget} aria-label="Register now for ${text(event.name)}">REGISTER NOW${arrowIcon}</a>`;
+        : registrationState === 'disabled'
+          ? '<span class="event-card__button event-card__button--primary event-card__button--disabled" aria-disabled="true">REGISTRATION UNAVAILABLE</span>'
+        : `<a class="event-card__button event-card__button--primary" href="registration.html?event=${encodeURIComponent(event.id)}" aria-label="Register now for ${text(event.name)}">REGISTER NOW${arrowIcon}</a>`;
 
       return `
       <article class="event-card" style="--card-index: ${index}">

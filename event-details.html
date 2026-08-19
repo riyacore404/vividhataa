@@ -63,12 +63,9 @@
       const text = value => eventUtils.escapeHtml(value);
       document.title = `${event.name} - VIVIDHATA CLUB`;
       const registrationState = eventUtils.getRegistrationState(event);
-      const external = eventUtils.isExternalRegistrationUrl(event.registrationUrl);
       const registerAction = registrationState === 'closed'
         ? '<span class="event-detail__button event-detail__button--disabled" aria-disabled="true">REGISTRATION CLOSED</span>'
-        : registrationState === 'open'
-          ? `<a class="event-detail__button event-detail__button--primary" href="${text(event.registrationUrl)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>REGISTER NOW${arrowIcon}</a>`
-          : '<span class="event-detail__button event-detail__button--disabled" aria-disabled="true">REGISTRATION OPENING SOON</span>';
+        : `<a class="event-detail__button event-detail__button--primary" href="registration.html?event=${encodeURIComponent(event.id)}">REGISTER NOW${arrowIcon}</a>`;
 
       detailRoot.innerHTML = `
         <a class="event-detail-back" href="events.html">&larr; BACK TO EVENTS</a>
