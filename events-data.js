@@ -1,22 +1,5 @@
 window.VIVIDHATA_EVENTS = [
   {
-    id: 'hackathon-2026',
-    category: 'HACKATHON',
-    name: 'EVENT NAME',
-    description: 'EVENT DESCRIPTION',
-    date: 'DD MONTH 2026',
-    time: '00:00 PM',
-    venue: 'VENUE NAME',
-    deadline: 'REGISTRATION DEADLINE',
-    prize: 'PRIZE POOL: INR 00,000',
-    status: 'UPCOMING',
-    poster: 'icon_hackathon.jpg',
-    posterAlt: 'Hackathon placeholder poster',
-    detailsUrl: 'event-details.html?event=hackathon-2026',
-    registrationUrl: 'registration.html?event=hackathon-2026',
-    registration: { enabled: true, fields: [] }
-  },
-  {
     id: 'workshop-2026',
     category: 'WORKSHOP',
     name: 'EVENT NAME',
@@ -48,7 +31,7 @@ window.VIVIDHATA_EVENTS = [
     posterAlt: 'Competition placeholder poster',
     detailsUrl: 'event-details.html?event=competition-2026',
     registrationUrl: 'registration.html?event=competition-2026',
-    registration: { enabled: true, fields: [] }
+    registration: { enabled: false, fields: [] }
   }
 ];
 
