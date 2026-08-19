@@ -6633,6 +6633,7 @@ body.app-page .scanlines {
 .event-pass__details strong { color: rgba(255, 255, 255, 0.9); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.02em; word-break: break-word; }
 .event-pass__qr-wrap { flex: 0 0 auto; padding: 0.7rem; background: #fff; box-shadow: 0 0 24px rgba(255, 106, 61, 0.25); }
 .event-pass__qr { display: block; width: 200px; height: 200px; }
+.event-pass__qr-error { max-width: 200px; margin-top: 0.6rem; color: #ff8175; font: 0.6rem/1.4 var(--mono); letter-spacing: 0.02em; }
 .event-pass__note { margin-top: 1.3rem; padding-top: 1rem; border-top: 1px solid rgba(232, 228, 220, 0.14); color: rgba(232, 228, 220, 0.65); font: 0.72rem/1.5 var(--serif); }
 .event-pass__download { margin-top: 1.6rem; cursor: pointer; }
 .event-pass__download:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }

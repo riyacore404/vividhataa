@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,12 +8,9 @@
   <link rel="icon" type="image/png" href="viviLogo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;700;800;900&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body class="event-detail-page registration-page">
   <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
@@ -25,8 +21,7 @@
         <span>VIVIDHATA</span>
       </a>
     </div>
-    <div class="chrome__actions"><a href="events.html" class="event-page-home" aria-label="Back to Events">EVENTS</a>
-    </div>
+    <div class="chrome__actions"><a href="events.html" class="event-page-home" aria-label="Back to Events">EVENTS</a></div>
     <nav class="chrome__nav" aria-label="Main navigation">
       <a href="index.html" data-sub="01">HOME</a>
       <a href="index.html#about" data-sub="02">ABOUT</a>
@@ -44,10 +39,37 @@
 
   <script src="events-data.js"></script>
   <script src="registration-config.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
-  <script>
-    console.log("QRCode library:", typeof QRCode);
-    console.log("QRCode.toDataURL:", typeof QRCode?.toDataURL);
+  <!--
+    The `qrcode` npm package has not shipped a precompiled browser UMD bundle
+    (the `build/` folder) since v1.5.2 (see soldair/node-qrcode#335), so a
+    plain <script src="...build/qrcode.min.js"> 404s and leaves `QRCode`
+    undefined. This project is plain static HTML with no bundler (see
+    package.json / vercel.json), so we load the library as a real ES module
+    instead and expose it as `window.QRCode` for the classic script below.
+    Two CDNs are tried in sequence so a single provider outage doesn't take
+    down QR generation.
+  -->
+  <script type="module">
+    (async () => {
+      const sources = [
+        'https://cdn.jsdelivr.net/npm/qrcode@1.5.4/+esm',
+        'https://esm.sh/qrcode@1.5.4'
+      ];
+      let lastError = null;
+      for (const src of sources) {
+        try {
+          const mod = await import(/* @vite-ignore */ src);
+          window.QRCode = mod.default || mod;
+          window.dispatchEvent(new CustomEvent('vividhata:qrcode-ready'));
+          return;
+        } catch (err) {
+          lastError = err;
+          console.error('[VIVIDHATA] Failed to load QR code library from', src, err);
+        }
+      }
+      window.__qrCodeLoadError = lastError || new Error('QR code library failed to load from all sources');
+      window.dispatchEvent(new CustomEvent('vividhata:qrcode-error', { detail: window.__qrCodeLoadError }));
+    })();
   </script>
   <script>
     const registrationRoot = document.getElementById('registrationContent');
@@ -162,6 +184,7 @@
                 </div>
                 <div class="event-pass__qr-wrap">
                   <img class="event-pass__qr" id="eventPassQr" alt="Registration QR code" width="200" height="200">
+                  <p class="event-pass__qr-error" id="eventPassQrError" hidden>QR code could not be generated. Please refresh this page — your registration is still saved. If this keeps happening, contact the organizers with your Registration ID.</p>
                 </div>
               </div>
               <p class="event-pass__note">Present this pass at the venue for check-in.</p>
@@ -223,8 +246,6 @@
               return result;
             })
             .then(result => {
-              console.log('Backend response:', result);
-              console.log('Registration ID:', result.registrationId);
               form.hidden = true;
               success.hidden = false;
               const candidateName = (values.fullName || '').trim();
@@ -255,85 +276,106 @@
     // ---- Registration pass (QR code + downloadable image) ----
     // The QR payload is exactly the registrationId returned by the backend.
     // No personal information (email, phone, college, team, etc.) is ever encoded.
-    function renderRegistrationPass(details) {
-      const qrImg = document.getElementById('eventPassQr');
-      const downloadBtn = document.getElementById('eventPassDownload');
 
-      if (!qrImg || !downloadBtn) {
-        console.error('QR elements not found');
-        return;
-      }
+    // Resolves once window.QRCode (set by the ES module loader above) is
+    // available, rejects if the loader already failed or times out. This
+    // guards against the classic script below running before the async
+    // module import has finished.
+    function waitForQRCodeLibrary(timeoutMs = 10000) {
+      if (window.QRCode) return Promise.resolve(window.QRCode);
+      if (window.__qrCodeLoadError) return Promise.reject(window.__qrCodeLoadError);
+      return new Promise((resolve, reject) => {
+        let settled = false;
+        const cleanup = () => {
+          clearTimeout(timer);
+          window.removeEventListener('vividhata:qrcode-ready', onReady);
+          window.removeEventListener('vividhata:qrcode-error', onError);
+        };
+        const onReady = () => {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          resolve(window.QRCode);
+        };
+        const onError = evt => {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          reject((evt && evt.detail) || new Error('QR code library failed to load'));
+        };
+        const timer = setTimeout(() => {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          reject(new Error('Timed out waiting for the QR code library to load'));
+        }, timeoutMs);
+        window.addEventListener('vividhata:qrcode-ready', onReady);
+        window.addEventListener('vividhata:qrcode-error', onError);
+      });
+    }
+
+    async function renderRegistrationPass(details) {
+      const qrImg = document.getElementById('eventPassQr');
+      const qrError = document.getElementById('eventPassQrError');
+      const downloadBtn = document.getElementById('eventPassDownload');
+      if (!qrImg || !downloadBtn) return;
+
+      downloadBtn.disabled = true;
+      downloadBtn.textContent = 'DOWNLOAD PASS';
+      if (qrError) qrError.hidden = true;
+      qrImg.removeAttribute('src');
 
       if (!details.regId) {
-        console.error('No registration ID received:', details);
+        console.error('[VIVIDHATA] Cannot generate QR pass: no registrationId returned by the API.', details);
+        if (qrError) qrError.hidden = false;
         return;
       }
 
-      if (typeof QRCode === 'undefined') {
-        console.error('QRCode library is not loaded');
+      let QRCodeLib;
+      try {
+        QRCodeLib = await waitForQRCodeLibrary();
+      } catch (err) {
+        console.error('[VIVIDHATA] QR code library is unavailable:', err);
+        if (qrError) qrError.hidden = false;
         return;
       }
 
-      console.log('Generating QR for:', details.regId);
-
-      QRCode.toDataURL(
-        details.regId,
-        {
+      let qrDataUrl;
+      try {
+        qrDataUrl = await QRCodeLib.toDataURL(details.regId, {
           width: 480,
           margin: 1,
-          color: {
-            dark: '#0a0a0a',
-            light: '#ffffff'
-          }
-        },
-        function (error, qrDataUrl) {
-          if (error) {
-            console.error('QR generation failed:', error);
-            return;
-          }
+          color: { dark: '#0a0a0aff', light: '#ffffffff' }
+        });
+      } catch (err) {
+        console.error('[VIVIDHATA] QR code generation failed for registrationId', details.regId, err);
+        if (qrError) qrError.hidden = false;
+        return;
+      }
 
-          console.log('QR generated successfully');
-
-          // Show QR on the registration pass
-          qrImg.src = qrDataUrl;
-
-          downloadBtn.disabled = false;
-
-          downloadBtn.onclick = async () => {
-            downloadBtn.disabled = true;
-            downloadBtn.textContent = 'PREPARING...';
-
-            try {
-              const blob = await buildPassImage({
-                ...details,
-                qrDataUrl
-              });
-
-              if (!blob) {
-                throw new Error('Failed to create pass image');
-              }
-
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement('a');
-
-              link.href = url;
-              link.download = `VIVIDHATA-Pass-${details.regId}.png`;
-
-              document.body.appendChild(link);
-              link.click();
-              link.remove();
-
-              setTimeout(() => URL.revokeObjectURL(url), 4000);
-
-            } catch (error) {
-              console.error('Pass generation failed:', error);
-            } finally {
-              downloadBtn.disabled = false;
-              downloadBtn.textContent = 'DOWNLOAD PASS';
-            }
-          };
-        }
-      );
+      qrImg.src = qrDataUrl;
+      downloadBtn.disabled = false;
+      downloadBtn.onclick = () => {
+        downloadBtn.disabled = true;
+        downloadBtn.textContent = 'PREPARING...';
+        buildPassImage({ ...details, qrDataUrl })
+          .then(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `VIVIDHATA-Pass-${details.regId}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(() => URL.revokeObjectURL(link.href), 4000);
+          })
+          .catch(err => {
+            console.error('[VIVIDHATA] Failed to build downloadable pass image:', err);
+          })
+          .finally(() => {
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = 'DOWNLOAD PASS';
+          });
+      };
     }
 
     function loadImageAsync(src) {
@@ -465,5 +507,4 @@
     }
   </script>
 </body>
-
 </html>
