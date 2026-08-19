@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,9 +9,12 @@
   <link rel="icon" type="image/png" href="viviLogo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;700;800;900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body class="event-detail-page registration-page">
   <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
@@ -21,7 +25,8 @@
         <span>VIVIDHATA</span>
       </a>
     </div>
-    <div class="chrome__actions"><a href="events.html" class="event-page-home" aria-label="Back to Events">EVENTS</a></div>
+    <div class="chrome__actions"><a href="events.html" class="event-page-home" aria-label="Back to Events">EVENTS</a>
+    </div>
     <nav class="chrome__nav" aria-label="Main navigation">
       <a href="index.html" data-sub="01">HOME</a>
       <a href="index.html#about" data-sub="02">ABOUT</a>
@@ -252,17 +257,34 @@
       downloadBtn.textContent = 'DOWNLOAD PASS';
       if (!details.regId || typeof QRCode === 'undefined') return;
 
-      QRCode.toDataURL(details.regId, {
+      const qrCanvas = document.createElement('canvas');
+
+      QRCode.toCanvas(qrCanvas, details.regId, {
         width: 480,
         margin: 1,
-        color: { dark: '#0a0a0aff', light: '#ffffffff' }
-      }).then(qrDataUrl => {
+        color: {
+          dark: '#0a0a0a',
+          light: '#ffffff'
+        }
+      }, (error) => {
+        if (error) {
+          console.error('QR generation failed:', error);
+          return;
+        }
+
+        const qrDataUrl = qrCanvas.toDataURL('image/png');
+
         qrImg.src = qrDataUrl;
         downloadBtn.disabled = false;
+
         downloadBtn.onclick = () => {
           downloadBtn.disabled = true;
           downloadBtn.textContent = 'PREPARING...';
-          buildPassImage({ ...details, qrDataUrl })
+
+          buildPassImage({
+            ...details,
+            qrDataUrl
+          })
             .then(blob => {
               const link = document.createElement('a');
               link.href = URL.createObjectURL(blob);
@@ -270,6 +292,7 @@
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
+
               setTimeout(() => URL.revokeObjectURL(link.href), 4000);
             })
             .finally(() => {
@@ -277,8 +300,6 @@
               downloadBtn.textContent = 'DOWNLOAD PASS';
             });
         };
-      }).catch(() => {
-        downloadBtn.disabled = true;
       });
     }
 
@@ -411,4 +432,5 @@
     }
   </script>
 </body>
+
 </html>
