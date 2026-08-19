@@ -6621,7 +6621,7 @@ body.app-page .scanlines {
 .event-form-registration-id strong { color: #fff; }
 .event-form-reset { cursor: pointer; }
 
-.event-pass__card { margin-top: 1.6rem; padding: 1.8rem; max-width: 560px; border: 1px solid rgba(255, 106, 61, 0.35); background: linear-gradient(180deg, rgba(15, 10, 11, 0.92), rgba(5, 5, 6, 0.96)); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55); }
+.event-pass__card { margin-top: 1.6rem auto 0; padding: 1.8rem; max-width: 560px; border: 1px solid rgba(255, 106, 61, 0.35); background: linear-gradient(180deg, rgba(15, 10, 11, 0.92), rgba(5, 5, 6, 0.96)); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55); }
 .event-pass__card-header { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; padding-bottom: 1rem; border-bottom: 1px solid rgba(232, 228, 220, 0.14); }
 .event-pass__brand { color: var(--ember); font-family: var(--mono); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em; }
 .event-pass__tag { color: rgba(232, 228, 220, 0.55); font-family: var(--mono); font-size: 0.52rem; font-weight: 700; letter-spacing: 0.12em; }
@@ -6635,7 +6635,7 @@ body.app-page .scanlines {
 .event-pass__qr { display: block; width: 200px; height: 200px; }
 .event-pass__qr-error { max-width: 200px; margin-top: 0.6rem; color: #ff8175; font: 0.6rem/1.4 var(--mono); letter-spacing: 0.02em; }
 .event-pass__note { margin-top: 1.3rem; padding-top: 1rem; border-top: 1px solid rgba(232, 228, 220, 0.14); color: rgba(232, 228, 220, 0.65); font: 0.72rem/1.5 var(--serif); }
-.event-pass__download { margin-top: 1.6rem; cursor: pointer; }
+.event-pass__download { display: flex; width: fit-content; margin-top: 1.6rem; cursor: pointer; }
 .event-pass__download:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
 @media (max-width: 768px) {
@@ -6643,6 +6643,11 @@ body.app-page .scanlines {
   .event-pass__body { flex-direction: column; align-items: flex-start; }
   .event-pass__qr-wrap { align-self: center; }
 }
+
+.event-form-success { text-align: center; }
+.event-form-success p { margin-left: auto; margin-right: auto; }
+.event-pass__card { margin: 1.6rem auto 0; text-align: left; }
+.event-pass__download { display: flex; width: fit-content; margin: 1.6rem auto 0; }
 
 .event-detail-empty .event-detail__button,
 .registration-panel .event-detail__button { margin-top: 1.7rem; }
