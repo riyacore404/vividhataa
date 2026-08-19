@@ -46,6 +46,10 @@
   <script src="registration-config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script>
+    console.log("QRCode library:", typeof QRCode);
+    console.log("QRCode.toDataURL:", typeof QRCode?.toDataURL);
+  </script>
+  <script>
     const registrationRoot = document.getElementById('registrationContent');
     const eventId = new URLSearchParams(window.location.search).get('event');
     const eventUtils = window.VIVIDHATA_EVENT_UTILS;
@@ -219,6 +223,8 @@
               return result;
             })
             .then(result => {
+              console.log('Backend response:', result);
+              console.log('Registration ID:', result.registrationId);
               form.hidden = true;
               success.hidden = false;
               const candidateName = (values.fullName || '').trim();
@@ -252,55 +258,82 @@
     function renderRegistrationPass(details) {
       const qrImg = document.getElementById('eventPassQr');
       const downloadBtn = document.getElementById('eventPassDownload');
-      if (!qrImg || !downloadBtn) return;
-      downloadBtn.disabled = true;
-      downloadBtn.textContent = 'DOWNLOAD PASS';
-      if (!details.regId || typeof QRCode === 'undefined') return;
 
-      const qrCanvas = document.createElement('canvas');
+      if (!qrImg || !downloadBtn) {
+        console.error('QR elements not found');
+        return;
+      }
 
-      QRCode.toCanvas(qrCanvas, details.regId, {
-        width: 480,
-        margin: 1,
-        color: {
-          dark: '#0a0a0a',
-          light: '#ffffff'
-        }
-      }, (error) => {
-        if (error) {
-          console.error('QR generation failed:', error);
-          return;
-        }
+      if (!details.regId) {
+        console.error('No registration ID received:', details);
+        return;
+      }
 
-        const qrDataUrl = qrCanvas.toDataURL('image/png');
+      if (typeof QRCode === 'undefined') {
+        console.error('QRCode library is not loaded');
+        return;
+      }
 
-        qrImg.src = qrDataUrl;
-        downloadBtn.disabled = false;
+      console.log('Generating QR for:', details.regId);
 
-        downloadBtn.onclick = () => {
-          downloadBtn.disabled = true;
-          downloadBtn.textContent = 'PREPARING...';
+      QRCode.toDataURL(
+        details.regId,
+        {
+          width: 480,
+          margin: 1,
+          color: {
+            dark: '#0a0a0a',
+            light: '#ffffff'
+          }
+        },
+        function (error, qrDataUrl) {
+          if (error) {
+            console.error('QR generation failed:', error);
+            return;
+          }
 
-          buildPassImage({
-            ...details,
-            qrDataUrl
-          })
-            .then(blob => {
+          console.log('QR generated successfully');
+
+          // Show QR on the registration pass
+          qrImg.src = qrDataUrl;
+
+          downloadBtn.disabled = false;
+
+          downloadBtn.onclick = async () => {
+            downloadBtn.disabled = true;
+            downloadBtn.textContent = 'PREPARING...';
+
+            try {
+              const blob = await buildPassImage({
+                ...details,
+                qrDataUrl
+              });
+
+              if (!blob) {
+                throw new Error('Failed to create pass image');
+              }
+
+              const url = URL.createObjectURL(blob);
               const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
+
+              link.href = url;
               link.download = `VIVIDHATA-Pass-${details.regId}.png`;
+
               document.body.appendChild(link);
               link.click();
-              document.body.removeChild(link);
+              link.remove();
 
-              setTimeout(() => URL.revokeObjectURL(link.href), 4000);
-            })
-            .finally(() => {
+              setTimeout(() => URL.revokeObjectURL(url), 4000);
+
+            } catch (error) {
+              console.error('Pass generation failed:', error);
+            } finally {
               downloadBtn.disabled = false;
               downloadBtn.textContent = 'DOWNLOAD PASS';
-            });
-        };
-      });
+            }
+          };
+        }
+      );
     }
 
     function loadImageAsync(src) {
