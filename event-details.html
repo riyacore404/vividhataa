@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event Details - VIVIDHATA CLUB</title>
+  <meta name="description" content="Event details from Vividhata Club." />
+  <link rel="icon" type="image/png" href="viviLogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="event-detail-page">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="chrome">
+    <div class="chrome__mark">
+      <a href="index.html" class="event-page-brand">
+        <img src="viviLogo.png" alt="Vividhata Logo" class="nav__logo" />
+        <span>VIVIDHATA</span>
+      </a>
+    </div>
+    <div class="chrome__actions">
+      <a href="events.html" class="event-page-home" aria-label="Back to Events">EVENTS</a>
+    </div>
+    <nav class="chrome__nav" aria-label="Main navigation">
+      <a href="index.html" data-sub="01">HOME</a>
+      <a href="index.html#about" data-sub="02">ABOUT</a>
+      <a href="events.html" class="active" data-sub="03">EVENTS</a>
+      <a href="gallery.html" data-sub="04">GALLERY</a>
+      <a href="mailto:vividhata@glbitm.ac.in" data-sub="05">CONTACT</a>
+    </nav>
+  </header>
+
+  <header class="phone-header">
+    <a href="events.html" class="event-page-mobile-back">BACK TO EVENTS</a>
+    <span class="phone-header__title">VIVIDHATA</span>
+  </header>
+
+  <main class="event-detail-container" id="eventDetailContent" aria-live="polite">
+    <p class="event-detail-loading">LOADING EVENT...</p>
+  </main>
+
+  <script src="events-data.js"></script>
+  <script>
+    const detailRoot = document.getElementById('eventDetailContent');
+    const eventId = new URLSearchParams(window.location.search).get('event');
+    const eventUtils = window.VIVIDHATA_EVENT_UTILS;
+    const event = eventUtils ? eventUtils.getEventById(eventId) : null;
+    const arrowIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+
+    if (!event) {
+      detailRoot.innerHTML = `
+        <section class="event-detail-empty">
+          <span class="event-detail__eyebrow">EVENT ARCHIVE / 404</span>
+          <h1>EVENT NOT FOUND</h1>
+          <p>The requested event could not be found in the Vividhata calendar.</p>
+          <a class="event-detail__button event-detail__button--primary" href="events.html">BACK TO EVENTS${arrowIcon}</a>
+        </section>`;
+    } else {
+      const text = value => eventUtils.escapeHtml(value);
+      document.title = `${event.name} - VIVIDHATA CLUB`;
+      const registrationState = eventUtils.getRegistrationState(event);
+      const external = eventUtils.isExternalRegistrationUrl(event.registrationUrl);
+      const registerAction = registrationState === 'closed'
+        ? '<span class="event-detail__button event-detail__button--disabled" aria-disabled="true">REGISTRATION CLOSED</span>'
+        : registrationState === 'open'
+          ? `<a class="event-detail__button event-detail__button--primary" href="${text(event.registrationUrl)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>REGISTER NOW${arrowIcon}</a>`
+          : '<span class="event-detail__button event-detail__button--disabled" aria-disabled="true">REGISTRATION OPENING SOON</span>';
+
+      detailRoot.innerHTML = `
+        <a class="event-detail-back" href="events.html">&larr; BACK TO EVENTS</a>
+        <section class="event-detail-hero">
+          <div class="event-detail-poster"><img src="${text(event.poster)}" alt="${text(event.posterAlt)}"></div>
+          <div class="event-detail-copy">
+            <div class="event-detail__eyebrow">${text(event.category)} / ${text(event.status)}</div>
+            <h1>${text(event.name)}</h1>
+            <p class="event-detail-description">${text(event.description)}</p>
+            <div class="event-detail-actions">${registerAction}</div>
+          </div>
+        </section>
+        <section class="event-detail-info" aria-label="Event information">
+          <div><span>DATE</span><strong>${text(event.date)}</strong></div>
+          <div><span>TIME</span><strong>${text(event.time)}</strong></div>
+          <div><span>VENUE</span><strong>${text(event.venue)}</strong></div>
+          <div><span>DEADLINE</span><strong>${text(event.deadline)}</strong></div>
+          ${event.prize ? `<div><span>PRIZE</span><strong>${text(event.prize)}</strong></div>` : ''}
+        </section>`;
+    }
+  </script>
+</body>
+</html>

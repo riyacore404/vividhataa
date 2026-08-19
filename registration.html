@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registration - VIVIDHATA CLUB</title>
+  <meta name="description" content="Event registration from Vividhata Club." />
+  <link rel="icon" type="image/png" href="viviLogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@300;500;900&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="event-detail-page registration-page">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <header class="chrome">
+    <div class="chrome__mark">
+      <a href="index.html" class="event-page-brand">
+        <img src="viviLogo.png" alt="Vividhata Logo" class="nav__logo" />
+        <span>VIVIDHATA</span>
+      </a>
+    </div>
+    <div class="chrome__actions"><a href="events.html" class="event-page-home" aria-label="Back to Events">EVENTS</a></div>
+    <nav class="chrome__nav" aria-label="Main navigation">
+      <a href="index.html" data-sub="01">HOME</a>
+      <a href="index.html#about" data-sub="02">ABOUT</a>
+      <a href="events.html" class="active" data-sub="03">EVENTS</a>
+      <a href="gallery.html" data-sub="04">GALLERY</a>
+      <a href="mailto:vividhata@glbitm.ac.in" data-sub="05">CONTACT</a>
+    </nav>
+  </header>
+  <header class="phone-header">
+    <a href="events.html" class="event-page-mobile-back">BACK TO EVENTS</a>
+    <span class="phone-header__title">VIVIDHATA</span>
+  </header>
+
+  <main class="event-detail-container registration-container" id="registrationContent" aria-live="polite"></main>
+
+  <script src="events-data.js"></script>
+  <script>
+    const registrationRoot = document.getElementById('registrationContent');
+    const eventId = new URLSearchParams(window.location.search).get('event');
+    const eventUtils = window.VIVIDHATA_EVENT_UTILS;
+    const event = eventUtils ? eventUtils.getEventById(eventId) : null;
+
+    if (!event) {
+      registrationRoot.innerHTML = '<section class="event-detail-empty"><span class="event-detail__eyebrow">REGISTRATION / 404</span><h1>EVENT NOT FOUND</h1><p>This registration placeholder is not linked to a known event.</p><a class="event-detail__button event-detail__button--primary" href="events.html">BACK TO EVENTS</a></section>';
+    } else {
+      const text = value => eventUtils.escapeHtml(value);
+      document.title = `Registration - ${event.name}`;
+      const registrationState = eventUtils.getRegistrationState(event);
+      const external = eventUtils.isExternalRegistrationUrl(event.registrationUrl);
+      const isClosed = registrationState === 'closed';
+      const isOpen = registrationState === 'open';
+      const continueAction = isOpen
+        ? `<a class="event-detail__button event-detail__button--primary" href="${text(event.registrationUrl)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>CONTINUE TO REGISTRATION</a>`
+        : '';
+      registrationRoot.innerHTML = `
+        <section class="registration-panel">
+          <span class="event-detail__eyebrow">${text(event.category)} / REGISTRATION</span>
+          <h1>${isClosed ? 'REGISTRATION CLOSED' : isOpen ? 'CONTINUE TO REGISTRATION' : 'REGISTRATION OPENING SOON'}</h1>
+          <p>${isClosed ? 'This event has been completed and registrations are no longer being accepted.' : isOpen ? 'Continue to the official registration page for this event.' : 'The official registration link for this placeholder event has not been published yet. Please return here once the real registration link is added to the event data.'}</p>
+          <div class="registration-panel__event">${text(event.name)} <span>${text(event.status)}</span></div>
+          <div class="registration-panel__facts">
+            <div><span>DATE</span><strong>${text(event.date)}</strong></div>
+            <div><span>VENUE</span><strong>${text(event.venue)}</strong></div>
+          </div>
+          ${continueAction}
+          <a class="event-detail__button event-detail__button--secondary" href="event-details.html?event=${encodeURIComponent(event.id)}">VIEW EVENT DETAILS</a>
+          <a class="event-detail-back registration-panel__back" href="events.html">&larr; BACK TO EVENTS</a>
+        </section>`;
+    }
+  </script>
+</body>
+</html>
