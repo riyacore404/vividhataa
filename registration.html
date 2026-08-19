@@ -39,6 +39,7 @@
 
   <script src="events-data.js"></script>
   <script src="registration-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script>
     const registrationRoot = document.getElementById('registrationContent');
     const eventId = new URLSearchParams(window.location.search).get('event');
@@ -132,11 +133,31 @@
               <p class="event-form-server-error" id="eventFormServerError" role="alert"></p>
             </section>
           </form>
-          <section class="event-form-success" hidden aria-live="polite">
+          <section class="event-form-success event-pass" hidden aria-live="polite">
             <span class="event-detail__eyebrow">${text(event.category)} / CONFIRMED</span>
-            <h2>REGISTRATION SUCCESSFUL</h2>
-            <p>Your registration has been recorded successfully.</p>
-            <p class="event-form-registration-id">REGISTRATION ID: <strong id="eventRegistrationId"></strong></p>
+            <h2>REGISTRATION CONFIRMED</h2>
+            <p>Your registration has been recorded successfully. Present this pass at the venue for check-in.</p>
+            <div class="event-pass__card">
+              <div class="event-pass__card-header">
+                <span class="event-pass__brand">VIVIDHATA CLUB</span>
+                <span class="event-pass__tag">EVENT REGISTRATION PASS</span>
+              </div>
+              <h3 class="event-pass__event-name">${text(event.name)}</h3>
+              <div class="event-pass__body">
+                <div class="event-pass__details">
+                  <div><span>CANDIDATE NAME</span><strong id="eventPassName"></strong></div>
+                  <div><span>REGISTRATION ID</span><strong id="eventPassId"></strong></div>
+                  <div><span>DATE</span><strong>${text(event.date)}</strong></div>
+                  <div><span>TIME</span><strong>${text(event.time)}</strong></div>
+                  <div><span>VENUE</span><strong>${text(event.venue)}</strong></div>
+                </div>
+                <div class="event-pass__qr-wrap">
+                  <img class="event-pass__qr" id="eventPassQr" alt="Registration QR code" width="200" height="200">
+                </div>
+              </div>
+              <p class="event-pass__note">Present this pass at the venue for check-in.</p>
+            </div>
+            <button class="event-detail__button event-detail__button--primary event-pass__download" id="eventPassDownload" type="button" disabled>DOWNLOAD PASS</button>
           </section>`}
           <a class="event-detail-back registration-panel__back" href="events.html">&larr; BACK TO EVENTS</a>
         </section>`;
@@ -195,7 +216,18 @@
             .then(result => {
               form.hidden = true;
               success.hidden = false;
-              document.getElementById('eventRegistrationId').textContent = result.registrationId || 'PENDING';
+              const candidateName = (values.fullName || '').trim();
+              const regId = result.registrationId || '';
+              document.getElementById('eventPassName').textContent = candidateName || '—';
+              document.getElementById('eventPassId').textContent = regId || 'PENDING';
+              renderRegistrationPass({
+                regId,
+                candidateName,
+                eventName: event.name,
+                date: event.date,
+                time: event.time,
+                venue: event.venue
+              });
               success.scrollIntoView({ behavior: 'smooth', block: 'start' });
             })
             .catch(error => {
@@ -207,6 +239,175 @@
             });
         });
       }
+    }
+
+    // ---- Registration pass (QR code + downloadable image) ----
+    // The QR payload is exactly the registrationId returned by the backend.
+    // No personal information (email, phone, college, team, etc.) is ever encoded.
+    function renderRegistrationPass(details) {
+      const qrImg = document.getElementById('eventPassQr');
+      const downloadBtn = document.getElementById('eventPassDownload');
+      if (!qrImg || !downloadBtn) return;
+      downloadBtn.disabled = true;
+      downloadBtn.textContent = 'DOWNLOAD PASS';
+      if (!details.regId || typeof QRCode === 'undefined') return;
+
+      QRCode.toDataURL(details.regId, {
+        width: 480,
+        margin: 1,
+        color: { dark: '#0a0a0aff', light: '#ffffffff' }
+      }).then(qrDataUrl => {
+        qrImg.src = qrDataUrl;
+        downloadBtn.disabled = false;
+        downloadBtn.onclick = () => {
+          downloadBtn.disabled = true;
+          downloadBtn.textContent = 'PREPARING...';
+          buildPassImage({ ...details, qrDataUrl })
+            .then(blob => {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = `VIVIDHATA-Pass-${details.regId}.png`;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              setTimeout(() => URL.revokeObjectURL(link.href), 4000);
+            })
+            .finally(() => {
+              downloadBtn.disabled = false;
+              downloadBtn.textContent = 'DOWNLOAD PASS';
+            });
+        };
+      }).catch(() => {
+        downloadBtn.disabled = true;
+      });
+    }
+
+    function loadImageAsync(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    // Draws left-aligned wrapped text starting at (x, y) and returns the y
+    // position immediately below the last drawn line.
+    function drawWrappedText(ctx, textValue, x, y, maxWidth, lineHeight) {
+      const words = String(textValue || '').split(/\s+/).filter(Boolean);
+      let line = '';
+      let currentY = y;
+      words.forEach(word => {
+        const testLine = line ? `${line} ${word}` : word;
+        if (ctx.measureText(testLine).width > maxWidth && line) {
+          ctx.fillText(line, x, currentY);
+          line = word;
+          currentY += lineHeight;
+        } else {
+          line = testLine;
+        }
+      });
+      if (line) {
+        ctx.fillText(line, x, currentY);
+        currentY += lineHeight;
+      }
+      return currentY;
+    }
+
+    async function buildPassImage({ regId, candidateName, eventName, date, time, venue, qrDataUrl }) {
+      if (document.fonts && document.fonts.ready) {
+        try { await document.fonts.ready; } catch (e) { /* fonts API unavailable, continue anyway */ }
+      }
+
+      const width = 900;
+      const height = 1360;
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      const centerX = width / 2;
+
+      ctx.fillStyle = '#050506';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = 'rgba(255, 106, 61, 0.55)';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(24, 24, width - 48, height - 48);
+
+      const accentGradient = ctx.createLinearGradient(24, 0, width - 24, 0);
+      accentGradient.addColorStop(0, '#ff2b2b');
+      accentGradient.addColorStop(1, '#9d121d');
+      ctx.fillStyle = accentGradient;
+      ctx.fillRect(24, 24, width - 48, 8);
+
+      let y = 110;
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ff6a3d';
+      ctx.font = '800 28px "Space Grotesk", sans-serif';
+      ctx.fillText('VIVIDHATA CLUB', centerX, y);
+
+      y += 40;
+      ctx.fillStyle = 'rgba(232, 228, 220, 0.72)';
+      ctx.font = '700 18px "Space Grotesk", sans-serif';
+      ctx.fillText('EVENT REGISTRATION PASS', centerX, y);
+
+      y += 50;
+      ctx.strokeStyle = 'rgba(232, 228, 220, 0.18)';
+      ctx.beginPath();
+      ctx.moveTo(90, y);
+      ctx.lineTo(width - 90, y);
+      ctx.stroke();
+
+      y += 70;
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 42px "Shippori Mincho", serif';
+      y = drawWrappedText(ctx, eventName, centerX, y, width - 180, 50);
+
+      y += 30;
+      ctx.fillStyle = '#e8e4dc';
+      ctx.font = '600 30px "Zen Kaku Gothic New", sans-serif';
+      y = drawWrappedText(ctx, candidateName || '—', centerX, y, width - 180, 38);
+
+      y += 20;
+      ctx.fillStyle = '#ff6a3d';
+      ctx.font = '700 22px "Space Grotesk", sans-serif';
+      ctx.fillText(`REGISTRATION ID: ${regId}`, centerX, y);
+
+      y += 55;
+
+      const qrSize = 420;
+      const qrX = centerX - qrSize / 2;
+      const qrY = y;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(qrX - 22, qrY - 22, qrSize + 44, qrSize + 44);
+
+      const qrImage = await loadImageAsync(qrDataUrl);
+      ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
+
+      let footerY = qrY + qrSize + 90;
+      ctx.strokeStyle = 'rgba(232, 228, 220, 0.18)';
+      ctx.beginPath();
+      ctx.moveTo(90, footerY - 45);
+      ctx.lineTo(width - 90, footerY - 45);
+      ctx.stroke();
+
+      ctx.textAlign = 'left';
+      [['DATE', date], ['TIME', time], ['VENUE', venue]].forEach(([label, value]) => {
+        ctx.fillStyle = 'rgba(229, 168, 85, 0.78)';
+        ctx.font = '700 15px "Space Grotesk", sans-serif';
+        ctx.fillText(label, 90, footerY);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 20px "Space Grotesk", sans-serif';
+        ctx.fillText(value || '-', 240, footerY);
+        footerY += 42;
+      });
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(232, 228, 220, 0.68)';
+      ctx.font = 'italic 18px "Shippori Mincho", serif';
+      ctx.fillText('Present this pass at the venue for check-in.', centerX, footerY + 40);
+
+      return new Promise(resolve => canvas.toBlob(blob => resolve(blob), 'image/png'));
     }
   </script>
 </body>
