@@ -137,7 +137,6 @@
             <h2>REGISTRATION SUCCESSFUL</h2>
             <p>Your registration has been recorded successfully.</p>
             <p class="event-form-registration-id">REGISTRATION ID: <strong id="eventRegistrationId"></strong></p>
-            <button class="event-detail__button event-detail__button--secondary event-form-reset" type="button">EDIT REGISTRATION</button>
           </section>`}
           <a class="event-detail-back registration-panel__back" href="events.html">&larr; BACK TO EVENTS</a>
         </section>`;
@@ -145,7 +144,6 @@
       if (!isClosed && !isDisabled) {
         const form = document.getElementById('eventRegistrationForm');
         const success = registrationRoot.querySelector('.event-form-success');
-        const reset = registrationRoot.querySelector('.event-form-reset');
         const serverError = document.getElementById('eventFormServerError');
         const submitButton = form.querySelector('.event-form-submit');
         const showError = (name, message) => {
@@ -207,12 +205,6 @@
               submitButton.disabled = false;
               submitButton.textContent = 'SUBMIT REGISTRATION';
             });
-        });
-        reset.addEventListener('click', () => {
-          form.reset();
-          form.hidden = false;
-          success.hidden = true;
-          serverError.textContent = '';
         });
       }
     }
